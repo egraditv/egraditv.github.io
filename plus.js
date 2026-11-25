@@ -49,6 +49,7 @@
       const sw = new URL("sw.js", location.href); // même service worker que l'application (il importe celui de OneSignal)
       await OneSignal.init({
         appId,
+        ...(C.notifications.safariWebId ? { safari_web_id: C.notifications.safariWebId } : {}),
         serviceWorkerPath: sw.pathname.slice(1),
         serviceWorkerParam: { scope: sw.pathname.replace(/sw\.js$/, "") },
         allowLocalhostAsSecureOrigin: true,

@@ -92,7 +92,10 @@ window.EGRADI = {
   // Collez ici l'« App ID » de OneSignal : le bouton « 🔔 Recevoir une notification à chaque culte » apparaît alors
   // sur l'accueil. Les notifications partent toutes seules 30 min avant et au début de chaque culte du programme
   // (GitHub Action « Notifications des cultes », qui utilise la clé secrète ONESIGNAL_API_KEY du dépôt).
-  notifications: { onesignalAppId: "" },
+  notifications: {
+    onesignalAppId: "0ab94a3a-83d4-47da-a351-d922c7536a44",
+    safariWebId: "web.onesignal.auto.002ea938-3ebd-4740-ada1-6c17c5eb4600",
+  },
 
   // Application Android à télécharger depuis le site (fichier dans le dossier telechargement/).
   // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».

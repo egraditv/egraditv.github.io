@@ -4,10 +4,10 @@
   30 minutes avant puis au début de chaque culte (heure de Kinshasa).
 - Avec la variable MESSAGE : envoie tout de suite une annonce spéciale (bouton « Run workflow » sur GitHub).
 
-Il faut deux réglages dans le dépôt GitHub (Settings → Secrets and variables → Actions) :
-  ONESIGNAL_APP_ID   (l'App ID OneSignal, le même que dans config.js)
-  ONESIGNAL_API_KEY  (la clé « REST API Key » de OneSignal, à garder secrète)
-Tant qu'ils manquent, le script ne fait rien.
+L'App ID est lu dans config.js (notifications.onesignalAppId).
+La clé secrète va dans le dépôt GitHub (Settings → Secrets and variables → Actions) :
+  ONESIGNAL_API_KEY  (la clé API de OneSignal, à garder secrète)
+Tant qu'elle manque, le script ne fait rien.
 """
 import datetime as dt
 import json
@@ -19,7 +19,9 @@ import urllib.error
 import urllib.request
 import uuid
 
-APP_ID = os.environ.get("ONESIGNAL_APP_ID", "").strip()
+APP_ID = os.environ.get("ONESIGNAL_APP_ID", "").strip() or (
+    re.search(r'onesignalAppId:\s*"([^"]*)"', pathlib.Path(__file__).with_name("config.js").read_text(encoding="utf-8")) or [None, ""]
+)[1]  # sinon, l'App ID écrit dans config.js
 CLE = os.environ.get("ONESIGNAL_API_KEY", "").strip()
 SITE = "https://spirittshim.github.io/EGRADI-TV/"
 KINSHASA = dt.timezone(dt.timedelta(hours=1))  # UTC+1, pas d'heure d'été
