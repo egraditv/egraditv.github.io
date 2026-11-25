@@ -82,6 +82,17 @@
 
       <div id="prochain" class="prochain"></div>
 
+      <div class="actions" hidden><a id="alerte-direct" class="bouton whatsapp" target="_blank" rel="noopener" data-i18n="alerte_direct">🔔 Être prévenu des directs (WhatsApp)</a></div>
+
+      <figure id="verset-jour" class="verset-jour">
+        <figcaption class="sur-titre" data-i18n="verset_titre">📖 Verset du jour</figcaption>
+        <blockquote id="verset-texte"></blockquote>
+        <div class="verset-pied">
+          <cite id="verset-ref"></cite>
+          <button id="verset-partager" class="bouton petit" data-i18n="partager">Partager</button>
+        </div>
+      </figure>
+
       <div class="tuiles">
         <a href="#priere" class="tuile"><span class="tuile-icone">🙏</span><span data-i18n="tuile_priere">Demande de prière</span></a>
         <a href="#priere" class="tuile" data-type="temoignage"><span class="tuile-icone">✨</span><span data-i18n="tuile_temoignage">Témoignage</span></a>
@@ -126,6 +137,7 @@
       <div class="actions">
         <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener" data-i18n="ouvrir_yt">Ouvrir sur YouTube</a>
       </div>
+      <div class="actions" hidden><a id="alerte-direct-2" class="bouton whatsapp" target="_blank" rel="noopener" data-i18n="alerte_direct">🔔 Être prévenu des directs (WhatsApp)</a></div>
       <div id="bloc-ailleurs">
         <h2 class="titre-section" data-i18n="aussi">EGRADI TV est aussi en direct sur</h2>
         <div id="ailleurs" class="reseaux"></div>
@@ -140,6 +152,7 @@
       <input id="recherche" class="recherche" type="search" placeholder="Rechercher un culte, une prédication…" data-i18n-ph="recherche_ph" aria-label="Rechercher">
       <div id="filtres" class="filtres" role="tablist"></div>
       <div id="liste-videos" class="grille"></div>
+      <div class="actions"><button id="plus-videos" class="bouton" hidden>Afficher plus</button></div>
 
       <div class="bloc archives" id="bloc-tiktok">
         <h2 class="titre-section" data-i18n="tiktok_titre">Sur TikTok</h2>
@@ -247,6 +260,7 @@
     <img src="logo-complet.png" alt="EGRADI TV" width="60" height="70">
     <p><strong>EGRADI TV</strong> — Église Grâce Divine, Direction Générale<br>Kinshasa, République Démocratique du Congo</p>
     <p class="copyright">© <span id="annee"></span> EGRADI TV. <span data-i18n="droits">Tous droits réservés.</span></p>
+    <p class="copyright"><a href="confidentialite.html" data-i18n="confidentialite">Politique de confidentialité</a></p>
   </footer>
 
   <dialog id="fenetre-video" class="fenetre-video">
@@ -267,6 +281,7 @@
   <script src="config.js"></script>
   <script src="i18n.js"></script>
   <script src="videos.js"></script>
+  <script src="versets.js"></script>
   <script src="app.js"></script>
   <script src="plus.js"></script>
 </body>

@@ -77,6 +77,14 @@ window.EGRADI = {
     { nom: "TikTok — @augustinmwimpeofficiel (189 k)", url: "https://www.tiktok.com/@augustinmwimpeofficiel" },
   ],
 
+  // Statistiques de visite (GoatCounter : gratuit, sans cookies, anonyme). Après avoir créé le compte
+  // sur https://www.goatcounter.com (ex. code « egraditv »), écrivez ce code ici : goatcounter: "egraditv".
+  statistiques: { goatcounter: "" },
+
+  // Alerte « Le direct commence » : lien d'une Chaîne WhatsApp de l'église (WhatsApp → Actualités → Créer une chaîne).
+  // Exemple : "https://whatsapp.com/channel/0029Va…". Tant que c'est vide, le bouton n'apparaît pas.
+  whatsappChaine: "",
+
   // Application Android à télécharger depuis le site (fichier dans le dossier telechargement/).
   // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».
   apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.1", taille: "2,7 Mo" },

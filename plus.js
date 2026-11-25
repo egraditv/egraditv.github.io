@@ -7,6 +7,48 @@
   const { esc, toast } = A;
   const chiffresTel = (C.telephone || "").replace(/\D/g, "");
 
+  // ---------- Statistiques anonymes (seulement si un code GoatCounter est renseigné) ----------
+  const gc = C.statistiques?.goatcounter;
+  if (gc && /^[a-z0-9-]+$/i.test(gc)) {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://gc.zgo.at/count.js";
+    s.dataset.goatcounter = `https://${gc}.goatcounter.com/count`;
+    document.head.append(s);
+    // Compter aussi les changements de page internes (#direct, #videos…)
+    window.addEventListener("hashchange", () =>
+      window.goatcounter?.count?.({ path: location.pathname + location.hash.replace("#", "") })
+    );
+  }
+
+  // ---------- Alerte des directs : Chaîne WhatsApp ----------
+  if (C.whatsappChaine) {
+    for (const id of ["#alerte-direct", "#alerte-direct-2"]) {
+      const a = $(id);
+      if (a) { a.href = C.whatsappChaine; a.parentElement.hidden = false; }
+    }
+  }
+
+  // ---------- Verset du jour (change chaque jour à minuit, heure de Kinshasa) ----------
+  const VERSETS = window.EGRADI_VERSETS || [];
+  if (VERSETS.length) {
+    const jourKinshasa = Math.floor((Date.now() + 3600000) / 86400000);
+    const v = VERSETS[jourKinshasa % VERSETS.length];
+    const [ref, texte] = window.EGRADI_LANGUE === "en" ? v.en : v.fr;
+    $("#verset-texte").textContent = `« ${texte} »`;
+    $("#verset-ref").textContent = ref;
+    $("#verset-partager").addEventListener("click", async () => {
+      const message = `📖 ${texte}\n— ${ref}\n\n${tr("verset_titre").replace("📖 ", "")} · EGRADI TV\n${location.href.split("#")[0]}`;
+      if (navigator.share) {
+        try { await navigator.share({ text: message }); } catch {}
+      } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+      }
+    });
+  } else {
+    $("#verset-jour").hidden = true;
+  }
+
   // ---------- Télécharger l'application ----------
   // Caché quand on est déjà DANS l'application installée (APK ou écran d'accueil).
   const dejaInstallee =

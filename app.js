@@ -303,13 +303,21 @@
 
   // ---------- Vidéos : recherche + filtres ----------
   let categorie = CATEGORIES[0];
-  function filtrer() {
+  // Affichage par paquets de 24 vidéos (bouton « Afficher plus ») pour économiser les données
+  const PAQUET = 24;
+  let nbAffichees = PAQUET;
+  function filtrer(garderNombre) {
+    if (garderNombre !== true) nbAffichees = PAQUET;
     const q = $("#recherche").value.trim().toLowerCase();
-    remplir(
-      $("#liste-videos"),
-      VIDEOS.filter((v) => correspond(v.titre, categorie.mot) && (!q || v.titre.toLowerCase().includes(q)))
-    );
+    const resultat = VIDEOS.filter((v) => correspond(v.titre, categorie.mot) && (!q || v.titre.toLowerCase().includes(q)));
+    remplir($("#liste-videos"), resultat.slice(0, nbAffichees));
+    $("#plus-videos").hidden = resultat.length <= nbAffichees;
+    $("#plus-videos").textContent = `${tr("afficher_plus")} (${resultat.length - nbAffichees})`;
   }
+  $("#plus-videos").addEventListener("click", () => {
+    nbAffichees += PAQUET;
+    filtrer(true);
+  });
   $("#filtres").innerHTML = CATEGORIES.map(
     (c, i) => `<button role="tab" aria-selected="${i === 0}" data-i="${i}">${esc(c.nom)}</button>`
   ).join("");
