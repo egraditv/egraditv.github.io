@@ -23,7 +23,7 @@ APP_ID = os.environ.get("ONESIGNAL_APP_ID", "").strip() or (
     re.search(r'onesignalAppId:\s*"([^"]*)"', pathlib.Path(__file__).with_name("config.js").read_text(encoding="utf-8")) or [None, ""]
 )[1]  # sinon, l'App ID écrit dans config.js
 CLE = re.sub(r"^(Key|Basic)\s+", "", os.environ.get("ONESIGNAL_API_KEY", "").strip().strip('"').strip("'")).strip()
-SITE = "https://spirittshim.github.io/EGRADI-TV/"
+SITE = "https://egraditv.github.io/"
 KINSHASA = dt.timezone(dt.timedelta(hours=1))  # UTC+1, pas d'heure d'été
 CLE_REFUSEE = False
 JOURS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]  # ordre de weekday()

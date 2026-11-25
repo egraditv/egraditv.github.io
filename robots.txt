@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://spirittshim.github.io/EGRADI-TV/sitemap.xml
+Sitemap: https://egraditv.github.io/sitemap.xml
