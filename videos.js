@@ -3,7 +3,7 @@ window.EGRADI_VIDEOS = [
  {
   "id": "vv37MdlUPLQ",
   "titre": "Direct: 45 MINUTES DE PRIERE SOUS LA RECOMMANDATION DE DIEU, Le 24.11.2026, JOUR 2",
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
  },
  {
