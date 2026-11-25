@@ -76,6 +76,7 @@ window.EGRADI = {
     { nom: "Facebook — Apôtre Augustin Mwimpe (77 k)", url: "https://www.facebook.com/MWIMPE" },
     { nom: "TikTok — @augustinmwimpeofficiel (189 k)", url: "https://www.tiktok.com/@augustinmwimpeofficiel" },
     { nom: "Instagram — @apotre_augustin_mwimpeofficiel (1,5 k)", url: "https://www.instagram.com/apotre_augustin_mwimpeofficiel/" },
+    { nom: "X — @ApotreMwimpe (43)", url: "https://x.com/ApotreMwimpe" },
   ],
 
   // Statistiques de visite (GoatCounter : gratuit, sans cookies, anonyme). Après avoir créé le compte
