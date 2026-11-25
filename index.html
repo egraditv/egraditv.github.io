@@ -44,13 +44,14 @@
       <span class="marque-texte"><span><strong>EGRADI</strong> TV</span><small>Église Grâce Divine</small></span>
     </a>
     <nav class="barre-nav" aria-label="Navigation principale">
-      <a href="#accueil" data-vue="accueil"><svg><use href="#i-accueil"/></svg>Accueil</a>
-      <a href="#direct" data-vue="direct"><svg><use href="#i-direct"/></svg>Direct</a>
-      <a href="#videos" data-vue="videos"><svg><use href="#i-videos"/></svg>Vidéos</a>
-      <a href="#programmes" data-vue="programmes"><svg><use href="#i-programme"/></svg>Programme</a>
-      <a href="#eglise" data-vue="eglise"><svg><use href="#i-eglise"/></svg>Église</a>
+      <a href="#accueil" data-vue="accueil"><svg><use href="#i-accueil"/></svg><span data-i18n="nav_accueil">Accueil</span></a>
+      <a href="#direct" data-vue="direct"><svg><use href="#i-direct"/></svg><span data-i18n="nav_direct">Direct</span></a>
+      <a href="#videos" data-vue="videos"><svg><use href="#i-videos"/></svg><span data-i18n="nav_videos">Vidéos</span></a>
+      <a href="#programmes" data-vue="programmes"><svg><use href="#i-programme"/></svg><span data-i18n="nav_programme">Programme</span></a>
+      <a href="#eglise" data-vue="eglise"><svg><use href="#i-eglise"/></svg><span data-i18n="nav_eglise">Église</span></a>
     </nav>
     <div class="entete-actions">
+      <select id="langue" class="langue" aria-label="Langue"></select>
       <button id="installer" class="icone-bouton" hidden aria-label="Installer l'application" title="Installer l'application"><svg><use href="#i-installer"/></svg></button>
       <button id="partager-app" class="icone-bouton" aria-label="Partager l'application" title="Partager l'application"><svg><use href="#i-partager"/></svg></button>
       <a class="pastille-direct" href="#direct"><span class="point"></span>DIRECT</a>
@@ -73,113 +74,159 @@
           <h1><span>EGRADI</span> TV</h1>
           <p class="slogan" id="slogan"></p>
           <div class="actions">
-            <a class="bouton principal" href="#direct"><span class="point"></span> Regarder le direct</a>
-            <a class="bouton" href="#videos">Revoir les cultes</a>
+            <a class="bouton principal" href="#direct"><span class="point"></span> <span data-i18n="hero_direct">Regarder le direct</span></a>
+            <a class="bouton" href="#videos" data-i18n="hero_revoir">Revoir les cultes</a>
           </div>
         </div>
       </div>
 
       <div id="prochain" class="prochain"></div>
 
+      <div class="tuiles">
+        <a href="#priere" class="tuile"><span class="tuile-icone">🙏</span><span data-i18n="tuile_priere">Demande de prière</span></a>
+        <a href="#priere" class="tuile" data-type="temoignage"><span class="tuile-icone">✨</span><span data-i18n="tuile_temoignage">Témoignage</span></a>
+        <a href="#soutien" class="tuile"><span class="tuile-icone">💝</span><span data-i18n="tuile_soutien">Soutenir l'œuvre</span></a>
+        <a href="#programmes" class="tuile"><span class="tuile-icone">📅</span><span data-i18n="tuile_agenda">Agenda</span></a>
+      </div>
+
       <div class="titre-ligne">
-        <h2 class="titre-section">Derniers cultes et directs</h2>
-        <a href="#videos" class="voir-tout">Tout voir →</a>
+        <h2 class="titre-section" data-i18n="derniers">Derniers cultes et directs</h2>
+        <a href="#videos" class="voir-tout" data-i18n="tout_voir">Tout voir →</a>
       </div>
       <div id="dernieres" class="grille"></div>
 
       <div class="apotre">
         <img id="avatar" alt="Apôtre Augustin Mwimpe" width="96" height="96">
         <div>
-          <p class="sur-titre">Pasteur principal</p>
+          <p class="sur-titre" data-i18n="pasteur">Pasteur principal</p>
           <h2 id="dirigeant-accueil"></h2>
           <p id="bienvenue-accueil"></p>
-          <a href="#eglise" class="voir-tout">Découvrir l'église →</a>
+          <a href="#eglise" class="voir-tout" data-i18n="decouvrir">Découvrir l'église →</a>
         </div>
       </div>
     </section>
 
     <!-- DIRECT -->
     <section id="direct" class="vue">
-      <h2 class="titre-page"><span class="point rouge"></span> En direct de Kinshasa</h2>
+      <h2 class="titre-page"><span class="point rouge"></span> <span data-i18n="direct_titre">En direct de Kinshasa</span></h2>
       <div id="sources-direct" class="filtres" role="tablist" aria-label="Source du direct"></div>
       <div class="lecteur" id="zone-direct"></div>
+      <label class="interrupteur"><input type="checkbox" id="economie"><span class="glissiere"></span><span data-i18n="economie">Économie de données</span></label>
       <p class="note" id="note-direct"></p>
       <div class="actions">
-        <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+        <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener" data-i18n="ouvrir_yt">Ouvrir sur YouTube</a>
       </div>
       <div id="bloc-ailleurs">
-        <h2 class="titre-section">EGRADI TV est aussi en direct sur</h2>
+        <h2 class="titre-section" data-i18n="aussi">EGRADI TV est aussi en direct sur</h2>
         <div id="ailleurs" class="reseaux"></div>
       </div>
-      <h2 class="titre-section">Dernier direct</h2>
+      <h2 class="titre-section" data-i18n="dernier_direct">Dernier direct</h2>
       <div id="dernier-direct" class="grille"></div>
     </section>
 
     <!-- VIDEOS -->
     <section id="videos" class="vue">
-      <h2 class="titre-page">Vidéos</h2>
-      <input id="recherche" class="recherche" type="search" placeholder="Rechercher un culte, une prédication…" aria-label="Rechercher">
+      <h2 class="titre-page" data-i18n="videos_titre">Vidéos</h2>
+      <input id="recherche" class="recherche" type="search" placeholder="Rechercher un culte, une prédication…" data-i18n-ph="recherche_ph" aria-label="Rechercher">
       <div id="filtres" class="filtres" role="tablist"></div>
       <div id="liste-videos" class="grille"></div>
 
       <div class="bloc archives" id="bloc-tiktok">
-        <h2 class="titre-section">Sur TikTok</h2>
+        <h2 class="titre-section" data-i18n="tiktok_titre">Sur TikTok</h2>
         <p class="note">Les dernières vidéos courtes de l'Apôtre Augustin Mwimpe (<span id="tiktok-pseudo"></span>).</p>
         <div id="zone-tiktok" class="zone-tiktok">
-          <button id="charger-tiktok" class="bouton principal">▶ Afficher les vidéos TikTok</button>
+          <button id="charger-tiktok" class="bouton principal" data-i18n="tiktok_btn">▶ Afficher les vidéos TikTok</button>
         </div>
-        <div class="actions"><a class="bouton" id="lien-tiktok" target="_blank" rel="noopener">Ouvrir dans TikTok</a></div>
+        <div class="actions"><a class="bouton" id="lien-tiktok" target="_blank" rel="noopener" data-i18n="tiktok_ouvrir">Ouvrir dans TikTok</a></div>
       </div>
 
       <div class="bloc archives">
-        <h2 class="titre-section">Toutes les archives de la chaîne</h2>
-        <p class="note">Plus de 1 500 vidéos : faites défiler la liste dans le lecteur.</p>
+        <h2 class="titre-section" data-i18n="archives_titre">Toutes les archives de la chaîne</h2>
+        <p class="note" data-i18n="archives_note">Plus de 1 500 vidéos : faites défiler la liste dans le lecteur.</p>
         <div class="lecteur" id="zone-archives">
-          <button id="charger-archives" class="bouton principal centre">▶ Ouvrir les archives</button>
+          <button id="charger-archives" class="bouton principal centre" data-i18n="archives_btn">▶ Ouvrir les archives</button>
         </div>
       </div>
     </section>
 
     <!-- PROGRAMMES -->
     <section id="programmes" class="vue">
-      <h2 class="titre-page">Programme de la semaine</h2>
+      <h2 class="titre-page" data-i18n="programme_titre">Programme de la semaine</h2>
       <ol id="liste-programmes" class="programmes"></ol>
-      <p class="note">Heures de Kinshasa (UTC+1).</p>
+      <p class="note" data-i18n="heures_note">Heures de Kinshasa (UTC+1).</p>
+      <div class="actions"><button id="ajouter-agenda" class="bouton" hidden data-i18n="agenda_btn">📅 Ajouter les cultes à mon agenda</button></div>
+
+      <h2 class="titre-section" data-i18n="evenements_titre">Événements à venir</h2>
+      <div id="liste-evenements" class="evenements"></div>
     </section>
 
     <!-- EGLISE -->
     <section id="eglise" class="vue">
-      <h2 class="titre-page">L'Église Grâce Divine</h2>
+      <h2 class="titre-page" data-i18n="eglise_titre">L'Église Grâce Divine</h2>
       <div class="bloc">
         <p id="description"></p>
         <p id="bienvenue"></p>
-        <p><strong>Dirigée par :</strong> <span id="dirigeant"></span>, représentant légal de l'Église Grâce Divine</p>
+        <p><strong data-i18n="dirigee_par">Dirigée par :</strong> <span id="dirigeant"></span>, <span data-i18n="representant">représentant légal de l'Église Grâce Divine</span></p>
       </div>
       <div id="chiffres" class="chiffres"></div>
-      <h2 class="titre-section">Nous contacter</h2>
+      <h2 class="titre-section" data-i18n="contact_titre">Nous contacter</h2>
       <div class="bloc contact">
         <p class="numero" id="numero"></p>
         <div class="actions">
-          <a class="bouton principal" id="lien-appel">📞 Appeler</a>
+          <a class="bouton principal" id="lien-appel" data-i18n="appeler">📞 Appeler</a>
           <a class="bouton whatsapp" id="lien-whatsapp" target="_blank" rel="noopener">💬 WhatsApp</a>
           <a class="bouton" id="lien-email" hidden>✉️ E-mail</a>
         </div>
         <p class="note" id="email-texte"></p>
       </div>
-      <h2 class="titre-section">Nous trouver</h2>
+      <h2 class="titre-section" data-i18n="trouver_titre">Nous trouver</h2>
       <div class="bloc">
         <address id="adresse"></address>
-        <div class="actions"><a class="bouton" id="lien-carte" target="_blank" rel="noopener">📍 Ouvrir la carte</a></div>
+        <div class="actions"><a class="bouton" id="lien-carte" target="_blank" rel="noopener" data-i18n="carte">📍 Ouvrir la carte</a></div>
       </div>
-      <h2 class="titre-section">Suivez-nous</h2>
+      <h2 class="titre-section" data-i18n="suivez">Suivez-nous</h2>
       <div id="reseaux" class="reseaux"></div>
+    </section>
+
+    <!-- PRIÈRE & TÉMOIGNAGE -->
+    <section id="priere" class="vue">
+      <h2 class="titre-page" data-i18n="priere_titre">Prière & témoignage</h2>
+      <p class="intro" data-i18n="priere_intro"></p>
+      <form id="form-priere" class="bloc formulaire" novalidate>
+        <label><span data-i18n="f_type">Type de message</span>
+          <select name="type">
+            <option value="priere" data-i18n="type_priere">Demande de prière</option>
+            <option value="temoignage" data-i18n="type_temoignage">Témoignage</option>
+            <option value="grace" data-i18n="type_grace">Action de grâce</option>
+          </select>
+        </label>
+        <label><span data-i18n="f_nom">Votre nom</span><input name="nom" autocomplete="name" required></label>
+        <label><span data-i18n="f_ville">Ville / pays</span><input name="ville" autocomplete="address-level2"></label>
+        <label><span data-i18n="f_tel">Téléphone (facultatif)</span><input name="tel" type="tel" autocomplete="tel"></label>
+        <label><span data-i18n="f_message">Votre message</span><textarea name="message" rows="6" required></textarea></label>
+        <div class="actions">
+          <button type="submit" class="bouton whatsapp" data-canal="whatsapp" data-i18n="envoyer_wa">💬 Envoyer par WhatsApp</button>
+          <button type="submit" class="bouton" data-canal="email" data-i18n="envoyer_mail">✉️ Envoyer par e-mail</button>
+        </div>
+        <p class="note" data-i18n="priere_note"></p>
+      </form>
+    </section>
+
+    <!-- SOUTIEN -->
+    <section id="soutien" class="vue">
+      <h2 class="titre-page" data-i18n="soutien_titre">Soutenir l'œuvre de Dieu</h2>
+      <p class="intro" id="soutien-texte"></p>
+      <blockquote class="verset" id="soutien-verset"></blockquote>
+      <div id="liste-mobile-money" class="mobile-money"></div>
+      <div class="actions"><a class="bouton whatsapp" id="soutien-whatsapp" target="_blank" rel="noopener" data-i18n="soutien_wa">💬 Demander les numéros sur WhatsApp</a></div>
+      <p class="note" data-i18n="soutien_merci"></p>
     </section>
   </main>
 
   <footer class="pied">
     <img src="logo-complet.png" alt="EGRADI TV" width="60" height="70">
     <p><strong>EGRADI TV</strong> — Église Grâce Divine, Direction Générale<br>Kinshasa, République Démocratique du Congo</p>
-    <p class="copyright">© <span id="annee"></span> EGRADI TV. Tous droits réservés.</p>
+    <p class="copyright">© <span id="annee"></span> EGRADI TV. <span data-i18n="droits">Tous droits réservés.</span></p>
   </footer>
 
   <dialog id="fenetre-video" class="fenetre-video">
@@ -190,7 +237,7 @@
     <div class="lecteur"><iframe id="lecteur-video" title="Vidéo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <div class="fenetre-pied">
       <span id="fenetre-date"></span>
-      <button id="partager" class="bouton">Partager</button>
+      <button id="partager" class="bouton" data-i18n="partager">Partager</button>
     </div>
   </dialog>
 
@@ -198,7 +245,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js" defer></script>
   <script src="config.js"></script>
+  <script src="i18n.js"></script>
   <script src="videos.js"></script>
   <script src="app.js"></script>
+  <script src="plus.js"></script>
 </body>
 </html>

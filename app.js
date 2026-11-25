@@ -2,24 +2,27 @@
   const C = window.EGRADI;
   const VIDEOS = window.EGRADI_VIDEOS || [];
   const $ = (s) => document.querySelector(s);
+  const tr = window.t || ((k) => k); // traductions (i18n.js)
   const JOURS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
   const CATEGORIES = [
-    { nom: "Tout", mot: "" },
-    { nom: "Directs", mot: "^direct" },
-    { nom: "Culte dominical", mot: "dominica" },
-    { nom: "Jeudi Miracle", mot: "jeudi miracle|guérison|guerison" },
-    { nom: "Vendredi prophétique", mot: "vendredi proph" },
-    { nom: "Enseignement", mot: "biyano|enseignement" },
-    { nom: "Prière", mot: "pri[eè]re" },
-    { nom: "Prédications", mot: "pr[ée]dication" },
+    { nom: tr("cat_tout"), mot: "" },
+    { nom: tr("cat_directs"), mot: "^direct" },
+    { nom: tr("cat_dominical"), mot: "dominica" },
+    { nom: tr("cat_miracle"), mot: "jeudi miracle|guérison|guerison" },
+    { nom: tr("cat_prophetique"), mot: "vendredi proph" },
+    { nom: tr("cat_enseignement"), mot: "biyano|enseignement" },
+    { nom: tr("cat_priere"), mot: "pri[eè]re" },
+    { nom: tr("cat_predications"), mot: "pr[ée]dication" },
   ];
 
   const correspond = (titre, mot) => !mot || new RegExp(mot, "i").test(titre);
   const dateFr = (iso) =>
-    new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    new Date(iso + "T12:00:00").toLocaleDateString(window.EGRADI_LOCALE || "fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const titrePropre = (t) => t.replace(/^Direct\s*:\s*/i, "");
   const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  window.EGRADI_TRADUIRE?.();
 
   // ---------- Remplissage à partir de config.js ----------
   $("#slogan").textContent = C.slogan;
@@ -79,7 +82,7 @@
     }
     try {
       await navigator.clipboard.writeText(url);
-      toast("Lien copié ✓");
+      toast(tr("lien_copie"));
     } catch {
       toast(url);
     }
@@ -109,8 +112,8 @@
     b.innerHTML = `
       <div class="miniature">
         <img loading="lazy" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="">
-        ${estDirect ? '<span class="etiquette direct">DIRECT</span>' : ""}
-        ${recent ? '<span class="etiquette nouveau">NOUVEAU</span>' : ""}
+        ${estDirect ? `<span class="etiquette direct">${tr("etiquette_direct")}</span>` : ""}
+        ${recent ? `<span class="etiquette nouveau">${tr("etiquette_nouveau")}</span>` : ""}
       </div>
       <div class="video-infos">
         <p class="video-titre">${esc(titrePropre(v.titre))}</p>
@@ -121,7 +124,7 @@
   }
   function remplir(conteneur, liste) {
     conteneur.replaceChildren(...liste.map(carte));
-    if (!liste.length) conteneur.innerHTML = '<p class="vide">Aucune vidéo trouvée.</p>';
+    if (!liste.length) conteneur.innerHTML = `<p class="vide">${tr("aucune_video")}</p>`;
   }
 
   // ---------- Lecteur ----------
@@ -175,18 +178,18 @@
     const ecart = n.debut - maintenant;
     const memeJour = n.debut.toDateString() === maintenant.toDateString();
     let quand;
-    if (n.heureConnue && ecart <= 0) quand = '<span class="badge-live"><span class="point"></span> EN COURS</span>';
+    if (n.heureConnue && ecart <= 0) quand = `<span class="badge-live"><span class="point"></span> ${tr("en_cours")}</span>`;
     else if (n.heureConnue) {
       const j = Math.floor(ecart / 86400000), h = Math.floor((ecart % 86400000) / 3600000), m = Math.floor((ecart % 3600000) / 60000);
-      quand = `Dans <span class="compte">${j ? j + " j " : ""}${h} h ${String(m).padStart(2, "0")} min</span>`;
+      quand = `${tr("dans")} <span class="compte">${j ? j + " j " : ""}${h} h ${String(m).padStart(2, "0")} min</span>`;
     } else quand = "";
     $("#prochain").innerHTML = `
       <div>
-        <p class="sur-titre">${memeJour ? "Aujourd'hui sur EGRADI TV" : "Prochain culte"}</p>
+        <p class="sur-titre">${memeJour ? tr("aujourdhui_sur") : tr("prochain")}</p>
         <h3>${esc(n.p.titre)}</h3>
         <span class="quand">${esc(n.p.jour)} · ${esc(n.p.heure)}${quand ? " — " + quand : ""}</span>
       </div>
-      <a class="bouton principal" href="#direct"><span class="point"></span> Suivre en direct</a>`;
+      <a class="bouton principal" href="#direct"><span class="point"></span> ${tr("suivre_direct")}</a>`;
   }
   afficherProchain();
   setInterval(afficherProchain, 30000);
@@ -195,8 +198,8 @@
   // Sources : votre propre flux (HLS, vidéo, page intégrée) et/ou YouTube. Voir « directs » dans config.js.
   const SOURCES = (C.directs || [{ nom: "YouTube", type: "youtube" }]).filter((s) => s.type === "youtube" || s.url);
   const NOTES = {
-    youtube: "Si aucun direct n'est en cours sur YouTube, un message d'indisponibilité s'affiche. Regardez alors le dernier culte ci-dessous.",
-    autre: "Si l'image ne vient pas, le direct n'a peut-être pas encore commencé : réessayez dans quelques minutes ou passez sur YouTube.",
+    youtube: tr("note_yt"),
+    autre: tr("note_autre"),
   };
   let hls = null;
   let sourceActive = null;
@@ -217,7 +220,9 @@
     sourceActive = s;
     arreterDirect();
     $("#sources-direct").querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.nom === s.nom));
-    $("#note-direct").textContent = s.type === "youtube" ? NOTES.youtube : NOTES.autre;
+    const eco = economie();
+    $("#note-direct").textContent = (s.type === "youtube" ? NOTES.youtube : NOTES.autre) +
+      (eco ? " " + (s.type === "hls" ? tr("economie_hls") : tr("economie_yt")) : "");
     const zone = $("#zone-direct");
 
     if (s.type === "youtube" || s.type === "iframe") {
@@ -238,16 +243,24 @@
     v.playsInline = true;
     v.muted = true; // les navigateurs bloquent la lecture automatique avec le son ; un clic le remet
     zone.replaceChildren(v);
-    v.addEventListener("error", () => message("Le direct n'est pas disponible pour le moment."));
+    v.addEventListener("error", () => message(tr("direct_indispo")));
 
     if (s.type === "video" || v.canPlayType("application/vnd.apple.mpegurl")) {
       v.src = s.url; // vidéo directe, ou HLS natif (iPhone, Safari, certains Android)
     } else if (window.Hls?.isSupported()) {
-      hls = new Hls({ liveDurationInfinity: true });
+      hls = new Hls({ liveDurationInfinity: true, capLevelToPlayerSize: true });
+      if (economie()) {
+        // qualité la plus basse (débit le plus faible) pour économiser les données mobiles
+        hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
+          const plusBas = d.levels.reduce((m, l, i) => (l.bitrate < d.levels[m].bitrate ? i : m), 0);
+          hls.autoLevelCapping = plusBas;
+          hls.currentLevel = plusBas;
+        });
+      }
       hls.loadSource(s.url);
       hls.attachMedia(v);
       hls.on(Hls.Events.ERROR, (_, d) => {
-        if (d.fatal) message("Le direct n'est pas disponible pour le moment.");
+        if (d.fatal) message(tr("direct_indispo"));
       });
     } else {
       message("Ce navigateur ne sait pas lire ce direct. Essayez la source YouTube.");
@@ -261,6 +274,14 @@
   $("#sources-direct").addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (b) jouerSource(SOURCES.find((s) => s.nom === b.dataset.nom));
+  });
+
+  // Interrupteur « Économie de données » (mémorisé sur le téléphone)
+  const economie = () => localStorage.getItem("egradi-economie") === "1";
+  $("#economie").checked = economie();
+  $("#economie").addEventListener("change", (e) => {
+    localStorage.setItem("egradi-economie", e.target.checked ? "1" : "0");
+    if (sourceActive) jouerSource(sourceActive);
   });
 
   function chargerDirect() {
@@ -303,9 +324,9 @@
     .map((p) => {
       const derniere = VIDEOS.find((v) => correspond(v.titre, p.mot));
       return `<li class="${p.jour === aujourdhui ? "aujourdhui" : ""}">
-        <span class="jour">${esc(p.jour)}${p.jour === aujourdhui ? " · auj." : ""}</span>
+        <span class="jour">${esc(p.jour)}${p.jour === aujourdhui ? " · " + tr("auj") : ""}</span>
         <span><span class="titre">${esc(p.titre)}</span><span class="heure">${esc(p.heure)}</span></span>
-        ${derniere ? `<a class="revoir" href="#" data-id="${derniere.id}">▶ Revoir le dernier</a>` : "<span></span>"}
+        ${derniere ? `<a class="revoir" href="#" data-id="${derniere.id}">${tr("revoir_dernier")}</a>` : "<span></span>"}
       </li>`;
     })
     .join("");
@@ -328,6 +349,8 @@
   }
   window.addEventListener("hashchange", afficher);
   afficher();
+
+  window.EGRADI_APP = { toast, esc, ouvrirVideo, lireHeure, JOURS };
 
   // ---------- Archives : toute la chaîne YouTube (playlist des mises en ligne) ----------
   $("#charger-archives").addEventListener("click", () => {
@@ -373,7 +396,7 @@
     if (!demandeInstallation) return;
     demandeInstallation.prompt();
     const { outcome } = await demandeInstallation.userChoice;
-    if (outcome === "accepted") toast("EGRADI TV est installée ✓");
+    if (outcome === "accepted") toast(tr("installee"));
     demandeInstallation = null;
     $("#installer").hidden = true;
   });

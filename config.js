@@ -75,6 +75,25 @@ window.EGRADI = {
     { nom: "TikTok — @augustinmwimpeofficiel (189 k)", url: "https://www.tiktok.com/@augustinmwimpeofficiel" },
   ],
 
+  // Page « Soutenir l'œuvre » : offrandes et dîmes par Mobile Money.
+  // Ajoutez UNIQUEMENT les numéros officiels de l'église. Tant que la liste est vide,
+  // la page propose de demander les numéros sur WhatsApp.
+  soutien: {
+    texte:
+      "Vos offrandes et vos dîmes permettent à EGRADI TV de diffuser la Parole de Dieu en direct, " +
+      "depuis Kinshasa jusqu'au monde entier. Merci de soutenir l'œuvre de Dieu.",
+    verset: "« Que chacun donne comme il l'a résolu en son cœur, car Dieu aime celui qui donne avec joie. » — 2 Corinthiens 9:7",
+    mobileMoney: [
+      // { operateur: "M-Pesa (Vodacom)", numero: "+243 81 000 0000", titulaire: "Église Grâce Divine" },
+      // { operateur: "Orange Money",     numero: "+243 89 000 0000", titulaire: "Église Grâce Divine" },
+      // { operateur: "Airtel Money",     numero: "+243 99 000 0000", titulaire: "Église Grâce Divine" },
+    ],
+  },
+
+  // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
+  // Exemple : { date: "2026-12-31", heure: "20h00", titre: "Veillée de fin d'année", lieu: "Cité de Grâce (Badara)", affiche: "" },
+  evenements: [],
+
   // Programme de la semaine (d'après les directs publiés sur YouTube).
   // Les heures ne sont pas publiées sur la chaîne : remplacez "Heure à confirmer" par l'heure réelle.
   programmes: [
