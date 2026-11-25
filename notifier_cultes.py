@@ -25,6 +25,7 @@ APP_ID = os.environ.get("ONESIGNAL_APP_ID", "").strip() or (
 CLE = re.sub(r"^(Key|Basic)\s+", "", os.environ.get("ONESIGNAL_API_KEY", "").strip().strip('"').strip("'")).strip()
 SITE = "https://spirittshim.github.io/EGRADI-TV/"
 KINSHASA = dt.timezone(dt.timedelta(hours=1))  # UTC+1, pas d'heure d'été
+CLE_REFUSEE = False
 JOURS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]  # ordre de weekday()
 
 
@@ -61,6 +62,8 @@ def envoyer(titre, texte, lien, quand=None, cle_unique=None):
             print(f"ERREUR {e.code} : {titre} : {erreur}")
             if e.code in (401, 403):
                 print(diagnostic_cle())
+                global CLE_REFUSEE
+                CLE_REFUSEE = True
             return False
     return False
 
@@ -122,6 +125,9 @@ def main():
                 continue
             if not envoyer(titre, texte, SITE + "#direct", quand, f"{debut:%Y-%m-%d}-{p['jour']}-{p['heure']}-{nom}"):
                 erreurs += 1
+    if erreurs and CLE_REFUSEE and not os.environ.get("MESSAGE"):
+        print("Clé OneSignal refusée : rien n'est envoyé tant que le secret ONESIGNAL_API_KEY n'est pas corrigé.")
+        return 0  # pas d'e-mail d'échec chaque matin en attendant la bonne clé
     return 1 if erreurs else 0
 
 
