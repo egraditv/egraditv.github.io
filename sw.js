@@ -2,7 +2,7 @@
 // Changez VERSION à chaque mise à jour des fichiers pour que les téléphones la récupèrent.
 // Notifications OneSignal (App ID dans config.js).
 try { importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"); } catch (e) {}
-const VERSION = "egradi-tv-24a";
+const VERSION = "egradi-tv-24b";
 const FICHIERS = ["./", "index.html", "styles.css", "app.js", "plus.js", "i18n.js", "config.js", "videos.js", "versets.js", "confidentialite.html", "logo-badge.png", "photos/banniere-apotre-900.jpg", "logo-complet.png", "logo-192.png", "logo-512.png", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -20,7 +20,7 @@ self.addEventListener("activate", (e) => {
 // Réseau d'abord (pour avoir les dernières vidéos), copie locale si pas de connexion.
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (e.request.method !== "GET" || url.origin !== location.origin || url.pathname.endsWith(".apk") || url.pathname.endsWith(".mp4")) return; // ni l'APK ni la vidéo ne sont mis en cache
+  if (e.request.method !== "GET" || url.origin !== location.origin || url.pathname.endsWith(".apk") || url.pathname.endsWith(".mp4") || url.pathname.endsWith(".pdf")) return; // ni l'APK, ni la vidéo, ni la notice ne sont mis en cache
   e.respondWith(
     fetch(e.request)
       .then((r) => {
