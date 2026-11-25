@@ -192,6 +192,12 @@
         <p><strong data-i18n="dirigee_par">Dirigée par :</strong> <span id="dirigeant"></span>, <span data-i18n="representant">représentant légal de l'Église Grâce Divine</span></p>
       </div>
       <div id="chiffres" class="chiffres"></div>
+
+      <h2 class="titre-section" data-i18n="pasteurs_titre">Nos pasteurs</h2>
+      <div id="liste-pasteurs" class="pasteurs"></div>
+
+      <h2 class="titre-section" data-i18n="galerie_titre">Galerie</h2>
+      <div id="galerie" class="galerie"></div>
       <h2 class="titre-section" data-i18n="contact_titre">Nous contacter</h2>
       <div class="bloc contact">
         <p class="numero" id="numero"></p>
@@ -273,6 +279,13 @@
       <span id="fenetre-date"></span>
       <button id="partager" class="bouton" data-i18n="partager">Partager</button>
     </div>
+  </dialog>
+
+  <dialog id="visionneuse" class="visionneuse">
+    <button class="fermer" id="fermer-visionneuse" aria-label="Fermer">✕</button>
+    <img id="visionneuse-img" alt="">
+    <p id="visionneuse-legende"></p>
+    <a id="visionneuse-video" class="bouton principal" hidden data-i18n="voir_video">▶ Voir la vidéo</a>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>

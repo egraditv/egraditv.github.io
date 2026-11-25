@@ -116,6 +116,29 @@ window.EGRADI = {
   // Exemple : { date: "2026-12-31", heure: "20h00", titre: "Veillée de fin d'année", lieu: "Cité de Grâce (Badara)", affiche: "" },
   evenements: [],
 
+  // Page Église → « Nos pasteurs ». « recherche » : mot cherché dans les titres des vidéos pour « Voir ses prédications ».
+  // « photo » : adresse d'une image (ou fichier dans le dossier photos/) ; vide = initiales.
+  pasteurs: [
+    {
+      nom: "Apôtre Augustin Mwimpe",
+      role: "Pasteur principal · Représentant légal de l'Église Grâce Divine",
+      photo: "https://yt3.googleusercontent.com/fWORXldxsl-yotVHv6LwRdl2YgihAmwFyjg_qAyF44RmsobizjDsrfXTLiLI4ZiEOwgzIAIKOsM=s400-c-k-c0x00ffffff-no-rj",
+      description: "L'homme de Dieu « Moto Kanda na Nzambe » conduit les cultes, l'École de guérison du Jeudi Miracle et le Vendredi prophétique.",
+      recherche: "mwimpe",
+    },
+    {
+      nom: "Pasteur Joao Masaki",
+      role: "Pasteur · Prédicateur",
+      photo: "",
+      description: "",
+      recherche: "masaki",
+    },
+  ],
+
+  // Galerie (page Église) : photos ajoutées ici en premier (fichiers dans photos/ ou adresses d'images),
+  // puis automatiquement les images des derniers cultes publiés sur YouTube.
+  galerie: { photos: [], imagesDesCultes: 12 },
+
   // Programme de la semaine (d'après les directs publiés sur YouTube).
   // Heures de Kinshasa, écrites « 9h00 », « 17h30 »… (lues par le compte à rebours et le fichier agenda).
   programmes: [

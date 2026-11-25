@@ -29,6 +29,62 @@
     }
   }
 
+  // ---------- Nos pasteurs ----------
+  const VIDEOS = window.EGRADI_VIDEOS || [];
+  const initiales = (nom) => nom.split(/\s+/).slice(-2).map((m) => m[0]).join("").toUpperCase();
+  $("#liste-pasteurs").innerHTML = (C.pasteurs || [])
+    .map((p, i) => {
+      const nb = p.recherche ? VIDEOS.filter((v) => v.titre.toLowerCase().includes(p.recherche.toLowerCase())).length : 0;
+      return `<article class="pasteur">
+        ${p.photo ? `<img src="${esc(p.photo)}" alt="${esc(p.nom)}" loading="lazy" width="88" height="88">` : `<span class="pasteur-initiales">${esc(initiales(p.nom))}</span>`}
+        <div>
+          <h3>${esc(p.nom)}</h3>
+          <p class="sur-titre">${esc(p.role || "")}</p>
+          ${p.description ? `<p class="pasteur-texte">${esc(p.description)}</p>` : ""}
+          ${nb ? `<button class="bouton petit" data-pasteur="${i}">${tr("voir_predications")} (${nb})</button>` : ""}
+        </div>
+      </article>`;
+    })
+    .join("");
+  $("#liste-pasteurs").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-pasteur]");
+    if (!b) return;
+    const p = C.pasteurs[b.dataset.pasteur];
+    location.hash = "#videos";
+    const champ = $("#recherche");
+    champ.value = p.recherche;
+    champ.dispatchEvent(new Event("input"));
+  });
+  if (!(C.pasteurs || []).length) $("#liste-pasteurs").previousElementSibling.hidden = true;
+
+  // ---------- Galerie : photos choisies + images des derniers cultes ----------
+  const G = C.galerie || {};
+  const cultes = VIDEOS.filter((v) => /culte|direct|miracle|proph|pri[eè]re|biyano/i.test(v.titre)).slice(0, G.imagesDesCultes ?? 12);
+  const elements = [
+    ...(G.photos || []).map((p) => (typeof p === "string" ? { src: p, legende: "" } : p)),
+    ...cultes.map((v) => ({ src: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`, grande: `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`, legende: v.titre.replace(/^Direct\s*:\s*/i, ""), video: v.id })),
+  ];
+  $("#galerie").innerHTML = elements
+    .map((el, i) => `<button class="galerie-item" data-i="${i}" aria-label="${esc(el.legende || "Photo")}"><img src="${esc(el.src)}" alt="" loading="lazy"></button>`)
+    .join("");
+  if (!elements.length) $("#galerie").previousElementSibling.hidden = true;
+  const visio = $("#visionneuse");
+  $("#galerie").addEventListener("click", (e) => {
+    const b = e.target.closest(".galerie-item");
+    if (!b) return;
+    const el = elements[b.dataset.i];
+    const img = $("#visionneuse-img");
+    img.onerror = () => { img.onerror = null; img.src = el.src; }; // la grande image n'existe pas toujours
+    img.src = el.grande || el.src;
+    $("#visionneuse-legende").textContent = el.legende || "";
+    const lien = $("#visionneuse-video");
+    lien.hidden = !el.video;
+    lien.onclick = () => { visio.close(); A.ouvrirVideo(VIDEOS.find((v) => v.id === el.video)); };
+    visio.showModal();
+  });
+  $("#fermer-visionneuse").addEventListener("click", () => visio.close());
+  visio.addEventListener("click", (e) => e.target === visio && visio.close());
+
   // ---------- Verset du jour (change chaque jour à minuit, heure de Kinshasa) ----------
   const VERSETS = window.EGRADI_VERSETS || [];
   if (VERSETS.length) {
