@@ -36,7 +36,7 @@ button { font: inherit; }
   background: radial-gradient(circle at 50% 40%, #1a2850, var(--fond) 70%);
   transition: opacity .45s, visibility .45s;
 }
-.demarrage img { border-radius: 50%; box-shadow: 0 0 60px rgba(30,155,224,.35); animation: respire 1.6s ease-in-out infinite; }
+.demarrage img { filter: drop-shadow(0 0 40px rgba(227,6,19,.35)); animation: respire 1.6s ease-in-out infinite; }
 .demarrage p { margin: 6px 0 0; font-size: 26px; letter-spacing: 4px; }
 .demarrage strong { color: var(--rouge-2); }
 .chargement { width: 120px; height: 3px; border-radius: 3px; background: var(--degrade); background-size: 200% 100%; animation: glisse 1s linear infinite; }
@@ -125,7 +125,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
 .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 0%, rgba(227,6,19,.35), transparent 50%), radial-gradient(circle at 90% 100%, rgba(30,155,224,.35), transparent 50%); }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,16,34,.9)); }
 .hero-contenu { position: relative; z-index: 1; padding: 34px 18px 26px; }
-.hero-logo { border-radius: 50%; box-shadow: 0 10px 40px rgba(0,0,0,.5), 0 0 50px rgba(227,6,19,.25); }
+.hero-logo { filter: drop-shadow(0 10px 30px rgba(0,0,0,.6)); }
 .hero h1 { margin: 12px 0 0; font-size: clamp(36px, 8vw, 60px); line-height: 1; letter-spacing: 4px; font-weight: 900; }
 .hero h1 span { background: linear-gradient(90deg, #fff, #ffd6d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .slogan { margin: 10px 0 18px; color: #dfe5f3; font-size: 16px; }
@@ -215,7 +215,7 @@ address { font-style: normal; line-height: 1.8; }
 
 /* ---------- Pied de page ---------- */
 .pied { max-width: 1180px; margin: 20px auto 0; padding: 26px 16px 30px; text-align: center; color: var(--texte-2); font-size: 13.5px; border-top: 1px solid var(--ligne); }
-.pied img { border-radius: 50%; }
+.pied img { height: auto; }
 .pied p { margin: 8px 0; }
 .copyright { font-size: 12px; opacity: .7; }
 
