@@ -1,6 +1,18 @@
 // Généré par actualiser_videos.py — ne pas modifier à la main.
 window.EGRADI_VIDEOS = [
  {
+  "id": "zDsVBg2lcTc",
+  "titre": "Direct: CULTE D'ENSEIGNEMENT, Le 25.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
+  "date": "2026-11-25",
+  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+ },
+ {
+  "id": "YC1-dNMc3gk",
+  "titre": "Direct: CULTE D'ENSEIGNEMENT, Le 25.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
+  "date": "2026-11-25",
+  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+ },
+ {
   "id": "vv37MdlUPLQ",
   "titre": "Direct: 45 MINUTES DE PRIERE SOUS LA RECOMMANDATION DE DIEU, Le 24.11.2026, JOUR 2",
   "date": "2026-11-25",
@@ -82,13 +94,13 @@ window.EGRADI_VIDEOS = [
   "id": "9QGn4TYcwoA",
   "titre": "CULTE D'ENSEIGNEMENT “MERCREDI BIYANO”, Le 11.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
   "date": "2026-11-11",
-  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+  "description": ""
  },
  {
   "id": "w1GHdi4q_PQ",
   "titre": "Direct: CULTE DOMINICAL, Le 08.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
-  "date": "2026-11-09",
-  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+  "date": "2026-11-08",
+  "description": ""
  },
  {
   "id": "OhTb75Ody_Y",
@@ -586,18 +598,6 @@ window.EGRADI_VIDEOS = [
   "id": "D9-I1-f1nl0",
   "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, Le 07 Septembre 2026.",
   "date": "2026-09-07",
-  "description": ""
- },
- {
-  "id": "1DPVJoaQchE",
-  "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, Le 07 Septembre 2026.",
-  "date": "2026-09-07",
-  "description": ""
- },
- {
-  "id": "8U5MD7CXkac",
-  "titre": "Direct: CULTE DOMINICAL, Le 06 Septembre 2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
-  "date": "2026-09-06",
   "description": ""
  }
 ];
