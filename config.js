@@ -40,7 +40,7 @@ window.EGRADI = {
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
     "Suivez les directs sur Facebook : Apôtre Augustin Mwimpe Officiel",
     "E-mail : egrdimwimpe@gmail.com",
-    "Offrandes : M-Pesa +243 817 594 677 · Airtel Money +243 997 751 720 · PayPal egrdimwipe@gmail.com · détails dans « Soutenir l'œuvre »",
+    "Offrandes : M-Pesa +243 817 594 677 · Airtel Money +243 997 751 720 · PayPal egrdimwipe@gmail.com · détails dans la rubrique « Offrandes » de l'application",
   ],
 
   // Sources du direct, dans l'ordre d'affichage. La première qui a un lien est ouverte par défaut.

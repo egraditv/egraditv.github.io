@@ -264,7 +264,7 @@
   });
   if (!C.email) form.querySelector('[data-canal="email"]').hidden = true;
 
-  // ---------- Soutenir l'œuvre : numéros Mobile Money ----------
+  // ---------- Offrandes : Mobile Money, banque, PayPal ----------
   const S = C.soutien || {};
   $("#soutien-texte").textContent = S.texte || "";
   $("#soutien-verset").textContent = S.verset || "";
