@@ -172,6 +172,7 @@
       <div id="sources-direct" class="filtres" role="tablist" aria-label="Source du direct"></div>
       <div class="lecteur" id="zone-direct"></div>
       <label class="interrupteur"><input type="checkbox" id="economie"><span class="glissiere"></span><span data-i18n="economie">Économie de données</span></label>
+      <label class="interrupteur"><input type="checkbox" id="audio-direct"><span class="glissiere"></span><span data-i18n="mode_audio_long">🎧 Mode audio (écouter seulement)</span></label>
       <p class="note" id="note-direct"></p>
       <div class="actions">
         <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener" data-i18n="ouvrir_yt">Ouvrir sur YouTube</a>
@@ -313,11 +314,23 @@
       <h3 id="fenetre-titre"></h3>
       <button id="fermer" class="fermer" aria-label="Fermer">✕</button>
     </div>
-    <div class="lecteur"><iframe id="lecteur-video" title="Vidéo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <div class="lecteur"><iframe id="lecteur-video" title="Vidéo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      <div id="audio-commandes" class="audio-commandes" hidden>
+        <p class="audio-titre">🎧 <span data-i18n="mode_audio">Mode audio</span></p>
+        <p class="audio-nom" id="audio-titre-video"></p>
+        <div class="audio-boutons">
+          <button type="button" id="audio-recul" aria-label="Reculer de 15 secondes">↺ 15</button>
+          <button type="button" id="audio-lecture" class="audio-play" aria-label="Lecture / pause">⏸</button>
+          <button type="button" id="audio-avance" aria-label="Avancer de 15 secondes">15 ↻</button>
+        </div>
+        <p class="audio-note"><span id="audio-temps"></span></p>
+      </div>
+    </div>
     <div class="fenetre-pied">
       <span id="fenetre-date"></span>
       <span class="fenetre-boutons">
         <button id="depuis-debut" class="bouton petit" hidden data-i18n="depuis_debut">⟲ Depuis le début</button>
+        <button id="bouton-audio" class="bouton petit" aria-pressed="false">🎧 Mode audio</button>
         <button id="ma-liste" class="bouton petit" aria-pressed="false">☆ Ma liste</button>
         <button id="partager" class="bouton petit" data-i18n="partager">Partager</button>
       </span>

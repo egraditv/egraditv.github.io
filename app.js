@@ -230,6 +230,11 @@
     $("#fenetre-date").textContent = dateFr(v.date);
     $("#depuis-debut").hidden = !depart;
     majBoutonListe();
+    // Fond du mode audio : la miniature de la vidéo, floutée
+    $("#fenetre-video .lecteur").style.setProperty("--fond", `url("https://i.ytimg.com/vi/${v.id}/hqdefault.jpg")`);
+    $("#audio-titre-video").textContent = titrePropre(v.titre);
+    $("#audio-temps").textContent = "";
+    $("#audio-lecture").textContent = "⏸";
     // Nouveau cadre à chaque vidéo : l'API YouTube s'y rattache proprement
     const ancien = $("#lecteur-video");
     const f = ancien.cloneNode(false);
@@ -243,6 +248,7 @@
       joueur = new YT.Player(f, {
         events: {
           onStateChange: (e) => {
+            $("#audio-lecture").textContent = e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.BUFFERING ? "⏸" : "▶";
             if (e.data === YT.PlayerState.PAUSED) noterPosition();
             if (e.data === YT.PlayerState.ENDED) { delete memo.pos[v.id]; sauverMemoire(); }
           },
@@ -268,6 +274,35 @@
     toast(estFavori(id) ? tr("maliste_ajoute") : tr("maliste_retire"));
   });
   $("#depuis-debut").addEventListener("click", () => videoCourante && ouvrirVideo(videoCourante, true));
+
+  // ---------- Mode audio ----------
+  // La vidéo reste visible mais devient une petite vignette : YouTube envoie alors une image de très basse
+  // qualité (beaucoup moins de données) et le son reste normal. De grands boutons remplacent l'image.
+  const modeAudio = () => localStorage.getItem("egradi-audio") === "1";
+  function appliquerAudio() {
+    const a = modeAudio();
+    $("#fenetre-video .lecteur").classList.toggle("audio", a);
+    $("#audio-commandes").hidden = !a;
+    $("#bouton-audio").textContent = a ? tr("audio_quitter") : tr("audio_activer");
+    $("#bouton-audio").setAttribute("aria-pressed", a);
+    $("#audio-direct").checked = a;
+  }
+  function changerAudio(a) {
+    localStorage.setItem("egradi-audio", a ? "1" : "0");
+    appliquerAudio();
+    if (sourceActive) jouerSource(sourceActive);
+    toast(a ? tr("audio_active") : tr("audio_desactive"));
+  }
+  $("#bouton-audio").addEventListener("click", () => changerAudio(!modeAudio()));
+  const commande = (fn) => { try { fn(joueur); } catch {} };
+  $("#audio-lecture").addEventListener("click", () =>
+    commande((j) => (j.getPlayerState() === YT.PlayerState.PLAYING ? j.pauseVideo() : j.playVideo())));
+  $("#audio-recul").addEventListener("click", () => commande((j) => j.seekTo(Math.max(0, j.getCurrentTime() - 15), true)));
+  $("#audio-avance").addEventListener("click", () => commande((j) => j.seekTo(j.getCurrentTime() + 15, true)));
+  setInterval(() => {
+    if (!fenetre.open || !modeAudio() || !joueur?.getCurrentTime) return;
+    try { $("#audio-temps").textContent = `${minutes(joueur.getCurrentTime())} / ${minutes(joueur.getDuration() || 0)}`; } catch {}
+  }, 1000);
   fenetre.addEventListener("close", () => {
     noterPosition();
     clearInterval(minuterieLecture);
@@ -409,6 +444,17 @@
     $("#zone-direct").replaceChildren(p);
   }
 
+  // Mode audio sur la page Direct : petite vignette + texte (le direct n'a pas d'avance / recul)
+  function habillerAudio(zone) {
+    zone.classList.toggle("audio", modeAudio());
+    zone.style.setProperty("--fond", `url("${C.banniere?.petite || "logo-512.png"}")`);
+    if (!modeAudio()) return;
+    const d = document.createElement("div");
+    d.className = "audio-commandes";
+    d.innerHTML = `<p class="audio-titre">🎧 ${tr("mode_audio")}</p><p class="audio-nom">EGRADI TV — ${tr("en_direct")}</p><p class="audio-note">${tr("audio_note")}</p>`;
+    zone.append(d);
+  }
+
   function jouerSource(s) {
     sourceActive = s;
     arreterDirect();
@@ -427,6 +473,7 @@
         ? `https://www.youtube.com/embed/live_stream?channel=${C.youtubeChaineId}&autoplay=1`
         : s.url;
       zone.replaceChildren(f);
+      habillerAudio(zone);
       return;
     }
 
@@ -436,13 +483,14 @@
     v.playsInline = true;
     v.muted = true; // les navigateurs bloquent la lecture automatique avec le son ; un clic le remet
     zone.replaceChildren(v);
+    habillerAudio(zone);
     v.addEventListener("error", () => message(tr("direct_indispo")));
 
     if (s.type === "video" || v.canPlayType("application/vnd.apple.mpegurl")) {
       v.src = s.url; // vidéo directe, ou HLS natif (iPhone, Safari, certains Android)
     } else if (window.Hls?.isSupported()) {
       hls = new Hls({ liveDurationInfinity: true, capLevelToPlayerSize: true });
-      if (economie()) {
+      if (economie() || modeAudio()) {
         // qualité la plus basse (débit le plus faible) pour économiser les données mobiles
         hls.on(Hls.Events.MANIFEST_PARSED, (_, d) => {
           const plusBas = d.levels.reduce((m, l, i) => (l.bitrate < d.levels[m].bitrate ? i : m), 0);
@@ -472,6 +520,8 @@
   // Interrupteur « Économie de données » (mémorisé sur le téléphone)
   const economie = () => localStorage.getItem("egradi-economie") === "1";
   $("#economie").checked = economie();
+  $("#audio-direct").addEventListener("change", (e) => changerAudio(e.target.checked));
+  appliquerAudio();
   $("#economie").addEventListener("change", (e) => {
     localStorage.setItem("egradi-economie", e.target.checked ? "1" : "0");
     if (sourceActive) jouerSource(sourceActive);
