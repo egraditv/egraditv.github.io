@@ -377,7 +377,7 @@
       const d = new Date(maintenant);
       d.setDate(d.getDate() + ((jour - d.getDay() + 7) % 7));
       const date = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
-      const fin = new Date(d); fin.setHours(h.h + 2, h.m);
+      const fin = new Date(d); fin.setHours(h.h, h.m); fin.setTime(fin.getTime() + A.dureeCulte(p.heure));
       lignes.push(
         "BEGIN:VEVENT",
         `UID:egradi-${i}-${BYDAY[jour]}@egradi.tv`,
@@ -386,7 +386,7 @@
         `DTEND;TZID=Africa/Kinshasa:${date}T${pad(fin.getHours())}${pad(fin.getMinutes())}00`,
         `RRULE:FREQ=WEEKLY;BYDAY=${BYDAY[jour]}`,
         `SUMMARY:${p.titre} — EGRADI TV`,
-        `LOCATION:${(C.adresse || []).join(", ").replace(/,/g, "\\,")}`,
+        `LOCATION:${(p.lieu || (C.adresse || []).join(", ")).replace(/,/g, "\\,")}`,
         `URL:${location.href.split("#")[0]}#direct`,
         "BEGIN:VALARM", "TRIGGER:-PT30M", "ACTION:DISPLAY", `DESCRIPTION:${p.titre} commence dans 30 minutes sur EGRADI TV`, "END:VALARM",
         "END:VEVENT"

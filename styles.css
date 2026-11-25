@@ -591,3 +591,6 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .guide-qr-bloc[hidden] { display: none; }
 .guide-qr-bloc p { margin: 0; font-size: 14px; color: var(--texte-2); }
 #eglise-apk { gap: 10px; flex-wrap: wrap; }
+.programmes .lieu { display: block; font-size: 13px; color: #ffd34d; margin-top: 2px; }
+#bloc-receptions { margin-top: 6px; }
+#numero-2 a { color: inherit; font-weight: 700; }

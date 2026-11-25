@@ -18,7 +18,7 @@
   <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://spirittshim.github.io/EGRADI-TV/">
-  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Church", "name": "Église Grâce Divine (EGRADI)", "alternateName": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "logo": "https://spirittshim.github.io/EGRADI-TV/logo-512.png", "image": "https://spirittshim.github.io/EGRADI-TV/partage.jpg", "description": "Cultes en direct, prières, enseignements et miracles avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.", "telephone": "+243997751720", "email": "egrdimwimpe@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "3e avenue Police, Cité de Grâce (Badara), en face de l'Aéroport de Ndjili", "addressLocality": "Kinshasa", "addressCountry": "CD"}, "founder": {"@type": "Person", "name": "Apôtre Augustin Mwimpe"}, "sameAs": ["https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel", "https://www.facebook.com/MWIMPE", "https://www.tiktok.com/@augustinmwimpeofficiel", "https://www.instagram.com/apotre_augustin_mwimpeofficiel/", "https://x.com/ApotreMwimpe"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "inLanguage": ["fr", "ln", "en"]}]</script>
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Church", "name": "Église Grâce Divine (EGRADI)", "alternateName": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "logo": "https://spirittshim.github.io/EGRADI-TV/logo-512.png", "image": "https://spirittshim.github.io/EGRADI-TV/partage.jpg", "description": "Cultes en direct, prières, enseignements et miracles avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.", "telephone": "+243997751720", "email": "egrdimwimpe@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "Av. La Police n°3, Quartier Badara, Commune de N'sele (en face de l'Aéroport de Ndjili)", "addressLocality": "Kinshasa", "addressCountry": "CD"}, "founder": {"@type": "Person", "name": "Apôtre Augustin Mwimpe"}, "sameAs": ["https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel", "https://www.facebook.com/MWIMPE", "https://www.tiktok.com/@augustinmwimpeofficiel", "https://www.instagram.com/apotre_augustin_mwimpeofficiel/", "https://x.com/ApotreMwimpe"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "inLanguage": ["fr", "ln", "en"]}]</script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="logo-badge.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -236,6 +236,10 @@
       <h2 class="titre-page" data-i18n="programme_titre">Programme de la semaine</h2>
       <ol id="liste-programmes" class="programmes"></ol>
       <p class="note" data-i18n="heures_note">Heures de Kinshasa (UTC+1).</p>
+      <div id="bloc-receptions" hidden>
+        <h2 class="titre-section" data-i18n="receptions_titre">🤝 Rencontrer l'Apôtre</h2>
+        <ol id="liste-receptions" class="programmes"></ol>
+      </div>
       <div class="actions"><button id="ajouter-agenda" class="bouton" hidden data-i18n="agenda_btn">📅 Ajouter les cultes à mon agenda</button></div>
 
       <h2 class="titre-section" data-i18n="evenements_titre">Événements à venir</h2>
@@ -261,6 +265,7 @@
       <h2 class="titre-section" data-i18n="contact_titre">Nous contacter</h2>
       <div class="bloc contact">
         <p class="numero" id="numero"></p>
+        <p class="note" id="numero-2" hidden></p>
         <div class="actions">
           <a class="bouton principal" id="lien-appel" data-i18n="appeler">📞 Appeler</a>
           <a class="bouton whatsapp" id="lien-whatsapp" target="_blank" rel="noopener">💬 WhatsApp</a>

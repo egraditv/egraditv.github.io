@@ -82,7 +82,7 @@ def diagnostic_cle():
 
 def lire_programmes():
     texte = pathlib.Path(__file__).with_name("config.js").read_text(encoding="utf-8")
-    bloc = re.search(r"programmes:\s*\[(.*?)\]", texte, re.S)
+    bloc = re.search(r"programmes:\s*\[(.*?)\n\s*\],", texte, re.S)  # jusqu'à la fin de la liste (les « mot » peuvent contenir des [ ])
     motif = re.compile(r'jour:\s*"([^"]+)",\s*titre:\s*"([^"]+)",\s*heure:\s*"([^"]*)"')
     return [dict(zip(("jour", "titre", "heure"), m)) for m in motif.findall(bloc.group(1) if bloc else "")]
 
@@ -114,7 +114,7 @@ def main():
         envois = [
             (debut - dt.timedelta(minutes=30), "avant",
              f"⏰ Dans 30 minutes : {p['titre']}",
-             f"Le culte commence à {p['heure']} (heure de Kinshasa). Touchez pour le suivre en direct sur EGRADI TV."),
+             f"Le culte commence à {int(h[1])}h{h[2] or '00'} (heure de Kinshasa). Touchez pour le suivre en direct sur EGRADI TV."),
             (debut, "direct",
              f"🔴 EN DIRECT : {p['titre']}",
              "Le culte commence maintenant ! Touchez pour rejoindre le direct sur EGRADI TV."),

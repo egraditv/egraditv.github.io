@@ -10,14 +10,16 @@ window.EGRADI = {
   bienvenue:
     "La grande famille de l'Église Grâce Divine – Direction Générale vous ouvre grandement ses portes : " +
     "des moments intenses de prière, d'adoration, de délivrance et d'enseignements inspirés par le Saint-Esprit.",
+  // Adresse officielle (texte de l'église, 25/11/2026)
   adresse: [
-    "En face de l'Aéroport de Ndjili",
-    "3e avenue Police, Cité de Grâce (Badara)",
-    "Référence : à proximité du mur des Chinois",
+    "Av. La Police n°3, Quartier Badara",
     "Commune de N'sele, Kinshasa, RDC",
+    "Référence : mur ya ba Chinois",
+    "Repère : en face de l'Aéroport de Ndjili",
   ],
   // Contact (affiché sur le bandeau INFOS de la chaîne). Format international, sans espaces.
-  telephone: "+243997751720",
+  telephone: "+243997751720", // WhatsApp de l'église (prière, témoignages, offrandes)
+  telephone2: "+243907260532", // contact publié par l'église le 25/11/2026
   messageWhatsApp: "Bonjour EGRADI TV, je vous contacte depuis l'application.",
   email: "egrdimwimpe@gmail.com", // adresse publiée sur la page Facebook de l'Apôtre
 
@@ -28,15 +30,20 @@ window.EGRADI = {
     { valeur: "60 k", libelle: "abonnés YouTube" },
     { valeur: "1 500+", libelle: "vidéos publiées" },
   ],
-  carte: "https://www.google.com/maps/search/?api=1&query=A%C3%A9roport+de+Ndjili+Kinshasa",
+  carte: "https://www.google.com/maps/search/?api=1&query=Badara+N%27sele+A%C3%A9roport+de+Ndjili+Kinshasa",
 
   // Messages du bandeau « INFOS » qui défile en haut de l'application (comme à l'antenne).
   annonces: [
     "Bienvenue sur EGRADI TV, la chaîne de l'Église Grâce Divine",
-    "Culte dominical chaque dimanche à 9h00 · 45 minutes de prière le mardi à 11h00 · Mercredi Biyano à 14h00",
-    "Jeudi Miracle (École de guérison) à 14h00 · Vendredi prophétique à 14h00",
-    "Adresse : en face de l'Aéroport de Ndjili, 3e avenue Police, Cité de Grâce (Badara)",
-    "Contact et WhatsApp : +243 997 751 720",
+    "Dimanche : culte de louange et d'adoration de 08h00 à 13h30",
+    "Lundi et mardi : prière « Force contre forces » de 12h00 à 13h00, à Limete, 18e rue Industrielle n°2",
+    "Mercredi et vendredi : culte d'enseignement de 16h00 à 19h00",
+    "Jeudi Miracles (École de guérison) de 10h00 à 19h00",
+    "Samedi : culte de la jeunesse de 15h00 à 18h30",
+    "L'Apôtre Augustin Mwimpe reçoit le mercredi et le vendredi de 13h30 à 16h00 · Consultation prophétique le jeudi de 07h00 à 16h00",
+    "Adresse : Av. La Police n°3, Q. Badara, C. N'sele · Réf. : mur ya ba Chinois",
+    "Contact : +243 907 260 532 · WhatsApp : +243 997 751 720",
+    "Retrouvez gratuitement toutes les prédications et émissions sur la chaîne YouTube « Apôtre Augustin Mwimpe officiel »",
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
     "Suivez les directs sur Facebook : Apôtre Augustin Mwimpe Officiel",
     "E-mail : egrdimwimpe@gmail.com",
@@ -165,11 +172,21 @@ window.EGRADI = {
 
   // Programme de la semaine (d'après les directs publiés sur YouTube).
   // Heures de Kinshasa, écrites « 9h00 », « 17h30 »… (lues par le compte à rebours et le fichier agenda).
+  // Programme des cultes (texte officiel de l'église, 25/11/2026). Heure : « début – fin », heure de Kinshasa.
+  // « mot » sert à retrouver la dernière vidéo de ce culte ; « lieu » s'affiche si le culte n'a pas lieu à l'église.
   programmes: [
-    { jour: "Dimanche", titre: "Culte dominical", heure: "9h00", mot: "dominica" },
-    { jour: "Mardi", titre: "45 minutes de prière", heure: "11h00", mot: "prière|priere" },
-    { jour: "Mercredi", titre: "Culte d'enseignement « Mercredi Biyano »", heure: "14h00", mot: "biyano|enseignement" },
-    { jour: "Jeudi", titre: "Jeudi Miracle — École de guérison", heure: "14h00", mot: "jeudi miracle|guérison|guerison" },
-    { jour: "Vendredi", titre: "Vendredi prophétique", heure: "14h00", mot: "vendredi proph" },
+    { jour: "Dimanche", titre: "Culte de louange & adoration", heure: "08h00 – 13h30", mot: "dominica|louange|adoration" },
+    { jour: "Lundi", titre: "Prière « Force contre forces »", heure: "12h00 – 13h00", mot: "force|prière|priere", lieu: "Limete, 18e rue Industrielle n°2" },
+    { jour: "Mardi", titre: "Prière « Force contre forces »", heure: "12h00 – 13h00", mot: "force|prière|priere", lieu: "Limete, 18e rue Industrielle n°2" },
+    { jour: "Mercredi", titre: "Culte d'enseignement", heure: "16h00 – 19h00", mot: "biyano|enseignement|mercredi" },
+    { jour: "Jeudi", titre: "Jeudi Miracles — École de guérison", heure: "10h00 – 19h00", mot: "jeudi miracle|guérison|guerison" },
+    { jour: "Vendredi", titre: "Culte d'enseignement", heure: "16h00 – 19h00", mot: "vendredi|enseignement" },
+    { jour: "Samedi", titre: "Culte de la jeunesse", heure: "15h00 – 18h30", mot: "jeunesse|samedi" },
+  ],
+
+  // L'Apôtre reçoit les fidèles (affiché sur la page Programme)
+  receptions: [
+    { jours: "Mercredi et vendredi", heure: "13h30 – 16h00", titre: "L'Apôtre Augustin Mwimpe reçoit" },
+    { jours: "Jeudi", heure: "07h00 – 16h00", titre: "Consultation prophétique" },
   ],
 };

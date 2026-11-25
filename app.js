@@ -74,6 +74,11 @@
     $("#numero").textContent = C.telephone.replace(/^\+(\d{3})(\d{3})(\d{3})(\d{3})$/, "+$1 $2 $3 $4");
     $("#lien-appel").href = `tel:+${chiffres}`;
     $("#lien-whatsapp").href = `https://wa.me/${chiffres}?text=${encodeURIComponent(C.messageWhatsApp || "")}`;
+    if (C.telephone2) {
+      const c2 = C.telephone2.replace(/\D/g, "");
+      $("#numero-2").innerHTML = `${tr("autre_numero")} : <a href="tel:+${c2}">${C.telephone2.replace(/^\+(\d{3})(\d{3})(\d{3})(\d{3})$/, "+$1 $2 $3 $4")}</a>`;
+      $("#numero-2").hidden = false;
+    }
   } else {
     $(".contact").previousElementSibling.hidden = true;
     $(".contact").hidden = true;
@@ -353,6 +358,11 @@
     const m = /(\d{1,2})\s*[h:]\s*(\d{2})?/i.exec(texte || "");
     return m ? { h: +m[1], m: +(m[2] || 0) } : null;
   }
+  // Durée d'un culte : « 16h00 – 19h00 » → 3 h. Sans heure de fin : 2 h.
+  function dureeCulte(texte) {
+    const t = [...(texte || "").matchAll(/(\d{1,2})\s*[h:]\s*(\d{2})?/gi)].map((m) => +m[1] * 60 + +(m[2] || 0));
+    return t.length > 1 && t[1] > t[0] ? (t[1] - t[0]) * 60000 : 2 * UNE_HEURE;
+  }
   function prochainCulte() {
     const maintenant = kinshasa();
     let meilleur = null;
@@ -361,8 +371,8 @@
       const ecart = (JOURS.indexOf(p.jour) - maintenant.getUTCDay() + 7) % 7;
       const jour = [maintenant.getUTCFullYear(), maintenant.getUTCMonth(), maintenant.getUTCDate() + ecart];
       let debut = new Date(Date.UTC(...jour, h ? h.h : 23, h ? h.m : 59));
-      // Un culte est « en cours » pendant 2 h après son début ; ensuite on passe à la semaine suivante
-      if (h && maintenant - debut > 2 * UNE_HEURE) debut = new Date(debut.getTime() + 7 * 24 * UNE_HEURE);
+      // Un culte est « en cours » jusqu'à son heure de fin ; ensuite on passe à la semaine suivante
+      if (h && maintenant - debut > dureeCulte(p.heure)) debut = new Date(debut.getTime() + 7 * 24 * UNE_HEURE);
       if (!meilleur || debut < meilleur.debut) meilleur = { p, debut, heureConnue: !!h };
     }
     return meilleur;
@@ -402,7 +412,7 @@
         const debut = new Date(Date.UTC(maintenant.getUTCFullYear(), maintenant.getUTCMonth(), maintenant.getUTCDate(), h.h, h.m));
         return { p, debut, ecart: debut - maintenant };
       })
-      .filter((c) => c.ecart > -2 * UNE_HEURE) // terminé 2 h après le début
+      .filter((c) => c.ecart > -dureeCulte(c.p.heure)) // terminé à l'heure de fin
       .sort((a, b) => a.debut - b.debut);
   }
   function afficherFlash() {
@@ -595,10 +605,15 @@
       const derniere = VIDEOS.find((v) => correspond(v.titre, p.mot));
       return `<li class="${p.jour === aujourdhui ? "aujourdhui" : ""}">
         <span class="jour">${esc(p.jour)}${p.jour === aujourdhui ? " · " + tr("auj") : ""}</span>
-        <span><span class="titre">${esc(p.titre)}</span><span class="heure">${esc(p.heure)}</span></span>
+        <span><span class="titre">${esc(p.titre)}</span><span class="heure">${esc(p.heure)}</span>${p.lieu ? `<span class="lieu">📍 ${esc(p.lieu)}</span>` : ""}</span>
         ${derniere ? `<a class="revoir" href="#" data-id="${derniere.id}">${tr("revoir_dernier")}</a>` : "<span></span>"}
       </li>`;
     })
+    .join("");
+  const rec = C.receptions || [];
+  $("#bloc-receptions").hidden = !rec.length;
+  $("#liste-receptions").innerHTML = rec
+    .map((r) => `<li><span class="jour">${esc(r.jours)}</span><span><span class="titre">${esc(r.titre)}</span><span class="heure">${esc(r.heure)}</span></span><span></span></li>`)
     .join("");
   $("#liste-programmes").addEventListener("click", (e) => {
     const a = e.target.closest("a[data-id]");
@@ -620,7 +635,7 @@
   window.addEventListener("hashchange", afficher);
   afficher();
 
-  window.EGRADI_APP = { toast, esc, ouvrirVideo, lireHeure, JOURS };
+  window.EGRADI_APP = { toast, esc, ouvrirVideo, lireHeure, dureeCulte, JOURS };
 
   // ---------- Archives : toute la chaîne YouTube (playlist des mises en ligne) ----------
   $("#charger-archives").addEventListener("click", () => {
