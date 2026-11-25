@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "cd.egradi.tv",
+        "sha256_cert_fingerprints": ["92:72:41:64:8D:27:B1:2D:9E:7C:47:76:BF:77:77:D8:84:78:B8:72:00:46:38:30:AF:33:9C:A6:10:11:09:06"]
+      }
+    }]
