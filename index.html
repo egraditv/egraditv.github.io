@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>EGRADI TV — Église Grâce Divine · Kinshasa</title>
+  <meta name="description" content="EGRADI TV : cultes en direct, prières, enseignements et miracles de l'Église Grâce Divine avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.">
+  <meta name="theme-color" content="#0a1022">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="EGRADI TV">
+  <meta property="og:title" content="EGRADI TV — Église Grâce Divine">
+  <meta property="og:description" content="Cultes en direct, prières et enseignements depuis Kinshasa.">
+  <meta property="og:image" content="logo-512.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="logo-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Écran de démarrage -->
+  <div id="demarrage" class="demarrage" aria-hidden="true">
+    <img src="logo.svg" alt="" width="140" height="140">
+    <p><strong>EGRADI</strong> TV</p>
+    <span class="chargement"></span>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-accueil" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-direct" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 19a10 10 0 0 1 0-14M19 5a10 10 0 0 1 0 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-videos" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m10 9 5 3-5 3z"/></symbol>
+    <symbol id="i-programme" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-eglise" viewBox="0 0 24 24"><path d="M11 2h2v3h3v2h-3v3l6 4v8h-5v-5h-4v5H5v-8l6-4V7H8V5h3z"/></symbol>
+    <symbol id="i-partager" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-installer" viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="entete">
+    <a class="marque" href="#accueil" aria-label="EGRADI TV, accueil">
+      <img class="logo" src="logo.svg" alt="" width="38" height="38">
+      <span class="marque-texte"><span><strong>EGRADI</strong> TV</span><small>Église Grâce Divine</small></span>
+    </a>
+    <nav class="barre-nav" aria-label="Navigation principale">
+      <a href="#accueil" data-vue="accueil"><svg><use href="#i-accueil"/></svg>Accueil</a>
+      <a href="#direct" data-vue="direct"><svg><use href="#i-direct"/></svg>Direct</a>
+      <a href="#videos" data-vue="videos"><svg><use href="#i-videos"/></svg>Vidéos</a>
+      <a href="#programmes" data-vue="programmes"><svg><use href="#i-programme"/></svg>Programme</a>
+      <a href="#eglise" data-vue="eglise"><svg><use href="#i-eglise"/></svg>Église</a>
+    </nav>
+    <div class="entete-actions">
+      <button id="installer" class="icone-bouton" hidden aria-label="Installer l'application" title="Installer l'application"><svg><use href="#i-installer"/></svg></button>
+      <button id="partager-app" class="icone-bouton" aria-label="Partager l'application" title="Partager l'application"><svg><use href="#i-partager"/></svg></button>
+      <a class="pastille-direct" href="#direct"><span class="point"></span>DIRECT</a>
+    </div>
+  </header>
+
+  <!-- Bandeau INFOS, comme à l'antenne -->
+  <div class="bandeau" role="marquee" aria-label="Informations">
+    <span class="bandeau-titre">INFOS</span>
+    <div class="bandeau-defile"><div id="bandeau-texte" class="bandeau-texte"></div></div>
+  </div>
+
+  <main>
+    <!-- ACCUEIL -->
+    <section id="accueil" class="vue">
+      <div class="hero">
+        <img class="hero-fond" id="hero-fond" alt="">
+        <div class="hero-contenu">
+          <img class="hero-logo" src="logo.svg" alt="Logo EGRADI TV" width="104" height="104">
+          <h1><span>EGRADI</span> TV</h1>
+          <p class="slogan" id="slogan"></p>
+          <div class="actions">
+            <a class="bouton principal" href="#direct"><span class="point"></span> Regarder le direct</a>
+            <a class="bouton" href="#videos">Revoir les cultes</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="prochain" class="prochain"></div>
+
+      <div class="titre-ligne">
+        <h2 class="titre-section">Derniers cultes et directs</h2>
+        <a href="#videos" class="voir-tout">Tout voir →</a>
+      </div>
+      <div id="dernieres" class="grille"></div>
+
+      <div class="apotre">
+        <img id="avatar" alt="Apôtre Augustin Mwimpe" width="96" height="96">
+        <div>
+          <p class="sur-titre">Pasteur principal</p>
+          <h2 id="dirigeant-accueil"></h2>
+          <p id="bienvenue-accueil"></p>
+          <a href="#eglise" class="voir-tout">Découvrir l'église →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECT -->
+    <section id="direct" class="vue">
+      <h2 class="titre-page"><span class="point rouge"></span> En direct de Kinshasa</h2>
+      <div id="sources-direct" class="filtres" role="tablist" aria-label="Source du direct"></div>
+      <div class="lecteur" id="zone-direct"></div>
+      <p class="note" id="note-direct"></p>
+      <div class="actions">
+        <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener">Ouvrir sur YouTube</a>
+      </div>
+      <div id="bloc-ailleurs">
+        <h2 class="titre-section">EGRADI TV est aussi en direct sur</h2>
+        <div id="ailleurs" class="reseaux"></div>
+      </div>
+      <h2 class="titre-section">Dernier direct</h2>
+      <div id="dernier-direct" class="grille"></div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section id="videos" class="vue">
+      <h2 class="titre-page">Vidéos</h2>
+      <input id="recherche" class="recherche" type="search" placeholder="Rechercher un culte, une prédication…" aria-label="Rechercher">
+      <div id="filtres" class="filtres" role="tablist"></div>
+      <div id="liste-videos" class="grille"></div>
+
+      <div class="bloc archives" id="bloc-tiktok">
+        <h2 class="titre-section">Sur TikTok</h2>
+        <p class="note">Les dernières vidéos courtes de l'Apôtre Augustin Mwimpe (<span id="tiktok-pseudo"></span>).</p>
+        <div id="zone-tiktok" class="zone-tiktok">
+          <button id="charger-tiktok" class="bouton principal">▶ Afficher les vidéos TikTok</button>
+        </div>
+        <div class="actions"><a class="bouton" id="lien-tiktok" target="_blank" rel="noopener">Ouvrir dans TikTok</a></div>
+      </div>
+
+      <div class="bloc archives">
+        <h2 class="titre-section">Toutes les archives de la chaîne</h2>
+        <p class="note">Plus de 1 500 vidéos : faites défiler la liste dans le lecteur.</p>
+        <div class="lecteur" id="zone-archives">
+          <button id="charger-archives" class="bouton principal centre">▶ Ouvrir les archives</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMMES -->
+    <section id="programmes" class="vue">
+      <h2 class="titre-page">Programme de la semaine</h2>
+      <ol id="liste-programmes" class="programmes"></ol>
+      <p class="note">Heures de Kinshasa (UTC+1).</p>
+    </section>
+
+    <!-- EGLISE -->
+    <section id="eglise" class="vue">
+      <h2 class="titre-page">L'Église Grâce Divine</h2>
+      <div class="bloc">
+        <p id="description"></p>
+        <p id="bienvenue"></p>
+        <p><strong>Dirigée par :</strong> <span id="dirigeant"></span>, représentant légal de l'Église Grâce Divine</p>
+      </div>
+      <div id="chiffres" class="chiffres"></div>
+      <h2 class="titre-section">Nous contacter</h2>
+      <div class="bloc contact">
+        <p class="numero" id="numero"></p>
+        <div class="actions">
+          <a class="bouton principal" id="lien-appel">📞 Appeler</a>
+          <a class="bouton whatsapp" id="lien-whatsapp" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="bouton" id="lien-email" hidden>✉️ E-mail</a>
+        </div>
+        <p class="note" id="email-texte"></p>
+      </div>
+      <h2 class="titre-section">Nous trouver</h2>
+      <div class="bloc">
+        <address id="adresse"></address>
+        <div class="actions"><a class="bouton" id="lien-carte" target="_blank" rel="noopener">📍 Ouvrir la carte</a></div>
+      </div>
+      <h2 class="titre-section">Suivez-nous</h2>
+      <div id="reseaux" class="reseaux"></div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <img src="logo.svg" alt="" width="48" height="48">
+    <p><strong>EGRADI TV</strong> — Église Grâce Divine, Direction Générale<br>Kinshasa, République Démocratique du Congo</p>
+    <p class="copyright">© <span id="annee"></span> EGRADI TV. Tous droits réservés.</p>
+  </footer>
+
+  <dialog id="fenetre-video" class="fenetre-video">
+    <div class="fenetre-entete">
+      <h3 id="fenetre-titre"></h3>
+      <button id="fermer" class="fermer" aria-label="Fermer">✕</button>
+    </div>
+    <div class="lecteur"><iframe id="lecteur-video" title="Vidéo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <div class="fenetre-pied">
+      <span id="fenetre-date"></span>
+      <button id="partager" class="bouton">Partager</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js" defer></script>
+  <script src="config.js"></script>
+  <script src="videos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
