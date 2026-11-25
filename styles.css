@@ -430,6 +430,9 @@ address { font-style: normal; line-height: 1.8; }
   border-radius: var(--rayon); border: 1px solid rgba(227, 6, 19, .45);
   background: linear-gradient(120deg, rgba(227, 6, 19, .18), var(--carte) 55%, rgba(30, 155, 224, .15));
 }
+.bloc-presentation { margin-top: 22px; }
+.bloc-presentation video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--rayon); background: #000; box-shadow: var(--ombre); }
+.bloc-presentation .note { margin: 8px 0 0; }
 .appli-texte { flex: 1; min-width: 180px; display: grid; gap: 2px; }
 .appli-texte strong { font-size: 16px; }
 .appli-texte span { font-size: 13px; color: var(--texte-2); }
