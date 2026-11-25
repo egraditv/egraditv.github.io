@@ -79,6 +79,17 @@
     $(".contact").hidden = true;
   }
   $("#lien-youtube-direct").href = C.youtubeUrl + "/streams";
+  // Lien vers une application Android : l'ouvre si elle est installée, sinon sa page Play Store.
+  const estAndroid = /Android/i.test(navigator.userAgent);
+  const lienAppli = (paquet, playStore) =>
+    estAndroid && paquet
+      ? `intent://#Intent;package=${paquet};S.browser_fallback_url=${encodeURIComponent(playStore)};end`
+      : playStore;
+  if (C.bleuOtt?.playStore) {
+    $("#lien-bleu-ott").href = lienAppli(C.bleuOtt.android, C.bleuOtt.playStore);
+    $("#lien-bleu-ott").hidden = false;
+    if (estAndroid && C.bleuOtt.android) $("#lien-bleu-ott").removeAttribute("target");
+  }
   if (C.email) {
     $("#lien-email").href = `mailto:${C.email}?subject=${encodeURIComponent("Contact depuis l'application EGRADI TV")}`;
     $("#lien-email").hidden = false;
@@ -155,7 +166,7 @@
     .map((a) => {
       const contenu = `<strong>📺 ${esc(a.nom)}</strong>${a.detail ? `<br><span class="heure">${esc(a.detail)}</span>` : ""}`;
       return a.url
-        ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">${contenu}</a>`
+        ? `<a href="${esc(lienAppli(a.android, a.url))}"${estAndroid && a.android ? "" : ' target="_blank"'} rel="noopener">${contenu}</a>`
         : `<div class="carte-ailleurs">${contenu}</div>`;
     })
     .join("");

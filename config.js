@@ -57,8 +57,12 @@ window.EGRADI = {
   // "url" : lien vers l'application ou la page de la chaîne (laisser "" s'il n'y en a pas).
   ailleurs: [
     { nom: "Facebook — Apôtre Augustin Mwimpe", detail: "Les cultes sont aussi diffusés en direct sur la page Facebook", url: "https://www.facebook.com/MWIMPE/live_videos" },
-    { nom: "Bleu OTT (Bleusat)", detail: "Cherchez la chaîne « EGRADI » dans l'application Bleu OTT", url: "" },
+    { nom: "Bleu OTT (Bleusat)", detail: "Cherchez la chaîne « EGRADI » dans l'application Bleu OTT", url: "https://play.google.com/store/apps/details?id=net.bleuint", android: "net.bleuint" },
   ],
+
+  // Bouton « Regarder sur Bleu OTT » de la page Direct : ouvre l'application Bleusat ott international
+  // sur Android (ou sa page Play Store si elle n'est pas installée). Mettre null pour cacher le bouton.
+  bleuOtt: { android: "net.bleuint", playStore: "https://play.google.com/store/apps/details?id=net.bleuint" },
 
   // Compte TikTok affiché dans la page Vidéos (pseudo sans le @)
   tiktok: "augustinmwimpeofficiel",
