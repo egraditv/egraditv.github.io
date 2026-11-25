@@ -30,6 +30,7 @@ JOURS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"
 
 
 def envoyer(titre, texte, lien, quand=None, cle_unique=None):
+    global CLE_REFUSEE
     corps = {
         "app_id": APP_ID,
         "target_channel": "push",
@@ -42,6 +43,11 @@ def envoyer(titre, texte, lien, quand=None, cle_unique=None):
         corps["send_after"] = quand.astimezone(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S GMT+0000")
     if cle_unique:  # évite les doublons si le robot tourne deux fois le même jour
         corps["idempotency_key"] = str(uuid.uuid5(uuid.NAMESPACE_URL, SITE + cle_unique))
+    # Une clé mal copiée (« … », accents) ferait planter l'envoi : on l'explique au lieu de planter.
+    if any(ord(c) > 127 for c in CLE):
+        print(f"ERREUR : clé OneSignal invalide, rien n'est envoyé ({titre}). {diagnostic_cle()}")
+        CLE_REFUSEE = True
+        return False
     # Nouvelles clés OneSignal (« os_v2_… ») : « Key » ; anciennes « REST API Key » : « Basic ».
     for schema in ("Key", "Basic"):
         req = urllib.request.Request(
@@ -62,7 +68,6 @@ def envoyer(titre, texte, lien, quand=None, cle_unique=None):
             print(f"ERREUR {e.code} : {titre} : {erreur}")
             if e.code in (401, 403):
                 print(diagnostic_cle())
-                global CLE_REFUSEE
                 CLE_REFUSEE = True
             return False
     return False
@@ -71,12 +76,17 @@ def envoyer(titre, texte, lien, quand=None, cle_unique=None):
 def diagnostic_cle():
     """Décrit la clé reçue SANS l'afficher, pour comprendre une erreur 401."""
     conseils = [f"Clé reçue : {len(CLE)} caractères"]
-    if CLE.startswith("os_v2_"):
+    if CLE.startswith("os_v2_") and len(CLE) >= 40 and all(ord(c) < 128 for c in CLE):
         conseils.append("format récent (os_v2_…) : correct, mais OneSignal la refuse → elle a peut-être été supprimée, ou elle appartient à une autre application OneSignal")
     elif len(CLE) < 40:
         conseils.append("TROP COURTE : ce n'est sans doute pas la clé secrète (peut-être le nom de la clé ou son « Key ID »). La vraie clé commence par « os_v2_app_ » et fait plus de 100 caractères")
     if any(c.isspace() for c in CLE):
         conseils.append("elle contient des espaces ou des retours à la ligne")
+    if "…" in CLE or "..." in CLE:
+        conseils.append("elle contient « … » : c'est la version RACCOURCIE affichée par OneSignal, pas la clé complète. "
+                        "Recréez une clé (Add key) et copiez-la en entier avec le bouton Copier, au moment où OneSignal l'affiche")
+    elif any(ord(c) > 127 for c in CLE):
+        conseils.append("elle contient des caractères spéciaux (accents, symboles) : la clé a été mal copiée")
     return "Diagnostic : " + " ; ".join(conseils) + "."
 
 
