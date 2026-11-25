@@ -149,7 +149,12 @@
 
   // ---------- Accueil : prochain culte ----------
   remplir($("#dernieres"), VIDEOS.slice(0, 6));
-  const aujourdhui = JOURS[new Date().getDay()];
+  // Les heures du programme sont celles de Kinshasa (UTC+1, sans heure d'été) : on compte toujours
+  // en heure de Kinshasa, pour que le compte à rebours soit juste aussi pour la diaspora.
+  // « Heure de Kinshasa » = horloge UTC décalée d'une heure, lue avec les méthodes getUTC*.
+  const UNE_HEURE = 3600000;
+  const kinshasa = () => new Date(Date.now() + UNE_HEURE);
+  const aujourdhui = JOURS[kinshasa().getUTCDay()];
 
   // Lit une heure écrite « 9h », « 09h30 » ou « 18:00 ». Renvoie null si l'heure n'est pas encore connue.
   function lireHeure(texte) {
@@ -157,16 +162,15 @@
     return m ? { h: +m[1], m: +(m[2] || 0) } : null;
   }
   function prochainCulte() {
-    const maintenant = new Date();
+    const maintenant = kinshasa();
     let meilleur = null;
     for (const p of C.programmes) {
-      const ecart = (JOURS.indexOf(p.jour) - maintenant.getDay() + 7) % 7;
-      const debut = new Date(maintenant);
-      debut.setDate(maintenant.getDate() + ecart);
       const h = lireHeure(p.heure);
-      debut.setHours(h ? h.h : 23, h ? h.m : 59, 0, 0);
-      // Un culte commencé il y a moins de 3 h est considéré « en cours »
-      if (h && debut < maintenant && maintenant - debut > 3 * 3600000) debut.setDate(debut.getDate() + 7);
+      const ecart = (JOURS.indexOf(p.jour) - maintenant.getUTCDay() + 7) % 7;
+      const jour = [maintenant.getUTCFullYear(), maintenant.getUTCMonth(), maintenant.getUTCDate() + ecart];
+      let debut = new Date(Date.UTC(...jour, h ? h.h : 23, h ? h.m : 59));
+      // Un culte est « en cours » pendant 2 h après son début ; ensuite on passe à la semaine suivante
+      if (h && maintenant - debut > 2 * UNE_HEURE) debut = new Date(debut.getTime() + 7 * 24 * UNE_HEURE);
       if (!meilleur || debut < meilleur.debut) meilleur = { p, debut, heureConnue: !!h };
     }
     return meilleur;
@@ -174,9 +178,9 @@
   function afficherProchain() {
     const n = prochainCulte();
     if (!n) return ($("#prochain").hidden = true);
-    const maintenant = new Date();
+    const maintenant = kinshasa();
     const ecart = n.debut - maintenant;
-    const memeJour = n.debut.toDateString() === maintenant.toDateString();
+    const memeJour = n.debut.toISOString().slice(0, 10) === maintenant.toISOString().slice(0, 10);
     let quand;
     if (n.heureConnue && ecart <= 0) quand = `<span class="badge-live"><span class="point"></span> ${tr("en_cours")}</span>`;
     else if (n.heureConnue) {
