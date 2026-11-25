@@ -76,6 +76,10 @@ window.EGRADI = {
     { nom: "TikTok — @augustinmwimpeofficiel (189 k)", url: "https://www.tiktok.com/@augustinmwimpeofficiel" },
   ],
 
+  // Application Android à télécharger depuis le site (fichier dans le dossier telechargement/).
+  // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».
+  apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.1", taille: "2,7 Mo" },
+
   // Page « Soutenir l'œuvre » : offrandes et dîmes par Mobile Money.
   // Ajoutez UNIQUEMENT les numéros officiels de l'église. Tant que la liste est vide,
   // la page propose de demander les numéros sur WhatsApp.

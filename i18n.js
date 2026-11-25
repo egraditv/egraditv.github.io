@@ -37,6 +37,9 @@
       soutien_titre: "Soutenir l'œuvre de Dieu", copier: "Copier", copie: "Numéro copié ✓",
       soutien_wa: "💬 Demander les numéros sur WhatsApp", soutien_merci: "Que Dieu vous bénisse abondamment pour votre générosité.",
       partager: "Partager", lien_copie: "Lien copié ✓", installee: "EGRADI TV est installée ✓", droits: "Tous droits réservés.", langue: "Langue",
+      appli_titre: "L'application EGRADI TV", appli_android: "📲 Télécharger pour Android",
+      appli_detail: "Gratuite · Android 7.0 ou plus · ",
+      appli_iphone: "Sur iPhone : dans Safari, touchez Partager ⬆ puis « Sur l'écran d'accueil ».",
     },
     ln: {
       nav_accueil: "Ebandeli", nav_direct: "Live", nav_videos: "Bavideo", nav_programme: "Programu", nav_eglise: "Lingomba",
@@ -72,6 +75,9 @@
       soutien_titre: "Sunga mosala ya Nzambe", copier: "Kopia", copie: "Nimero ekopiami ✓",
       soutien_wa: "💬 Senga banimero na WhatsApp", soutien_merci: "Nzambe apambola yo mingi mpo na motema malamu na yo.",
       partager: "Kabola", lien_copie: "Lien ekopiami ✓", installee: "EGRADI TV etyami ✓", droits: "Makoki nyonso ebatelami.", langue: "Lokota",
+      appli_titre: "Application EGRADI TV", appli_android: "📲 Kitisa mpo na Android",
+      appli_detail: "Ofele · Android 7.0 to likolo · ",
+      appli_iphone: "Na iPhone: na Safari, finá Kabola ⬆ sima « Sur l'écran d'accueil ».",
     },
     en: {
       nav_accueil: "Home", nav_direct: "Live", nav_videos: "Videos", nav_programme: "Schedule", nav_eglise: "Church",
@@ -107,6 +113,9 @@
       soutien_titre: "Support God's work", copier: "Copy", copie: "Number copied ✓",
       soutien_wa: "💬 Ask for the numbers on WhatsApp", soutien_merci: "May God richly bless you for your generosity.",
       partager: "Share", lien_copie: "Link copied ✓", installee: "EGRADI TV is installed ✓", droits: "All rights reserved.", langue: "Language",
+      appli_titre: "The EGRADI TV app", appli_android: "📲 Download for Android",
+      appli_detail: "Free · Android 7.0 or later · ",
+      appli_iphone: "On iPhone: in Safari, tap Share ⬆ then “Add to Home Screen”.",
     },
   };
 

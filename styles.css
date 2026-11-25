@@ -338,3 +338,13 @@ address { font-style: normal; line-height: 1.8; }
 .evenements .vide { text-align: left; padding: 16px 18px; }
 .marque-texte > span { white-space: nowrap; }
 .langue { font-weight: 700; }
+
+/* ---------- Bloc « Télécharger l'application » ---------- */
+.bloc-appli {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; padding: 16px 18px;
+  border-radius: var(--rayon); border: 1px solid rgba(227, 6, 19, .45);
+  background: linear-gradient(120deg, rgba(227, 6, 19, .18), var(--carte) 55%, rgba(30, 155, 224, .15));
+}
+.appli-texte { flex: 1; min-width: 180px; display: grid; gap: 2px; }
+.appli-texte strong { font-size: 16px; }
+.appli-texte span { font-size: 13px; color: var(--texte-2); }

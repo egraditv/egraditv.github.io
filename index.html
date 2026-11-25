@@ -89,6 +89,16 @@
         <a href="#programmes" class="tuile"><span class="tuile-icone">📅</span><span data-i18n="tuile_agenda">Agenda</span></a>
       </div>
 
+      <!-- Installer l'application : bouton APK sur Android / ordinateur, astuce Safari sur iPhone -->
+      <div id="bloc-appli" class="bloc-appli" hidden>
+        <img src="logo-badge.png" alt="" width="56" height="56">
+        <div class="appli-texte">
+          <strong data-i18n="appli_titre">L'application EGRADI TV</strong>
+          <span id="appli-detail"></span>
+        </div>
+        <a id="telecharger-apk" class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a>
+      </div>
+
       <div class="titre-ligne">
         <h2 class="titre-section" data-i18n="derniers">Derniers cultes et directs</h2>
         <a href="#videos" class="voir-tout" data-i18n="tout_voir">Tout voir →</a>
@@ -184,6 +194,7 @@
         <address id="adresse"></address>
         <div class="actions"><a class="bouton" id="lien-carte" target="_blank" rel="noopener" data-i18n="carte">📍 Ouvrir la carte</a></div>
       </div>
+      <div class="actions" id="eglise-apk" hidden><a class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a></div>
       <h2 class="titre-section" data-i18n="suivez">Suivez-nous</h2>
       <div id="reseaux" class="reseaux"></div>
     </section>

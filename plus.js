@@ -7,6 +7,26 @@
   const { esc, toast } = A;
   const chiffresTel = (C.telephone || "").replace(/\D/g, "");
 
+  // ---------- Télécharger l'application ----------
+  // Caché quand on est déjà DANS l'application installée (APK ou écran d'accueil).
+  const dejaInstallee =
+    matchMedia("(display-mode: standalone)").matches || navigator.standalone === true || document.referrer.startsWith("android-app://");
+  const iphone = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (C.apk && !dejaInstallee) {
+    $("#bloc-appli").hidden = false;
+    if (iphone) {
+      $("#telecharger-apk").hidden = true;
+      $("#appli-detail").textContent = tr("appli_iphone");
+    } else {
+      $("#appli-detail").textContent = tr("appli_detail") + `v${C.apk.version} · ${C.apk.taille}`;
+      for (const a of [$("#telecharger-apk"), $("#eglise-apk a")]) {
+        a.href = C.apk.fichier;
+        a.setAttribute("download", `EGRADI-TV-${C.apk.version}.apk`);
+      }
+      $("#eglise-apk").hidden = false;
+    }
+  }
+
   // ---------- Prière & témoignage : le message part par WhatsApp ou e-mail, rien n'est stocké ----------
   const form = $("#form-priere");
   const TYPES = { priere: "🙏 DEMANDE DE PRIÈRE", temoignage: "✨ TÉMOIGNAGE", grace: "🙌 ACTION DE GRÂCE" };

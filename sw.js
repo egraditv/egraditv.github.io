@@ -1,6 +1,6 @@
 // Garde l'application disponible même avec une connexion faible.
 // Changez VERSION à chaque mise à jour des fichiers pour que les téléphones la récupèrent.
-const VERSION = "egradi-tv-15";
+const VERSION = "egradi-tv-16";
 const FICHIERS = ["./", "index.html", "styles.css", "app.js", "plus.js", "i18n.js", "config.js", "videos.js", "logo-badge.png", "logo-complet.png", "logo-192.png", "logo-512.png", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -18,7 +18,7 @@ self.addEventListener("activate", (e) => {
 // Réseau d'abord (pour avoir les dernières vidéos), copie locale si pas de connexion.
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
-  if (e.request.method !== "GET" || url.origin !== location.origin) return;
+  if (e.request.method !== "GET" || url.origin !== location.origin || url.pathname.endsWith(".apk")) return; // l'APK n'est pas mis en cache
   e.respondWith(
     fetch(e.request)
       .then((r) => {
