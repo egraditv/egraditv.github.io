@@ -110,7 +110,7 @@ window.EGRADI = {
 
   // Application Android à télécharger depuis le site (fichier dans le dossier telechargement/).
   // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».
-  apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.1", taille: "2,7 Mo" },
+  apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.2", taille: "2,7 Mo" },
 
   // Page « Offrandes » : offrandes et dîmes (Mobile Money, banque, PayPal).
   // Logos et QR codes dans le dossier offrandes/ (logo-<id>.png ou .svg, qr-<id>.svg ; ids : mpesa, airtel, banque, paypal).
