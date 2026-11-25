@@ -123,7 +123,7 @@ window.EGRADI = {
     },
     // PayPal confirmé par l'église le 24/11/2026 : « egrdimwipe » (différent de l'e-mail de contact « egrdimwimpe »).
     paypal: "egrdimwipe@gmail.com",
-    // Logos officiels fournis par l'utilisateur le 25/11/2026 (PayPal : logo redessiné).
+    // Logos officiels fournis par l'utilisateur le 25/11/2026 (PayPal : logo officiel, Wikimedia Commons).
     logos: {
       mpesa: "offrandes/logo-mpesa.png",
       airtel: "offrandes/logo-airtel.png",
