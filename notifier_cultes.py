@@ -22,7 +22,7 @@ import uuid
 APP_ID = os.environ.get("ONESIGNAL_APP_ID", "").strip() or (
     re.search(r'onesignalAppId:\s*"([^"]*)"', pathlib.Path(__file__).with_name("config.js").read_text(encoding="utf-8")) or [None, ""]
 )[1]  # sinon, l'App ID écrit dans config.js
-CLE = os.environ.get("ONESIGNAL_API_KEY", "").strip()
+CLE = re.sub(r"^(Key|Basic)\s+", "", os.environ.get("ONESIGNAL_API_KEY", "").strip().strip('"').strip("'")).strip()
 SITE = "https://spirittshim.github.io/EGRADI-TV/"
 KINSHASA = dt.timezone(dt.timedelta(hours=1))  # UTC+1, pas d'heure d'été
 JOURS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]  # ordre de weekday()
@@ -41,19 +41,40 @@ def envoyer(titre, texte, lien, quand=None, cle_unique=None):
         corps["send_after"] = quand.astimezone(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S GMT+0000")
     if cle_unique:  # évite les doublons si le robot tourne deux fois le même jour
         corps["idempotency_key"] = str(uuid.uuid5(uuid.NAMESPACE_URL, SITE + cle_unique))
-    req = urllib.request.Request(
-        "https://api.onesignal.com/notifications",
-        data=json.dumps(corps).encode("utf-8"),
-        headers={"Content-Type": "application/json; charset=utf-8", "Authorization": "Key " + CLE},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            print(f"OK ({r.status}) : {titre} → {corps.get('send_after', 'maintenant')}")
-    except urllib.error.HTTPError as e:
-        print(f"ERREUR {e.code} : {titre} : {e.read().decode('utf-8', 'replace')[:400]}")
-        return False
-    return True
+    # Nouvelles clés OneSignal (« os_v2_… ») : « Key » ; anciennes « REST API Key » : « Basic ».
+    for schema in ("Key", "Basic"):
+        req = urllib.request.Request(
+            "https://api.onesignal.com/notifications",
+            data=json.dumps(corps).encode("utf-8"),
+            headers={"Content-Type": "application/json; charset=utf-8", "Authorization": f"{schema} {CLE}"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                reponse = r.read().decode("utf-8", "replace")[:300]
+                print(f"OK ({r.status}) : {titre} → {corps.get('send_after', 'maintenant')} · réponse : {reponse}")
+                return True
+        except urllib.error.HTTPError as e:
+            erreur = e.read().decode("utf-8", "replace")[:400]
+            if e.code in (401, 403) and schema == "Key":
+                continue  # essayer l'ancien format de clé
+            print(f"ERREUR {e.code} : {titre} : {erreur}")
+            if e.code in (401, 403):
+                print(diagnostic_cle())
+            return False
+    return False
+
+
+def diagnostic_cle():
+    """Décrit la clé reçue SANS l'afficher, pour comprendre une erreur 401."""
+    conseils = [f"Clé reçue : {len(CLE)} caractères"]
+    if CLE.startswith("os_v2_"):
+        conseils.append("format récent (os_v2_…) : correct, mais OneSignal la refuse → elle a peut-être été supprimée, ou elle appartient à une autre application OneSignal")
+    elif len(CLE) < 40:
+        conseils.append("TROP COURTE : ce n'est sans doute pas la clé secrète (peut-être le nom de la clé ou son « Key ID »). La vraie clé commence par « os_v2_app_ » et fait plus de 100 caractères")
+    if any(c.isspace() for c in CLE):
+        conseils.append("elle contient des espaces ou des retours à la ligne")
+    return "Diagnostic : " + " ; ".join(conseils) + "."
 
 
 def lire_programmes():
