@@ -188,8 +188,40 @@
     const lien = location.origin + location.pathname;
     try { await navigator.clipboard.writeText(lien); toast(tr("lien_copie")); } catch { toast(lien); }
   });
-  // « ?installer » dans l'adresse (ex. QR code ou message) : ouvre directement le guide sur iPhone
-  if (iphone && !dejaInstallee && new URLSearchParams(location.search).has("installer")) ouvrirGuideIphone();
+  // ---------- Guide d'installation Android (APK) ----------
+  const android = /Android/i.test(navigator.userAgent);
+  const telephone = iphone || android;
+  const guideAndroid = $("#guide-android");
+  function ouvrirGuideAndroid() {
+    if (!C.apk) return;
+    const a = $("#guide-android-apk");
+    a.href = C.apk.fichier;
+    a.setAttribute("download", `EGRADI-TV-${C.apk.version}.apk`);
+    $("#guide-android-detail").textContent = tr("appli_detail") + `v${C.apk.version} · ${C.apk.taille}`;
+    guideAndroid.showModal();
+  }
+  $("#fermer-guide-android").addEventListener("click", () => guideAndroid.close());
+  guideAndroid.addEventListener("click", (e) => e.target === guideAndroid && guideAndroid.close());
+  // Sur un téléphone Android, le bouton « Télécharger » ouvre d'abord le guide (le téléchargement est dedans)
+  if (android) {
+    for (const a of [$("#telecharger-apk"), $("#eglise-apk a")]) {
+      a.addEventListener("click", (e) => { e.preventDefault(); ouvrirGuideAndroid(); });
+    }
+  }
+
+  // ---------- Sur ordinateur : QR code pour installer sur le téléphone ----------
+  const guideOrdi = $("#guide-ordinateur");
+  if (!telephone && !dejaInstallee) $("#installer-qr").hidden = false;
+  $("#installer-qr").addEventListener("click", () => guideOrdi.showModal());
+  $("#fermer-guide-ordinateur").addEventListener("click", () => guideOrdi.close());
+  guideOrdi.addEventListener("click", (e) => e.target === guideOrdi && guideOrdi.close());
+
+  // « ?installer » dans l'adresse (QR code, message WhatsApp…) : la bonne installation selon le téléphone
+  if (!dejaInstallee && new URLSearchParams(location.search).has("installer")) {
+    if (iphone) ouvrirGuideIphone();
+    else if (android) ouvrirGuideAndroid();
+    else guideOrdi.showModal();
+  }
 
   // ---------- Prière & témoignage : le message part par WhatsApp ou e-mail, rien n'est stocké ----------
   const form = $("#form-priere");

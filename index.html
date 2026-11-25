@@ -150,6 +150,7 @@
         </div>
         <a id="telecharger-apk" class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a>
         <button id="installer-iphone" class="bouton principal" type="button" hidden data-i18n="iphone_btn"> Installer sur iPhone</button>
+        <button id="installer-qr" class="bouton" type="button" hidden data-i18n="ordi_btn">📱 Installer sur mon téléphone</button>
       </div>
 
       <!-- Vidéo de présentation de l'application (chargée seulement si on appuie sur lecture) -->
@@ -385,6 +386,28 @@
       <li><span class="guide-num">✓</span><span data-i18n="iphone_e4">L'icône EGRADI TV apparaît sur votre écran d'accueil : ouvrez-la comme une application, en plein écran.</span></li>
     </ol>
     <p class="note" data-i18n="iphone_notif">Astuce : une fois installée, l'application peut recevoir les notifications des cultes (iOS 16.4 ou plus récent).</p>
+  </dialog>
+
+  <dialog id="guide-android" class="guide-iphone" aria-labelledby="guide-android-titre">
+    <button class="fermer" id="fermer-guide-android" aria-label="Fermer">✕</button>
+    <img src="apple-touch-icon.png" alt="" width="64" height="64" class="guide-icone">
+    <h3 id="guide-android-titre" data-i18n="android_titre">Installer EGRADI TV sur Android</h3>
+    <a id="guide-android-apk" class="bouton principal guide-telecharger" download data-i18n="appli_android">📲 Télécharger pour Android</a>
+    <p class="note" id="guide-android-detail"></p>
+    <ol class="guide-etapes">
+      <li><span class="guide-num">1</span><span data-i18n="android_e1">Touchez « Télécharger pour Android » ci-dessus.</span></li>
+      <li><span class="guide-num">2</span><span><span data-i18n="android_e2">Ouvrez le fichier</span> <strong>EGRADI-TV.apk</strong> <small data-i18n="android_e2b">dans la notification ou dans « Téléchargements ».</small></span></li>
+      <li><span class="guide-num">3</span><span><span data-i18n="android_e3">Si le téléphone le demande, touchez</span> <strong data-i18n="android_e3b">« Paramètres »</strong> <span data-i18n="android_e3c">puis autorisez « Installer des applications inconnues ».</span></span></li>
+      <li><span class="guide-num">4</span><span><span data-i18n="android_e4">Touchez</span> <strong data-i18n="android_e4b">« Installer »</strong>, <span data-i18n="android_e4c">puis</span> <strong data-i18n="android_e4d">« Ouvrir »</strong>.</span></li>
+    </ol>
+    <p class="note" data-i18n="android_note">Application officielle de l'Église Grâce Divine, signée par EGRADI TV. Les mises à jour arrivent toutes seules.</p>
+  </dialog>
+
+  <dialog id="guide-ordinateur" class="guide-iphone" aria-labelledby="guide-ordinateur-titre">
+    <button class="fermer" id="fermer-guide-ordinateur" aria-label="Fermer">✕</button>
+    <h3 id="guide-ordinateur-titre" data-i18n="ordi_titre">Installer EGRADI TV sur votre téléphone</h3>
+    <img src="installer/qr-installer.svg" alt="QR code d'installation" width="220" height="220" class="guide-qr">
+    <p data-i18n="ordi_texte">Scannez ce code avec l'appareil photo de votre iPhone ou de votre Android : la bonne installation s'ouvre toute seule.</p>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
