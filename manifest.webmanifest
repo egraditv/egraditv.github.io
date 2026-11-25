@@ -28,5 +28,57 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "id": "./",
+  "categories": [
+    "entertainment",
+    "lifestyle",
+    "education"
+  ],
+  "shortcuts": [
+    {
+      "name": "Regarder le direct",
+      "short_name": "Direct",
+      "url": "./#direct",
+      "icons": [
+        {
+          "src": "logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Vidéos et cultes",
+      "short_name": "Vidéos",
+      "url": "./#videos",
+      "icons": [
+        {
+          "src": "logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Envoyer une offrande",
+      "short_name": "Offrandes",
+      "url": "./#soutien",
+      "icons": [
+        {
+          "src": "logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Demande de prière",
+      "short_name": "Prière",
+      "url": "./#priere",
+      "icons": [
+        {
+          "src": "logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }

@@ -14,6 +14,7 @@
     { nom: tr("cat_enseignement"), mot: "biyano|enseignement" },
     { nom: tr("cat_priere"), mot: "pri[eè]re" },
     { nom: tr("cat_predications"), mot: "pr[ée]dication" },
+    { nom: tr("cat_maliste"), mot: "", favoris: true },
   ];
 
   const correspond = (titre, mot) => !mot || new RegExp(mot, "i").test(titre);
@@ -23,6 +24,26 @@
   const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
   window.EGRADI_TRADUIRE?.();
+
+  // ---------- Mémoire du téléphone : « Ma liste » et reprise de lecture (rien n'est envoyé) ----------
+  // { favoris: [id…], pos: {id: secondes}, duree: {id: secondes}, quand: {id: horodatage}, infos: {id: {id,titre,date}} }
+  const CLE_MEMOIRE = "egradi-memoire";
+  const memo = (() => {
+    const vide = () => ({ favoris: [], pos: {}, duree: {}, quand: {}, infos: {} });
+    try { return Object.assign(vide(), JSON.parse(localStorage.getItem(CLE_MEMOIRE) || "{}")); }
+    catch { return vide(); }
+  })();
+  function sauverMemoire() {
+    // On garde les 40 dernières vidéos regardées (et toutes celles de « Ma liste »)
+    const ids = Object.keys(memo.quand).sort((a, b) => memo.quand[b] - memo.quand[a]);
+    for (const id of ids.slice(40)) if (!memo.favoris.includes(id)) { delete memo.pos[id]; delete memo.duree[id]; delete memo.quand[id]; delete memo.infos[id]; }
+    try { localStorage.setItem(CLE_MEMOIRE, JSON.stringify(memo)); } catch {}
+  }
+  const estFavori = (id) => memo.favoris.includes(id);
+  const videoDe = (id) => VIDEOS.find((v) => v.id === id) || memo.infos[id];
+  const minutes = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
+  // Une vidéo « commencée » : au moins 30 s regardées et pas finie
+  const commencee = (id) => memo.pos[id] >= 30 && (!memo.duree[id] || memo.pos[id] < memo.duree[id] - 45);
 
   // ---------- Remplissage à partir de config.js ----------
   $("#slogan").textContent = C.slogan;
@@ -151,6 +172,8 @@
         <img loading="lazy" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="">
         ${estDirect ? `<span class="etiquette direct">${tr("etiquette_direct")}</span>` : ""}
         ${recent ? `<span class="etiquette nouveau">${tr("etiquette_nouveau")}</span>` : ""}
+        ${estFavori(v.id) ? `<span class="etoile" title="${tr("cat_maliste")}">★</span>` : ""}
+        ${memo.pos[v.id] && memo.duree[v.id] ? `<span class="progression"><span style="width:${Math.min(100, Math.round((memo.pos[v.id] / memo.duree[v.id]) * 100))}%"></span></span>` : ""}
       </div>
       <div class="video-infos">
         <p class="video-titre">${esc(titrePropre(v.titre))}</p>
@@ -165,16 +188,93 @@
   }
 
   // ---------- Lecteur ----------
+  // L'API YouTube (chargée à la première vidéo) permet de retenir où l'on s'est arrêté.
   const fenetre = $("#fenetre-video");
   let videoCourante = null;
-  function ouvrirVideo(v) {
+  let joueur = null;
+  let minuterieLecture = null;
+  let apiYT = null;
+  function chargerApiYT() {
+    if (window.YT?.Player) return Promise.resolve();
+    if (!apiYT) apiYT = new Promise((ok, echec) => {
+      const avant = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { avant?.(); ok(); };
+      const sc = document.createElement("script");
+      sc.src = "https://www.youtube.com/iframe_api";
+      sc.onerror = () => { apiYT = null; echec(); };
+      document.head.append(sc);
+    });
+    return apiYT;
+  }
+  function noterPosition() {
+    if (!joueur || !videoCourante) return;
+    try {
+      const t = joueur.getCurrentTime?.(), d = joueur.getDuration?.();
+      if (typeof t === "number" && t > 0) {
+        const id = videoCourante.id;
+        memo.pos[id] = Math.floor(t);
+        if (d > 0) memo.duree[id] = Math.floor(d);
+        memo.quand[id] = Date.now();
+        sauverMemoire();
+      }
+    } catch {}
+  }
+  function ouvrirVideo(v, depuisDebut) {
+    if (!v) return;
     videoCourante = v;
+    memo.infos[v.id] = { id: v.id, titre: v.titre, date: v.date };
+    memo.quand[v.id] = Date.now();
+    sauverMemoire();
+    const depart = !depuisDebut && commencee(v.id) ? memo.pos[v.id] : 0;
     $("#fenetre-titre").textContent = titrePropre(v.titre);
     $("#fenetre-date").textContent = dateFr(v.date);
-    $("#lecteur-video").src = `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
-    fenetre.showModal();
+    $("#depuis-debut").hidden = !depart;
+    majBoutonListe();
+    // Nouveau cadre à chaque vidéo : l'API YouTube s'y rattache proprement
+    const ancien = $("#lecteur-video");
+    const f = ancien.cloneNode(false);
+    f.src = `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&enablejsapi=1&start=${depart}&origin=${encodeURIComponent(location.origin)}`;
+    ancien.replaceWith(f);
+    if (!fenetre.open) fenetre.showModal();
+    if (depart) toast(`${tr("reprise")} ${minutes(depart)}`);
+    joueur = null;
+    chargerApiYT().then(() => {
+      if (videoCourante !== v || !f.isConnected) return;
+      joueur = new YT.Player(f, {
+        events: {
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.PAUSED) noterPosition();
+            if (e.data === YT.PlayerState.ENDED) { delete memo.pos[v.id]; sauverMemoire(); }
+          },
+        },
+      });
+    }).catch(() => {});
+    clearInterval(minuterieLecture);
+    minuterieLecture = setInterval(noterPosition, 5000);
   }
-  fenetre.addEventListener("close", () => ($("#lecteur-video").src = "about:blank"));
+  function majBoutonListe() {
+    const b = $("#ma-liste");
+    const dedans = !!(videoCourante && estFavori(videoCourante.id));
+    b.textContent = dedans ? tr("maliste_retirer") : tr("maliste_ajouter");
+    b.setAttribute("aria-pressed", dedans);
+  }
+  $("#ma-liste").addEventListener("click", () => {
+    if (!videoCourante) return;
+    const id = videoCourante.id;
+    memo.favoris = estFavori(id) ? memo.favoris.filter((x) => x !== id) : [id, ...memo.favoris];
+    memo.infos[id] = { id, titre: videoCourante.titre, date: videoCourante.date };
+    sauverMemoire();
+    majBoutonListe();
+    toast(estFavori(id) ? tr("maliste_ajoute") : tr("maliste_retire"));
+  });
+  $("#depuis-debut").addEventListener("click", () => videoCourante && ouvrirVideo(videoCourante, true));
+  fenetre.addEventListener("close", () => {
+    noterPosition();
+    clearInterval(minuterieLecture);
+    joueur = null;
+    $("#lecteur-video").src = "about:blank";
+    rafraichirListes();
+  });
   $("#fermer").addEventListener("click", () => fenetre.close());
   fenetre.addEventListener("click", (e) => e.target === fenetre && fenetre.close());
   $("#partager").addEventListener("click", () => {
@@ -186,6 +286,15 @@
 
   // ---------- Accueil : prochain culte ----------
   remplir($("#dernieres"), VIDEOS.slice(0, 6));
+  function majContinuer() {
+    const liste = Object.keys(memo.pos)
+      .filter(commencee)
+      .sort((a, b) => (memo.quand[b] || 0) - (memo.quand[a] || 0))
+      .map(videoDe).filter(Boolean).slice(0, 6);
+    $("#bloc-continuer").hidden = !liste.length;
+    if (liste.length) remplir($("#continuer"), liste);
+  }
+  majContinuer();
   // Les heures du programme sont celles de Kinshasa (UTC+1, sans heure d'été) : on compte toujours
   // en heure de Kinshasa, pour que le compte à rebours soit juste aussi pour la diaspora.
   // « Heure de Kinshasa » = horloge UTC décalée d'une heure, lue avec les méthodes getUTC*.
@@ -389,8 +498,10 @@
   function filtrer(garderNombre) {
     if (garderNombre !== true) nbAffichees = PAQUET;
     const q = $("#recherche").value.trim().toLowerCase();
-    const resultat = VIDEOS.filter((v) => correspond(v.titre, categorie.mot) && (!q || v.titre.toLowerCase().includes(q)));
+    const source = categorie.favoris ? memo.favoris.map(videoDe).filter(Boolean) : VIDEOS;
+    const resultat = source.filter((v) => correspond(v.titre, categorie.mot) && (!q || v.titre.toLowerCase().includes(q)));
     remplir($("#liste-videos"), resultat.slice(0, nbAffichees));
+    if (categorie.favoris && !resultat.length) $("#liste-videos").innerHTML = `<p class="vide">${tr("maliste_vide")}</p>`;
     $("#plus-videos").hidden = resultat.length <= nbAffichees;
     $("#plus-videos").textContent = `${tr("afficher_plus")} (${resultat.length - nbAffichees})`;
   }
@@ -410,6 +521,12 @@
   });
   $("#recherche").addEventListener("input", filtrer);
   filtrer();
+  // Après une vidéo : barres de progression, étoiles et « Continuer à regarder » à jour
+  function rafraichirListes() {
+    majContinuer();
+    remplir($("#dernieres"), VIDEOS.slice(0, 6));
+    filtrer(true);
+  }
 
   // ---------- Programme ----------
   $("#liste-programmes").innerHTML = C.programmes
@@ -473,6 +590,16 @@
   } else {
     $("#bloc-tiktok").hidden = true;
   }
+
+  // ---------- Hors connexion : un bandeau prévient l'utilisateur ----------
+  function majReseau(changement) {
+    const hors = !navigator.onLine;
+    $("#hors-ligne").hidden = !hors;
+    if (changement && !hors) toast(tr("en_ligne"));
+  }
+  window.addEventListener("online", () => majReseau(true));
+  window.addEventListener("offline", () => majReseau(true));
+  majReseau(false);
 
   // ---------- Application installable (hors ligne) ----------
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {

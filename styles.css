@@ -534,3 +534,13 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .bo-texte small { color: var(--texte-2); }
 .bo-logos { display: flex; gap: 6px; }
 .bo-logos img { width: 44px; height: 44px; padding: 3px; object-fit: contain; border-radius: 8px; background: #fff; }
+
+/* ---------- Ma liste, reprise de lecture, hors connexion ---------- */
+.etoile { position: absolute; bottom: 10px; right: 10px; z-index: 1; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: rgba(0,0,0,.7); color: #ffd34d; font-size: 16px; }
+.progression { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 5px; background: rgba(255,255,255,.25); }
+.progression span { display: block; height: 100%; background: var(--rouge); }
+.fenetre-pied { flex-wrap: wrap; }
+.fenetre-boutons { display: flex; gap: 8px; flex-wrap: wrap; text-transform: none; }
+#ma-liste[aria-pressed="true"] { border-color: #ffd34d; color: #ffd34d; }
+#bloc-continuer { margin-bottom: 8px; }
+.hors-ligne { position: fixed; left: 50%; transform: translateX(-50%); top: calc(env(safe-area-inset-top) + 74px); z-index: 60; width: min(92vw, 560px); padding: 10px 16px; border-radius: 12px; background: #3a2a00; border: 1px solid #ffb300; color: #ffe08a; font-size: 14px; text-align: center; box-shadow: var(--ombre); }

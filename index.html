@@ -10,10 +10,15 @@
   <meta property="og:site_name" content="EGRADI TV">
   <meta property="og:title" content="EGRADI TV — Église Grâce Divine">
   <meta property="og:description" content="Cultes en direct, prières et enseignements depuis Kinshasa.">
-  <meta property="og:image" content="https://spirittshim.github.io/EGRADI-TV/logo-512.png">
+  <meta property="og:image" content="https://spirittshim.github.io/EGRADI-TV/partage.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="EGRADI TV — Église Grâce Divine, Kinshasa">
   <meta property="og:url" content="https://spirittshim.github.io/EGRADI-TV/">
   <meta property="og:locale" content="fr_FR">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://spirittshim.github.io/EGRADI-TV/">
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Church", "name": "Église Grâce Divine (EGRADI)", "alternateName": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "logo": "https://spirittshim.github.io/EGRADI-TV/logo-512.png", "image": "https://spirittshim.github.io/EGRADI-TV/partage.jpg", "description": "Cultes en direct, prières, enseignements et miracles avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.", "telephone": "+243997751720", "email": "egrdimwimpe@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "3e avenue Police, Cité de Grâce (Badara), en face de l'Aéroport de Ndjili", "addressLocality": "Kinshasa", "addressCountry": "CD"}, "founder": {"@type": "Person", "name": "Apôtre Augustin Mwimpe"}, "sameAs": ["https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel", "https://www.facebook.com/MWIMPE", "https://www.tiktok.com/@augustinmwimpeofficiel", "https://www.instagram.com/apotre_augustin_mwimpeofficiel/", "https://x.com/ApotreMwimpe"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "EGRADI TV", "url": "https://spirittshim.github.io/EGRADI-TV/", "inLanguage": ["fr", "ln", "en"]}]</script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="logo-badge.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -21,6 +26,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <noscript><p style="padding:16px;background:#e30613;color:#fff;text-align:center;margin:0">EGRADI TV a besoin de JavaScript pour fonctionner. Activez-le dans votre navigateur, ou regardez les cultes sur YouTube : Apôtre Augustin Mwimpe Officiel.</p></noscript>
   <!-- Écran de démarrage -->
   <div id="demarrage" class="demarrage" aria-hidden="true">
     <img src="logo-complet.png" alt="" width="172" height="200">
@@ -137,6 +143,11 @@
         <p class="note" data-i18n="presentation_note">4 min · Comment installer et utiliser EGRADI TV · environ 12 Mo</p>
         <div class="actions"><a class="bouton" href="presentation/Notice-EGRADI-TV.pdf" target="_blank" rel="noopener" data-i18n="notice_btn">📄 Lire la notice d'utilisation (PDF, 1,7 Mo)</a></div>
       </section>
+
+      <div id="bloc-continuer" hidden>
+        <h2 class="titre-section" data-i18n="continuer_titre">▶ Continuer à regarder</h2>
+        <div id="continuer" class="grille"></div>
+      </div>
 
       <div class="titre-ligne">
         <h2 class="titre-section" data-i18n="derniers">Derniers cultes et directs</h2>
@@ -305,7 +316,11 @@
     <div class="lecteur"><iframe id="lecteur-video" title="Vidéo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <div class="fenetre-pied">
       <span id="fenetre-date"></span>
-      <button id="partager" class="bouton" data-i18n="partager">Partager</button>
+      <span class="fenetre-boutons">
+        <button id="depuis-debut" class="bouton petit" hidden data-i18n="depuis_debut">⟲ Depuis le début</button>
+        <button id="ma-liste" class="bouton petit" aria-pressed="false">☆ Ma liste</button>
+        <button id="partager" class="bouton petit" data-i18n="partager">Partager</button>
+      </span>
     </div>
   </dialog>
 
@@ -317,6 +332,7 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="hors-ligne" class="hors-ligne" role="status" hidden><span data-i18n="hors_ligne">Pas de connexion Internet : les vidéos et le direct reviendront dès que le réseau sera rétabli.</span></div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js" defer></script>
   <script src="config.js"></script>
