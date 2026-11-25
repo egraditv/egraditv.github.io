@@ -571,3 +571,17 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 /* ---------- Bouton « Regarder sur Bleu OTT » ---------- */
 .bouton.bleu-ott { background: #0d47a1; border-color: #1e88e5; color: #fff; }
 .bouton.bleu-ott:hover { background: #1565c0; }
+
+/* ---------- iPhone : guide d'installation ---------- */
+.guide-iphone { width: min(92vw, 440px); padding: 22px 20px 18px; border: 1px solid var(--ligne); border-radius: 22px; background: var(--fond-2, #0f1830); color: var(--texte); text-align: center; }
+.guide-iphone::backdrop { background: rgba(0, 0, 0, .7); }
+.guide-iphone .fermer { position: absolute; top: 10px; right: 10px; }
+.guide-icone { border-radius: 16px; box-shadow: var(--ombre); }
+.guide-iphone h3 { margin: 10px 0 12px; font-size: 19px; }
+.guide-etapes { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 10px; text-align: left; }
+.guide-etapes li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: var(--carte); border: 1px solid var(--ligne); font-size: 15px; line-height: 1.4; }
+.guide-etapes small { display: block; color: var(--texte-2); font-size: 12.5px; }
+.guide-num { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--rouge); color: #fff; font-weight: 800; font-size: 14px; }
+.guide-picto { width: 22px; height: 22px; vertical-align: -5px; margin-left: 4px; }
+.guide-alerte { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: #3a2a00; border: 1px solid #ffb300; color: #ffe08a; font-size: 14px; display: grid; gap: 8px; justify-items: center; }
+.guide-alerte[hidden] { display: none; }

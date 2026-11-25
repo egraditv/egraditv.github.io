@@ -161,6 +161,7 @@
     if (iphone) {
       $("#telecharger-apk").hidden = true;
       $("#appli-detail").textContent = tr("appli_iphone");
+      $("#installer-iphone").hidden = false;
     } else {
       $("#appli-detail").textContent = tr("appli_detail") + `v${C.apk.version} · ${C.apk.taille}`;
       for (const a of [$("#telecharger-apk"), $("#eglise-apk a")]) {
@@ -170,6 +171,25 @@
       $("#eglise-apk").hidden = false;
     }
   }
+
+  // ---------- Guide d'installation iPhone ----------
+  // Sur iPhone, l'installation se fait avec Safari : on prévient si la page est ouverte dans un autre
+  // navigateur (Chrome, Firefox) ou dans WhatsApp / Facebook / Instagram.
+  const autreNavigateur = /CriOS|FxiOS|EdgiOS|OPiOS|FBAN|FBAV|Instagram|WhatsApp|Line\//i.test(navigator.userAgent);
+  const guide = $("#guide-iphone");
+  function ouvrirGuideIphone() {
+    $("#guide-iphone-safari").hidden = !autreNavigateur;
+    guide.showModal();
+  }
+  $("#installer-iphone").addEventListener("click", ouvrirGuideIphone);
+  $("#fermer-guide-iphone").addEventListener("click", () => guide.close());
+  guide.addEventListener("click", (e) => e.target === guide && guide.close());
+  $("#copier-lien-iphone").addEventListener("click", async () => {
+    const lien = location.origin + location.pathname;
+    try { await navigator.clipboard.writeText(lien); toast(tr("lien_copie")); } catch { toast(lien); }
+  });
+  // « ?installer » dans l'adresse (ex. QR code ou message) : ouvre directement le guide sur iPhone
+  if (iphone && !dejaInstallee && new URLSearchParams(location.search).has("installer")) ouvrirGuideIphone();
 
   // ---------- Prière & témoignage : le message part par WhatsApp ou e-mail, rien n'est stocké ----------
   const form = $("#form-priere");

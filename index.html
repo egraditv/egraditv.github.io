@@ -22,6 +22,23 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="logo-badge.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- iPhone / iPad : application plein écran depuis l'écran d'accueil -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EGRADI TV">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1320x2868.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1206x2622.png" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="iphone/demarrage-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="preconnect" href="https://i.ytimg.com">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -132,6 +149,7 @@
           <span id="appli-detail"></span>
         </div>
         <a id="telecharger-apk" class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a>
+        <button id="installer-iphone" class="bouton principal" type="button" hidden data-i18n="iphone_btn"> Installer sur iPhone</button>
       </div>
 
       <!-- Vidéo de présentation de l'application (chargée seulement si on appuie sur lecture) -->
@@ -347,6 +365,26 @@
     <img id="visionneuse-img" alt="">
     <p id="visionneuse-legende"></p>
     <a id="visionneuse-video" class="bouton principal" hidden data-i18n="voir_video">▶ Voir la vidéo</a>
+  </dialog>
+
+  <dialog id="guide-iphone" class="guide-iphone" aria-labelledby="guide-iphone-titre">
+    <button class="fermer" id="fermer-guide-iphone" aria-label="Fermer">✕</button>
+    <img src="apple-touch-icon.png" alt="" width="64" height="64" class="guide-icone">
+    <h3 id="guide-iphone-titre" data-i18n="iphone_titre">Installer EGRADI TV sur iPhone</h3>
+    <p id="guide-iphone-safari" class="guide-alerte" hidden>
+      <span data-i18n="iphone_safari">Ouvrez d'abord cette page dans Safari (l'application à la boussole bleue) :</span>
+      <button id="copier-lien-iphone" class="bouton petit" type="button" data-i18n="iphone_copier">Copier le lien</button>
+    </p>
+    <ol class="guide-etapes">
+      <li><span class="guide-num">1</span><span><span data-i18n="iphone_e1">Touchez le bouton Partager</span>
+        <svg class="guide-picto" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v9h14v-9" fill="none" stroke="#1e9be0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <small data-i18n="iphone_e1b">en bas de l'écran (ou en haut sur iPad)</small></span></li>
+      <li><span class="guide-num">2</span><span><span data-i18n="iphone_e2">Faites défiler et touchez</span> <strong data-i18n="iphone_e2b">« Sur l'écran d'accueil »</strong>
+        <svg class="guide-picto" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="#fff" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span></li>
+      <li><span class="guide-num">3</span><span><span data-i18n="iphone_e3">Touchez</span> <strong data-i18n="iphone_e3b">« Ajouter »</strong> <span data-i18n="iphone_e3c">en haut à droite</span></span></li>
+      <li><span class="guide-num">✓</span><span data-i18n="iphone_e4">L'icône EGRADI TV apparaît sur votre écran d'accueil : ouvrez-la comme une application, en plein écran.</span></li>
+    </ol>
+    <p class="note" data-i18n="iphone_notif">Astuce : une fois installée, l'application peut recevoir les notifications des cultes (iOS 16.4 ou plus récent).</p>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
