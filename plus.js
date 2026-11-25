@@ -213,61 +213,69 @@
   $("#soutien-verset").textContent = S.verset || "";
   $("#soutien-verset").hidden = !S.verset;
   const mm = S.mobileMoney || [];
-  $("#liste-mobile-money").innerHTML = mm
-    .map(
-      (m) => `<div class="carte-mm">
-        <p class="sur-titre">${esc(m.operateur)}</p>
-        <p class="mm-numero">${esc(m.numero)}</p>
-        ${m.titulaire ? `<p class="mm-titulaire">${esc(m.titulaire)}</p>` : ""}
-        <button class="bouton" data-copier="${esc(m.numero)}">${tr("copier")}</button>
-      </div>`
-    )
-    .join("");
-  $("#liste-mobile-money").addEventListener("click", async (e) => {
-    const b = e.target.closest("[data-copier]");
-    if (!b) return;
-    try {
-      await navigator.clipboard.writeText(b.dataset.copier.replace(/\s/g, ""));
-      toast(tr("copie"));
-    } catch {
-      toast(b.dataset.copier);
-    }
-  });
-  $("#titre-mm").hidden = mm.length === 0;
-
   // Une ligne « libellé : valeur [Copier] »
   const ligne = (libelle, valeur) =>
     `<div class="ligne-copie"><span class="lc-libelle">${esc(libelle)}</span><span class="lc-valeur">${esc(valeur)}</span>` +
     `<button class="bouton petit" data-copier="${esc(valeur)}">${tr("copier")}</button></div>`;
 
-  // Virement bancaire
-  if (S.banque) {
-    const b = S.banque;
-    $("#carte-banque").innerHTML =
-      `<p class="sur-titre">${esc(b.nom)}</p>` +
-      ligne(tr("banque_compte"), b.compte) +
-      (b.swift ? ligne("SWIFT / BIC", b.swift) : "") +
-      (b.devise ? `<p class="lc-note">${tr("banque_devise")} : <strong>${esc(b.devise)}</strong></p>` : "");
-    $("#bloc-banque").hidden = false;
+  // Les moyens d'envoi : chacun a un logo (offrandes/logo-<id>.svg) et un QR code (offrandes/qr-<id>.svg)
+  // qui ouvre l'application directement sur ce moyen (…/?offrande=<id>#soutien).
+  const OPTIONS = [
+    ...mm.map((m) => ({
+      id: m.id, nom: m.operateur,
+      contenu: ligne(tr("off_numero"), m.numero) + (m.titulaire ? `<p class="lc-note">${esc(m.titulaire)}</p>` : ""),
+      etapes: tr("off_etapes_mm"),
+    })),
+    ...(S.banque ? [{
+      id: "banque", nom: S.banque.nom,
+      contenu: ligne(tr("banque_compte"), S.banque.compte) +
+        (S.banque.swift ? ligne("SWIFT / BIC", S.banque.swift) : "") +
+        (S.banque.devise ? `<p class="lc-note">${tr("banque_devise")} : <strong>${esc(S.banque.devise)}</strong></p>` : ""),
+      etapes: tr("off_etapes_banque"),
+    }] : []),
+    ...(S.paypal ? [{ id: "paypal", nom: "PayPal", contenu: ligne(tr("paypal_compte"), S.paypal), etapes: tr("paypal_note") }] : []),
+  ].filter((o) => o.id);
+
+  $("#choix-offrande").innerHTML = OPTIONS.map(
+    (o) => `<button role="tab" data-offrande="${esc(o.id)}" aria-selected="false">
+      <img src="offrandes/logo-${esc(o.id)}.svg" alt="" width="96" height="48"><span>${esc(o.nom)}</span></button>`
+  ).join("");
+
+  function choisirOffrande(id) {
+    const o = OPTIONS.find((x) => x.id === id) || OPTIONS[0];
+    if (!o) return;
+    $("#choix-offrande").querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.offrande === o.id));
+    $("#detail-offrande").innerHTML = `
+      <div class="do-entete"><img src="offrandes/logo-${esc(o.id)}.svg" alt="" width="120" height="60"><h3>${esc(o.nom)}</h3></div>
+      <div class="do-corps">
+        <div class="do-infos">${o.contenu}<p class="lc-note">${esc(o.etapes)}</p></div>
+        <figure class="do-qr">
+          <img src="offrandes/qr-${esc(o.id)}.svg" alt="QR code ${esc(o.nom)}" width="160" height="160">
+          <figcaption>${tr("off_qr")}</figcaption>
+        </figure>
+      </div>`;
   }
-  // PayPal
-  if (S.paypal) {
-    $("#carte-paypal").innerHTML = ligne(tr("paypal_compte"), S.paypal) + `<p class="lc-note">${tr("paypal_note")}</p>`;
-    $("#bloc-paypal").hidden = false;
-  }
-  // Les boutons « Copier » des cartes banque et PayPal
-  for (const id of ["#carte-banque", "#carte-paypal"]) {
-    $(id).addEventListener("click", async (e) => {
-      const btn = e.target.closest("[data-copier]");
-      if (!btn) return;
-      try {
-        await navigator.clipboard.writeText(btn.dataset.copier);
-        toast(tr("copie_ok"));
-      } catch {
-        toast(btn.dataset.copier);
-      }
-    });
-  }
+  $("#choix-offrande").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-offrande]");
+    if (b) choisirOffrande(b.dataset.offrande);
+  });
+  // Bouton « Copier » du détail
+  $("#detail-offrande").addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-copier]");
+    if (!btn) return;
+    try {
+      const v = btn.dataset.copier;
+      await navigator.clipboard.writeText(/^\+?[\d\s]+$/.test(v) ? v.replace(/\s/g, "") : v); // numéros : sans espaces
+      toast(tr("copie_ok"));
+    } catch {
+      toast(btn.dataset.copier);
+    }
+  });
+  // Arrivée par un QR code (…/?offrande=mpesa#soutien) ou par un logo de l'accueil
+  choisirOffrande(new URLSearchParams(location.search).get("offrande"));
+  document.querySelectorAll(".bandeau-offrande img").forEach((img, i) =>
+    img.addEventListener("click", () => OPTIONS[i] && choisirOffrande(OPTIONS[i].id))
+  );
 
   // Sans numéros publiés : on propose de les demander sur WhatsApp
   $("#soutien-whatsapp").href = `https://wa.me/${chiffresTel}?text=${encodeURIComponent(

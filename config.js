@@ -101,7 +101,8 @@ window.EGRADI = {
   // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».
   apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.1", taille: "2,7 Mo" },
 
-  // Page « Soutenir l'œuvre » : offrandes et dîmes par Mobile Money.
+  // Page « Offrandes » : offrandes et dîmes (Mobile Money, banque, PayPal).
+  // Logos et QR codes dans le dossier offrandes/ (logo-<id>.svg, qr-<id>.svg ; ids : mpesa, airtel, banque, paypal).
   // Ajoutez UNIQUEMENT les numéros officiels de l'église. Tant que la liste est vide,
   // la page propose de demander les numéros sur WhatsApp.
   soutien: {
@@ -111,8 +112,8 @@ window.EGRADI = {
     verset: "« Que chacun donne comme il l'a résolu en son cœur, car Dieu aime celui qui donne avec joie. » — 2 Corinthiens 9:7",
     // Informations recopiées de l'écran « Envoyez vos offrandes » diffusé dans les cultes (24/11/2026).
     mobileMoney: [
-      { operateur: "M-Pesa (Vodacom)", numero: "+243 817 594 677" },
-      { operateur: "Airtel Money", numero: "+243 997 751 720" },
+      { id: "mpesa", operateur: "M-Pesa (Vodacom)", numero: "+243 817 594 677" },
+      { id: "airtel", operateur: "Airtel Money", numero: "+243 997 751 720" },
     ],
     banque: {
       nom: "UBA — United Bank for Africa",

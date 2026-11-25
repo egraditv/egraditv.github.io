@@ -113,6 +113,11 @@
         <a href="#programmes" class="tuile"><span class="tuile-icone">📅</span><span data-i18n="tuile_agenda">Agenda</span></a>
       </div>
 
+      <a href="#soutien" class="bandeau-offrande">
+        <span class="bo-texte"><strong data-i18n="off_bandeau">💝 Envoyez vos offrandes</strong><small data-i18n="off_bandeau_sous">M-Pesa · Airtel Money · Banque UBA · PayPal</small></span>
+        <span class="bo-logos"><img src="offrandes/logo-mpesa.svg" alt="M-Pesa"><img src="offrandes/logo-airtel.svg" alt="Airtel Money"><img src="offrandes/logo-banque.svg" alt="UBA"><img src="offrandes/logo-paypal.svg" alt="PayPal"></span>
+      </a>
+
       <!-- Installer l'application : bouton APK sur Android / ordinateur, astuce Safari sur iPhone -->
       <div id="bloc-appli" class="bloc-appli" hidden>
         <img src="logo-badge.png" alt="" width="56" height="56">
@@ -267,18 +272,18 @@
 
     <!-- SOUTIEN -->
     <section id="soutien" class="vue">
-      <h2 class="titre-page" data-i18n="soutien_titre">Soutenir l'œuvre de Dieu</h2>
+      <div class="entete-offrande">
+        <img src="logo-badge.png" alt="EGRADI TV" width="84" height="84">
+        <h2 class="titre-page" data-i18n="soutien_titre">Envoyez vos offrandes</h2>
+      </div>
       <p class="intro" id="soutien-texte"></p>
       <blockquote class="verset" id="soutien-verset"></blockquote>
-      <h3 class="titre-section" id="titre-mm" data-i18n="mm_titre">Mobile Money</h3>
-      <div id="liste-mobile-money" class="mobile-money"></div>
-      <div id="bloc-banque" hidden>
-        <h3 class="titre-section" data-i18n="banque_titre">Virement bancaire</h3>
-        <div id="carte-banque" class="carte-banque"></div>
-      </div>
-      <div id="bloc-paypal" hidden>
-        <h3 class="titre-section">PayPal</h3>
-        <div id="carte-paypal" class="carte-banque"></div>
+      <h3 class="titre-section" data-i18n="off_choisir">Choisissez votre moyen d'envoi</h3>
+      <div id="choix-offrande" class="choix-offrande" role="tablist" aria-label="Moyen d'envoi"></div>
+      <div id="detail-offrande" class="detail-offrande" role="tabpanel" aria-live="polite"></div>
+      <div class="qr-general">
+        <img src="offrandes/qr-tout.svg" alt="QR code de la page Offrandes" width="120" height="120">
+        <p><strong data-i18n="off_qr_tout_titre">Partagez cette page</strong><br><span data-i18n="off_qr_tout">Scannez ce code pour ouvrir les offrandes EGRADI TV sur un autre téléphone.</span></p>
       </div>
       <div class="actions"><a class="bouton whatsapp" id="soutien-whatsapp" target="_blank" rel="noopener" data-i18n="soutien_wa">💬 Demander les numéros sur WhatsApp</a></div>
       <p class="note" data-i18n="soutien_merci"></p>
