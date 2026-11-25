@@ -414,6 +414,13 @@
   });
 
   // ---------- Fin de l'écran de démarrage ----------
+  // « ?sans-intro » dans l'adresse : pas d'écran de démarrage (captures d'écran de la notice et de la vidéo)
+  if (new URLSearchParams(location.search).has("sans-intro")) {
+    const d = $("#demarrage");
+    d.style.transition = "none";
+    d.classList.add("fini");
+    document.querySelectorAll(".vue").forEach((v) => (v.style.animation = "none"));
+  }
   const debut = performance.now();
   window.addEventListener("load", () =>
     setTimeout(() => $("#demarrage").classList.add("fini"), Math.max(0, 900 - (performance.now() - debut)))
