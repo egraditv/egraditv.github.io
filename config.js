@@ -102,7 +102,7 @@ window.EGRADI = {
   apk: { fichier: "telechargement/EGRADI-TV.apk", version: "1.0.1", taille: "2,7 Mo" },
 
   // Page « Offrandes » : offrandes et dîmes (Mobile Money, banque, PayPal).
-  // Logos et QR codes dans le dossier offrandes/ (logo-<id>.svg, qr-<id>.svg ; ids : mpesa, airtel, banque, paypal).
+  // Logos et QR codes dans le dossier offrandes/ (logo-<id>.png ou .svg, qr-<id>.svg ; ids : mpesa, airtel, banque, paypal).
   // Ajoutez UNIQUEMENT les numéros officiels de l'église. Tant que la liste est vide,
   // la page propose de demander les numéros sur WhatsApp.
   soutien: {
@@ -123,6 +123,13 @@ window.EGRADI = {
     },
     // PayPal confirmé par l'église le 24/11/2026 : « egrdimwipe » (différent de l'e-mail de contact « egrdimwimpe »).
     paypal: "egrdimwipe@gmail.com",
+    // Logos officiels fournis par l'utilisateur le 25/11/2026 (PayPal : logo redessiné).
+    logos: {
+      mpesa: "offrandes/logo-mpesa.png",
+      airtel: "offrandes/logo-airtel.png",
+      banque: "offrandes/logo-banque.png",
+      paypal: "offrandes/logo-paypal.svg",
+    },
   },
 
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.

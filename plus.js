@@ -236,9 +236,10 @@
     ...(S.paypal ? [{ id: "paypal", nom: "PayPal", contenu: ligne(tr("paypal_compte"), S.paypal), etapes: tr("paypal_note") }] : []),
   ].filter((o) => o.id);
 
+  const logo = (id) => (S.logos && S.logos[id]) || `offrandes/logo-${id}.svg`;
   $("#choix-offrande").innerHTML = OPTIONS.map(
     (o) => `<button role="tab" data-offrande="${esc(o.id)}" aria-selected="false">
-      <img src="offrandes/logo-${esc(o.id)}.svg" alt="" width="96" height="48"><span>${esc(o.nom)}</span></button>`
+      <span class="logo-boite"><img src="${esc(logo(o.id))}" alt=""></span><span>${esc(o.nom)}</span></button>`
   ).join("");
 
   function choisirOffrande(id) {
@@ -246,7 +247,7 @@
     if (!o) return;
     $("#choix-offrande").querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.offrande === o.id));
     $("#detail-offrande").innerHTML = `
-      <div class="do-entete"><img src="offrandes/logo-${esc(o.id)}.svg" alt="" width="120" height="60"><h3>${esc(o.nom)}</h3></div>
+      <div class="do-entete"><span class="logo-boite grand"><img src="${esc(logo(o.id))}" alt=""></span><h3>${esc(o.nom)}</h3></div>
       <div class="do-corps">
         <div class="do-infos">${o.contenu}<p class="lc-note">${esc(o.etapes)}</p></div>
         <figure class="do-qr">

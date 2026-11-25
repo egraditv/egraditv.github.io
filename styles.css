@@ -506,12 +506,14 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
   display: grid; justify-items: center; gap: 6px; padding: 10px 8px; border-radius: var(--rayon); cursor: pointer;
   background: var(--carte); border: 2px solid var(--ligne); color: var(--texte); font: inherit; font-size: 13px; font-weight: 700;
 }
-.choix-offrande button img { width: 100%; max-width: 110px; height: auto; border-radius: 10px; }
+.logo-boite { display: flex; align-items: center; justify-content: center; overflow: hidden; width: 100%; max-width: 120px; height: 64px; padding: 4px; border-radius: 10px; background: #fff; }
+.logo-boite img { display: block; width: auto; height: auto; max-width: 100%; max-height: 56px; border-radius: 6px; }
+.logo-boite.grand img { max-height: 68px; }
+.logo-boite.grand { width: 130px; height: 76px; flex: none; }
 .choix-offrande button[aria-selected="true"] { border-color: var(--rouge); box-shadow: 0 0 0 3px rgba(227, 6, 19, .25); }
 @media (max-width: 520px) { .choix-offrande { grid-template-columns: repeat(2, 1fr); } }
 .detail-offrande { margin-top: 14px; padding: 16px 18px; border-radius: var(--rayon); background: var(--carte); border: 1px solid var(--ligne); }
 .do-entete { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-.do-entete img { width: 120px; height: auto; border-radius: 12px; }
 .do-entete h3 { margin: 0; font-size: 18px; }
 .do-corps { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; }
 .do-infos { display: grid; gap: 10px; }
@@ -531,4 +533,4 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .bo-texte strong { font-size: 17px; }
 .bo-texte small { color: var(--texte-2); }
 .bo-logos { display: flex; gap: 6px; }
-.bo-logos img { width: 64px; height: 32px; border-radius: 6px; }
+.bo-logos img { width: 44px; height: 44px; padding: 3px; object-fit: contain; border-radius: 8px; background: #fff; }
