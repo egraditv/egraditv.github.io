@@ -149,8 +149,7 @@
           <span id="appli-detail"></span>
         </div>
         <a id="telecharger-apk" class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a>
-        <button id="installer-iphone" class="bouton principal" type="button" hidden data-i18n="iphone_btn"> Installer sur iPhone</button>
-        <button id="installer-qr" class="bouton" type="button" hidden data-i18n="ordi_btn">📱 Installer sur mon téléphone</button>
+        <button id="installer-iphone" class="bouton principal" type="button" hidden data-i18n="iphone_btn">📲 Télécharger pour iPhone</button>
       </div>
 
       <!-- Vidéo de présentation de l'application (chargée seulement si on appuie sur lecture) -->
@@ -274,7 +273,7 @@
         <address id="adresse"></address>
         <div class="actions"><a class="bouton" id="lien-carte" target="_blank" rel="noopener" data-i18n="carte">📍 Ouvrir la carte</a></div>
       </div>
-      <div class="actions" id="eglise-apk" hidden><a class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a></div>
+      <div class="actions" id="eglise-apk" hidden><a class="bouton principal" download data-i18n="appli_android">📲 Télécharger pour Android</a><button class="bouton principal" type="button" id="eglise-iphone" data-i18n="iphone_btn">📲 Télécharger pour iPhone</button></div>
       <h2 class="titre-section" data-i18n="suivez">Suivez-nous</h2>
       <div id="reseaux" class="reseaux"></div>
     </section>
@@ -372,6 +371,10 @@
     <button class="fermer" id="fermer-guide-iphone" aria-label="Fermer">✕</button>
     <img src="apple-touch-icon.png" alt="" width="64" height="64" class="guide-icone">
     <h3 id="guide-iphone-titre" data-i18n="iphone_titre">Installer EGRADI TV sur iPhone</h3>
+    <div id="guide-iphone-qr" class="guide-qr-bloc" hidden>
+      <img src="installer/qr-installer.svg" alt="QR code d'installation" width="180" height="180" class="guide-qr">
+      <p data-i18n="iphone_qr">Sur l'iPhone, scannez ce code avec l'appareil photo et ouvrez le lien dans Safari, puis suivez ces étapes :</p>
+    </div>
     <p id="guide-iphone-safari" class="guide-alerte" hidden>
       <span data-i18n="iphone_safari">Ouvrez d'abord cette page dans Safari (l'application à la boussole bleue) :</span>
       <button id="copier-lien-iphone" class="bouton petit" type="button" data-i18n="iphone_copier">Copier le lien</button>

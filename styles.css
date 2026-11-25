@@ -587,3 +587,7 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .guide-alerte[hidden] { display: none; }
 .guide-telecharger { display: inline-flex; margin: 0 0 4px; }
 .guide-qr { width: 220px; height: 220px; padding: 10px; margin: 6px auto 10px; display: block; background: #fff; border-radius: 16px; }
+.guide-qr-bloc { margin: 0 0 12px; }
+.guide-qr-bloc[hidden] { display: none; }
+.guide-qr-bloc p { margin: 0; font-size: 14px; color: var(--texte-2); }
+#eglise-apk { gap: 10px; flex-wrap: wrap; }

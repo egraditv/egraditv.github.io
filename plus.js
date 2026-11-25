@@ -158,10 +158,11 @@
   const iphone = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   if (C.apk && !dejaInstallee) {
     $("#bloc-appli").hidden = false;
+    $("#installer-iphone").hidden = false; // visible partout : sur un autre appareil, le guide montre un QR code
     if (iphone) {
       $("#telecharger-apk").hidden = true;
       $("#appli-detail").textContent = tr("appli_iphone");
-      $("#installer-iphone").hidden = false;
+
     } else {
       $("#appli-detail").textContent = tr("appli_detail") + `v${C.apk.version} · ${C.apk.taille}`;
       for (const a of [$("#telecharger-apk"), $("#eglise-apk a")]) {
@@ -169,6 +170,10 @@
         a.setAttribute("download", `EGRADI-TV-${C.apk.version}.apk`);
       }
       $("#eglise-apk").hidden = false;
+    }
+    if (iphone) {
+      $("#eglise-apk").hidden = false;
+      $("#eglise-apk a").hidden = true;
     }
   }
 
@@ -178,10 +183,12 @@
   const autreNavigateur = /CriOS|FxiOS|EdgiOS|OPiOS|FBAN|FBAV|Instagram|WhatsApp|Line\//i.test(navigator.userAgent);
   const guide = $("#guide-iphone");
   function ouvrirGuideIphone() {
-    $("#guide-iphone-safari").hidden = !autreNavigateur;
+    $("#guide-iphone-safari").hidden = !(iphone && autreNavigateur);
+    $("#guide-iphone-qr").hidden = iphone;
     guide.showModal();
   }
   $("#installer-iphone").addEventListener("click", ouvrirGuideIphone);
+  $("#eglise-iphone").addEventListener("click", ouvrirGuideIphone);
   $("#fermer-guide-iphone").addEventListener("click", () => guide.close());
   guide.addEventListener("click", (e) => e.target === guide && guide.close());
   $("#copier-lien-iphone").addEventListener("click", async () => {
@@ -211,8 +218,6 @@
 
   // ---------- Sur ordinateur : QR code pour installer sur le téléphone ----------
   const guideOrdi = $("#guide-ordinateur");
-  if (!telephone && !dejaInstallee) $("#installer-qr").hidden = false;
-  $("#installer-qr").addEventListener("click", () => guideOrdi.showModal());
   $("#fermer-guide-ordinateur").addEventListener("click", () => guideOrdi.close());
   guideOrdi.addEventListener("click", (e) => e.target === guideOrdi && guideOrdi.close());
 
