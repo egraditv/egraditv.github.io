@@ -93,13 +93,13 @@ window.EGRADI_VIDEOS = [
  {
   "id": "OhTb75Ody_Y",
   "titre": "🇨🇩 KINSHASA ACCUEILLE UN HOMME DE DIEU VENU DU BRÉSIL ! 🇧🇷",
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "description": ""
  },
  {
   "id": "prY-EhOTXyM",
   "titre": "🇨🇩 KINSHASA, IL EST DÉJÀ LÀ ! 🇨🇩Après un long séjour au Brésil 🇧🇷 en mission évangélique,",
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "description": ""
  },
  {
