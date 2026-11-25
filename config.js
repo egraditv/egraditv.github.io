@@ -40,7 +40,7 @@ window.EGRADI = {
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
     "Suivez les directs sur Facebook : Apôtre Augustin Mwimpe Officiel",
     "E-mail : egrdimwimpe@gmail.com",
-    "Offrandes : M-Pesa +243 817 594 677 · Airtel Money +243 997 751 720 · détails dans « Soutenir l'œuvre »",
+    "Offrandes : M-Pesa +243 817 594 677 · Airtel Money +243 997 751 720 · PayPal egrdimwipe@gmail.com · détails dans « Soutenir l'œuvre »",
   ],
 
   // Sources du direct, dans l'ordre d'affichage. La première qui a un lien est ouverte par défaut.
@@ -100,9 +100,8 @@ window.EGRADI = {
       swift: "UNAFCDKS",
       devise: "USD",
     },
-    // PayPal : EN ATTENTE de confirmation. L'écran de l'église indique « egrdimwipe@gmail.com »,
-    // alors que l'e-mail de la page Facebook est « egrdimwimpe@gmail.com ». Mettre ici l'adresse confirmée.
-    paypal: "",
+    // PayPal confirmé par l'église le 24/11/2026 : « egrdimwipe » (différent de l'e-mail de contact « egrdimwimpe »).
+    paypal: "egrdimwipe@gmail.com",
   },
 
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
