@@ -36,10 +36,19 @@
   const zone = $("#notif-zone");
   if (appId && zone && "Notification" in window) {
     const bouton = $("#notif-activer"), etat = $("#notif-etat");
-    const majEtat = (abonne) => {
+    // Le message « bloquées » ne s'affiche qu'après un appui sur le bouton (pas d'avertissement au chargement).
+    const majEtat = (abonne, apresAppui = false) => {
       bouton.hidden = abonne;
-      etat.textContent = abonne ? tr("notif_ok") : Notification.permission === "denied" ? tr("notif_refus") : "";
+      etat.textContent = abonne ? tr("notif_ok") : apresAppui && Notification.permission === "denied" ? tr("notif_refus") : "";
     };
+    zone.hidden = false; // le bouton apparaît tout de suite ; l'appui attend que OneSignal soit prêt
+    let pret = null;
+    bouton.addEventListener("click", () => {
+      bouton.disabled = true;
+      window.OneSignalDeferred.push(async () => {
+        try { const os = await pret; await os?.demander(); } catch {} finally { bouton.disabled = false; }
+      });
+    });
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     const s = document.createElement("script");
     s.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
@@ -47,21 +56,22 @@
     document.head.append(s);
     window.OneSignalDeferred.push(async (OneSignal) => {
       const sw = new URL("sw.js", location.href); // même service worker que l'application (il importe celui de OneSignal)
-      await OneSignal.init({
+      pret = OneSignal.init({
         appId,
         ...(C.notifications.safariWebId ? { safari_web_id: C.notifications.safariWebId } : {}),
         serviceWorkerPath: sw.pathname.slice(1),
         serviceWorkerParam: { scope: sw.pathname.replace(/sw\.js$/, "") },
         allowLocalhostAsSecureOrigin: true,
-      });
-      zone.hidden = false;
+      }).then(() => ({
+        demander: async () => {
+          await OneSignal.Notifications.requestPermission();
+          if (Notification.permission === "granted") await OneSignal.User.PushSubscription.optIn();
+          majEtat(OneSignal.User.PushSubscription.optedIn, true);
+        },
+      }));
+      try { await pret; } catch { return; } // OneSignal indisponible (hors du site officiel, réseau…)
       majEtat(OneSignal.User.PushSubscription.optedIn);
       OneSignal.User.PushSubscription.addEventListener("change", (e) => majEtat(e.current.optedIn));
-      bouton.addEventListener("click", async () => {
-        await OneSignal.Notifications.requestPermission();
-        if (Notification.permission === "granted") await OneSignal.User.PushSubscription.optIn();
-        majEtat(OneSignal.User.PushSubscription.optedIn);
-      });
     });
   }
 

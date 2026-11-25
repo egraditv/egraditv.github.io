@@ -2,7 +2,7 @@
 // Changez VERSION à chaque mise à jour des fichiers pour que les téléphones la récupèrent.
 // Notifications OneSignal (App ID dans config.js).
 try { importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js"); } catch (e) {}
-const VERSION = "egradi-tv-23a";
+const VERSION = "egradi-tv-23b";
 const FICHIERS = ["./", "index.html", "styles.css", "app.js", "plus.js", "i18n.js", "config.js", "videos.js", "versets.js", "confidentialite.html", "logo-badge.png", "photos/banniere-apotre-900.jpg", "logo-complet.png", "logo-192.png", "logo-512.png", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
