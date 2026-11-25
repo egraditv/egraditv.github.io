@@ -89,6 +89,42 @@
       toast(b.dataset.copier);
     }
   });
+  $("#titre-mm").hidden = mm.length === 0;
+
+  // Une ligne « libellé : valeur [Copier] »
+  const ligne = (libelle, valeur) =>
+    `<div class="ligne-copie"><span class="lc-libelle">${esc(libelle)}</span><span class="lc-valeur">${esc(valeur)}</span>` +
+    `<button class="bouton petit" data-copier="${esc(valeur)}">${tr("copier")}</button></div>`;
+
+  // Virement bancaire
+  if (S.banque) {
+    const b = S.banque;
+    $("#carte-banque").innerHTML =
+      `<p class="sur-titre">${esc(b.nom)}</p>` +
+      ligne(tr("banque_compte"), b.compte) +
+      (b.swift ? ligne("SWIFT / BIC", b.swift) : "") +
+      (b.devise ? `<p class="lc-note">${tr("banque_devise")} : <strong>${esc(b.devise)}</strong></p>` : "");
+    $("#bloc-banque").hidden = false;
+  }
+  // PayPal
+  if (S.paypal) {
+    $("#carte-paypal").innerHTML = ligne(tr("paypal_compte"), S.paypal) + `<p class="lc-note">${tr("paypal_note")}</p>`;
+    $("#bloc-paypal").hidden = false;
+  }
+  // Les boutons « Copier » des cartes banque et PayPal
+  for (const id of ["#carte-banque", "#carte-paypal"]) {
+    $(id).addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-copier]");
+      if (!btn) return;
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copier);
+        toast(tr("copie_ok"));
+      } catch {
+        toast(btn.dataset.copier);
+      }
+    });
+  }
+
   // Sans numéros publiés : on propose de les demander sur WhatsApp
   $("#soutien-whatsapp").href = `https://wa.me/${chiffresTel}?text=${encodeURIComponent(
     "Bonjour EGRADI TV, je souhaite soutenir l'œuvre de Dieu. Pouvez-vous m'envoyer les numéros Mobile Money de l'église ?"

@@ -40,6 +40,7 @@ window.EGRADI = {
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
     "Suivez les directs sur Facebook : Apôtre Augustin Mwimpe Officiel",
     "E-mail : egrdimwimpe@gmail.com",
+    "Offrandes : M-Pesa +243 817 594 677 · Airtel Money +243 997 751 720 · détails dans « Soutenir l'œuvre »",
   ],
 
   // Sources du direct, dans l'ordre d'affichage. La première qui a un lien est ouverte par défaut.
@@ -88,11 +89,20 @@ window.EGRADI = {
       "Vos offrandes et vos dîmes permettent à EGRADI TV de diffuser la Parole de Dieu en direct, " +
       "depuis Kinshasa jusqu'au monde entier. Merci de soutenir l'œuvre de Dieu.",
     verset: "« Que chacun donne comme il l'a résolu en son cœur, car Dieu aime celui qui donne avec joie. » — 2 Corinthiens 9:7",
+    // Informations recopiées de l'écran « Envoyez vos offrandes » diffusé dans les cultes (24/11/2026).
     mobileMoney: [
-      // { operateur: "M-Pesa (Vodacom)", numero: "+243 81 000 0000", titulaire: "Église Grâce Divine" },
-      // { operateur: "Orange Money",     numero: "+243 89 000 0000", titulaire: "Église Grâce Divine" },
-      // { operateur: "Airtel Money",     numero: "+243 99 000 0000", titulaire: "Église Grâce Divine" },
+      { operateur: "M-Pesa (Vodacom)", numero: "+243 817 594 677" },
+      { operateur: "Airtel Money", numero: "+243 997 751 720" },
     ],
+    banque: {
+      nom: "UBA — United Bank for Africa",
+      compte: "00030068033502016345369", // « IBA » sur l'écran de l'église
+      swift: "UNAFCDKS",
+      devise: "USD",
+    },
+    // PayPal : EN ATTENTE de confirmation. L'écran de l'église indique « egrdimwipe@gmail.com »,
+    // alors que l'e-mail de la page Facebook est « egrdimwimpe@gmail.com ». Mettre ici l'adresse confirmée.
+    paypal: "",
   },
 
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
