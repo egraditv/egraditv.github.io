@@ -34,7 +34,7 @@ window.EGRADI = {
   annonces: [
     "Bienvenue sur EGRADI TV, la chaîne de l'Église Grâce Divine",
     "Culte dominical chaque dimanche à 9h00 · 45 minutes de prière le mardi à 11h00 · Mercredi Biyano à 17h00",
-    "Jeudi Miracle (École de guérison) · Vendredi prophétique",
+    "Jeudi Miracle (École de guérison) à 17h00 · Vendredi prophétique à 17h00",
     "Adresse : en face de l'Aéroport de Ndjili, 3e avenue Police, Cité de Grâce (Badara)",
     "Contact et WhatsApp : +243 997 751 720",
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
@@ -96,12 +96,12 @@ window.EGRADI = {
   evenements: [],
 
   // Programme de la semaine (d'après les directs publiés sur YouTube).
-  // Les heures ne sont pas publiées sur la chaîne : remplacez "Heure à confirmer" par l'heure réelle.
+  // Heures de Kinshasa, écrites « 9h00 », « 17h30 »… (lues par le compte à rebours et le fichier agenda).
   programmes: [
     { jour: "Dimanche", titre: "Culte dominical", heure: "9h00", mot: "dominica" },
     { jour: "Mardi", titre: "45 minutes de prière", heure: "11h00", mot: "prière|priere" },
     { jour: "Mercredi", titre: "Culte d'enseignement « Mercredi Biyano »", heure: "17h00", mot: "biyano|enseignement" },
-    { jour: "Jeudi", titre: "Jeudi Miracle — École de guérison", heure: "Heure à confirmer", mot: "jeudi miracle|guérison|guerison" },
-    { jour: "Vendredi", titre: "Vendredi prophétique", heure: "Heure à confirmer", mot: "vendredi proph" },
+    { jour: "Jeudi", titre: "Jeudi Miracle — École de guérison", heure: "17h00", mot: "jeudi miracle|guérison|guerison" },
+    { jour: "Vendredi", titre: "Vendredi prophétique", heure: "17h00", mot: "vendredi proph" },
   ],
 };
