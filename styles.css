@@ -558,3 +558,8 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .audio-boutons button { width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
 .audio-boutons .audio-play { width: 66px; height: 66px; font-size: 26px; background: var(--rouge); border-color: var(--rouge); }
 #bouton-audio[aria-pressed="true"] { border-color: #ffd34d; color: #ffd34d; }
+
+/* ---------- Logo de l'église (page Église) ---------- */
+.bloc-eglise::after { content: ""; display: block; clear: both; }
+.logo-eglise { float: right; width: 170px; height: auto; margin: 0 0 12px 18px; padding: 8px; border-radius: 18px; background: #fff; box-shadow: var(--ombre); }
+@media (max-width: 560px) { .logo-eglise { float: none; display: block; margin: 0 auto 14px; width: 160px; } }
