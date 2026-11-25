@@ -67,8 +67,15 @@
   <main>
     <!-- ACCUEIL -->
     <section id="accueil" class="vue">
+      <!-- FLASH : culte du jour (rempli par app.js, visible seulement les jours de culte) -->
+      <a id="flash-culte" class="flash-culte" href="#direct" hidden></a>
+
       <div class="hero">
         <img class="hero-fond" id="hero-fond" alt="">
+        <!-- Photo de présentation de l'Apôtre, affichée EN ENTIER (sans recadrage). Un appui l'agrandit. -->
+        <button type="button" class="hero-banniere" id="hero-banniere" aria-label="Agrandir la photo de l'Apôtre Augustin Mwimpe">
+          <img id="hero-banniere-img" alt="Apôtre Augustin Mwimpe — Bienvenue sur ma chaîne" width="1559" height="423">
+        </button>
         <div class="hero-contenu">
           <img class="hero-logo" src="logo-badge.png" alt="Logo EGRADI TV" width="120" height="120">
           <h1><span>EGRADI</span> TV</h1>
@@ -81,6 +88,12 @@
       </div>
 
       <div id="prochain" class="prochain"></div>
+
+      <!-- Notifications (apparaît seulement quand OneSignal est configuré dans config.js) -->
+      <div id="notif-zone" class="notif-zone" hidden>
+        <button type="button" id="notif-activer" class="bouton principal" data-i18n="notif_btn">🔔 Recevoir une notification à chaque culte</button>
+        <p id="notif-etat" class="note" aria-live="polite"></p>
+      </div>
 
       <div class="actions" hidden><a id="alerte-direct" class="bouton whatsapp" target="_blank" rel="noopener" data-i18n="alerte_direct">🔔 Être prévenu des directs (WhatsApp)</a></div>
 

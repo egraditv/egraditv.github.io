@@ -29,6 +29,41 @@
     }
   }
 
+  // ---------- Notifications « culte du jour » (OneSignal, gratuit) ----------
+  // S'active seulement quand config.js → notifications.onesignalAppId est rempli.
+  // Les envois sont automatiques (GitHub Action « Notifications des cultes ») : 30 min avant et au début de chaque culte.
+  const appId = C.notifications?.onesignalAppId;
+  const zone = $("#notif-zone");
+  if (appId && zone && "Notification" in window) {
+    const bouton = $("#notif-activer"), etat = $("#notif-etat");
+    const majEtat = (abonne) => {
+      bouton.hidden = abonne;
+      etat.textContent = abonne ? tr("notif_ok") : Notification.permission === "denied" ? tr("notif_refus") : "";
+    };
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    const s = document.createElement("script");
+    s.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
+    s.defer = true;
+    document.head.append(s);
+    window.OneSignalDeferred.push(async (OneSignal) => {
+      const sw = new URL("sw.js", location.href); // même service worker que l'application (il importe celui de OneSignal)
+      await OneSignal.init({
+        appId,
+        serviceWorkerPath: sw.pathname.slice(1),
+        serviceWorkerParam: { scope: sw.pathname.replace(/sw\.js$/, "") },
+        allowLocalhostAsSecureOrigin: true,
+      });
+      zone.hidden = false;
+      majEtat(OneSignal.User.PushSubscription.optedIn);
+      OneSignal.User.PushSubscription.addEventListener("change", (e) => majEtat(e.current.optedIn));
+      bouton.addEventListener("click", async () => {
+        await OneSignal.Notifications.requestPermission();
+        if (Notification.permission === "granted") await OneSignal.User.PushSubscription.optIn();
+        majEtat(OneSignal.User.PushSubscription.optedIn);
+      });
+    });
+  }
+
   // ---------- Nos pasteurs ----------
   const VIDEOS = window.EGRADI_VIDEOS || [];
   const initiales = (nom) => nom.split(/\s+/).slice(-2).map((m) => m[0]).join("").toUpperCase();

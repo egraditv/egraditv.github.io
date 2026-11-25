@@ -27,7 +27,21 @@
   // ---------- Remplissage à partir de config.js ----------
   $("#slogan").textContent = C.slogan;
   $("#avatar").src = C.avatar;
-  $("#hero-fond").src = C.banniere;
+  // Photo de présentation : affichée en entier en haut de l'accueil (version légère sur téléphone).
+  const ban = C.banniere || {};
+  const banImg = $("#hero-banniere-img");
+  banImg.src = ban.grande;
+  if (ban.petite) { banImg.srcset = `${ban.petite} 900w, ${ban.grande} 1559w`; banImg.sizes = "(max-width: 1100px) 100vw, 1100px"; }
+  $("#hero-fond").src = ban.petite || ban.grande;
+  $("#hero-banniere").addEventListener("click", () => {
+    const d = document.createElement("dialog");
+    d.className = "visionneuse";
+    d.innerHTML = `<img src="${esc(ban.grande)}" alt="${esc(banImg.alt)}"><button type="button" class="visionneuse-fermer" aria-label="Fermer">✕</button>`;
+    d.addEventListener("click", () => d.close());
+    d.addEventListener("close", () => d.remove());
+    document.body.append(d);
+    d.showModal();
+  });
   $("#description").textContent = C.description;
   $("#bienvenue").textContent = C.bienvenue;
   $("#dirigeant").textContent = C.dirigeant;
@@ -220,6 +234,49 @@
   }
   afficherProchain();
   setInterval(afficherProchain, 30000);
+
+  // ---------- Accueil : FLASH « culte du jour » ----------
+  // Les jours de culte, un bandeau animé annonce le culte en haut de l'accueil :
+  // avant le début → compte à rebours ; pendant 2 h → « EN DIRECT MAINTENANT ». Un clic ouvre le direct.
+  function cultesDuJour() {
+    const maintenant = kinshasa();
+    return C.programmes
+      .filter((p) => p.jour === JOURS[maintenant.getUTCDay()] && lireHeure(p.heure))
+      .map((p) => {
+        const h = lireHeure(p.heure);
+        const debut = new Date(Date.UTC(maintenant.getUTCFullYear(), maintenant.getUTCMonth(), maintenant.getUTCDate(), h.h, h.m));
+        return { p, debut, ecart: debut - maintenant };
+      })
+      .filter((c) => c.ecart > -2 * UNE_HEURE) // terminé 2 h après le début
+      .sort((a, b) => a.debut - b.debut);
+  }
+  function afficherFlash() {
+    const el = $("#flash-culte");
+    const c = cultesDuJour()[0];
+    if (!c) { el.hidden = true; el.className = "flash-culte"; return; }
+    const live = c.ecart <= 0;
+    let quand;
+    if (live) quand = `<span class="flash-etat"><span class="point"></span> ${tr("flash_live")}</span>`;
+    else {
+      const h = Math.floor(c.ecart / 3600000), m = Math.ceil((c.ecart % 3600000) / 60000);
+      const reste = h ? `${h} h ${String(m).padStart(2, "0")} min` : `${m} min`;
+      quand = `<span class="flash-etat">${tr("flash_commence")} <strong class="compte">${reste}</strong></span>`;
+    }
+    el.className = "flash-culte" + (live ? " en-direct" : c.ecart < 30 * 60000 ? " imminent" : "");
+    el.setAttribute("aria-label", `${tr("flash_tag")} : ${c.p.titre}, ${c.p.heure}. ${tr("flash_suivre")}`);
+    el.innerHTML = `
+      <span class="flash-eclat" aria-hidden="true"></span>
+      <span class="flash-tag"><span class="flash-eclair" aria-hidden="true">⚡</span> ${tr("flash_tag")}</span>
+      <span class="flash-corps">
+        <span class="flash-titre">${esc(c.p.titre)}</span>
+        <span class="flash-infos">${tr("flash_aujourdhui")} ${esc(c.p.heure)} · ${quand}</span>
+        <span class="flash-appel">👉 ${live ? tr("flash_rejoindre") : tr("flash_suivre")}</span>
+      </span>
+      <span class="flash-bouton"><span class="point"></span> ${tr("flash_bouton")}</span>`;
+    el.hidden = false;
+  }
+  afficherFlash();
+  setInterval(afficherFlash, 20000);
 
   // ---------- Direct ----------
   // Sources : votre propre flux (HLS, vidéo, page intégrée) et/ou YouTube. Voir « directs » dans config.js.

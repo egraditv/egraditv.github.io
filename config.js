@@ -33,8 +33,8 @@ window.EGRADI = {
   // Messages du bandeau « INFOS » qui défile en haut de l'application (comme à l'antenne).
   annonces: [
     "Bienvenue sur EGRADI TV, la chaîne de l'Église Grâce Divine",
-    "Culte dominical chaque dimanche à 9h00 · 45 minutes de prière le mardi à 11h00 · Mercredi Biyano à 17h00",
-    "Jeudi Miracle (École de guérison) à 17h00 · Vendredi prophétique à 17h00",
+    "Culte dominical chaque dimanche à 9h00 · 45 minutes de prière le mardi à 11h00 · Mercredi Biyano à 14h00",
+    "Jeudi Miracle (École de guérison) à 14h00 · Vendredi prophétique à 14h00",
     "Adresse : en face de l'Aéroport de Ndjili, 3e avenue Police, Cité de Grâce (Badara)",
     "Contact et WhatsApp : +243 997 751 720",
     "Aussi en direct sur Bleu OTT : chaîne EGRADI",
@@ -68,8 +68,9 @@ window.EGRADI = {
   youtubeUrl: "https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel",
   avatar:
     "https://yt3.googleusercontent.com/fWORXldxsl-yotVHv6LwRdl2YgihAmwFyjg_qAyF44RmsobizjDsrfXTLiLI4ZiEOwgzIAIKOsM=s900-c-k-c0x00ffffff-no-rj",
-  banniere:
-    "https://yt3.googleusercontent.com/y4LQ7q_V4R1Nlcia-4voVe6ylU3FO5X7voG6lImq0zwYOBkFvtBa9Ds5E7t4ZrNcmbtX06osC7c=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
+  // Photo de présentation de l'accueil (bannière de la chaîne YouTube, affichée en entier).
+  // Pour la changer : déposez la nouvelle image dans photos/ (format très large, environ 6 × plus large que haute).
+  banniere: { grande: "photos/banniere-apotre-1600.jpg", petite: "photos/banniere-apotre-900.jpg" },
 
   reseaux: [
     { nom: "YouTube — Apôtre Augustin Mwimpe Officiel (60 k)", url: "https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel" },
@@ -86,6 +87,12 @@ window.EGRADI = {
   // Alerte « Le direct commence » : lien d'une Chaîne WhatsApp de l'église (WhatsApp → Actualités → Créer une chaîne).
   // Exemple : "https://whatsapp.com/channel/0029Va…". Tant que c'est vide, le bouton n'apparaît pas.
   whatsappChaine: "",
+
+  // Notifications sur les téléphones (service gratuit OneSignal, https://onesignal.com).
+  // Collez ici l'« App ID » de OneSignal : le bouton « 🔔 Recevoir une notification à chaque culte » apparaît alors
+  // sur l'accueil. Les notifications partent toutes seules 30 min avant et au début de chaque culte du programme
+  // (GitHub Action « Notifications des cultes », qui utilise la clé secrète ONESIGNAL_API_KEY du dépôt).
+  notifications: { onesignalAppId: "" },
 
   // Application Android à télécharger depuis le site (fichier dans le dossier telechargement/).
   // Après une nouvelle version de l'APK : remplacez le fichier et changez « version ».
@@ -146,8 +153,8 @@ window.EGRADI = {
   programmes: [
     { jour: "Dimanche", titre: "Culte dominical", heure: "9h00", mot: "dominica" },
     { jour: "Mardi", titre: "45 minutes de prière", heure: "11h00", mot: "prière|priere" },
-    { jour: "Mercredi", titre: "Culte d'enseignement « Mercredi Biyano »", heure: "17h00", mot: "biyano|enseignement" },
-    { jour: "Jeudi", titre: "Jeudi Miracle — École de guérison", heure: "17h00", mot: "jeudi miracle|guérison|guerison" },
-    { jour: "Vendredi", titre: "Vendredi prophétique", heure: "17h00", mot: "vendredi proph" },
+    { jour: "Mercredi", titre: "Culte d'enseignement « Mercredi Biyano »", heure: "14h00", mot: "biyano|enseignement" },
+    { jour: "Jeudi", titre: "Jeudi Miracle — École de guérison", heure: "14h00", mot: "jeudi miracle|guérison|guerison" },
+    { jour: "Vendredi", titre: "Vendredi prophétique", heure: "14h00", mot: "vendredi proph" },
   ],
 };

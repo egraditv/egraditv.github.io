@@ -121,7 +121,19 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
   position: relative; border-radius: var(--rayon); overflow: hidden; min-height: 360px;
   display: grid; place-items: center; text-align: center; box-shadow: var(--ombre);
 }
-.hero-fond { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.3) saturate(1.2); transform: scale(1.05); }
+.hero-fond { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(18px) brightness(.35) saturate(1.2); transform: scale(1.15); }
+/* Photo de présentation : toujours affichée en entier, nette et lumineuse */
+.hero-banniere {
+  position: relative; z-index: 1; display: block; width: 100%; padding: 0; border: 0; margin: 0;
+  background: none; cursor: zoom-in; line-height: 0;
+}
+.hero-banniere img { display: block; width: 100%; height: auto; aspect-ratio: 1559 / 423; object-fit: contain; }
+.hero:has(.hero-banniere) { grid-template-rows: auto 1fr; place-items: stretch; }
+.hero:has(.hero-banniere) .hero-contenu { align-self: center; }
+.visionneuse { padding: 0; border: 0; background: transparent; max-width: 100vw; max-height: 100vh; overflow: visible; }
+.visionneuse::backdrop { background: rgba(0, 0, 0, .9); }
+.visionneuse img { display: block; width: min(96vw, 1600px); height: auto; border-radius: 10px; }
+.visionneuse-fermer { position: fixed; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #000; font-size: 20px; cursor: pointer; }
 .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 0%, rgba(227,6,19,.35), transparent 50%), radial-gradient(circle at 90% 100%, rgba(30,155,224,.35), transparent 50%); }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,16,34,.9)); }
 .hero-contenu { position: relative; z-index: 1; padding: 34px 18px 26px; }
@@ -129,6 +141,72 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
 .hero h1 { margin: 12px 0 0; font-size: clamp(36px, 8vw, 60px); line-height: 1; letter-spacing: 4px; font-weight: 900; }
 .hero h1 span { background: linear-gradient(90deg, #fff, #ffd6d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .slogan { margin: 10px 0 18px; color: #dfe5f3; font-size: 16px; }
+
+/* ---------- FLASH « culte du jour » (accueil) ---------- */
+.flash-culte {
+  position: relative; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  margin: 0 0 18px; padding: 24px 28px; min-height: 130px; border-radius: var(--rayon); overflow: hidden;
+  color: #fff; text-decoration: none; isolation: isolate;
+  background: linear-gradient(110deg, #b0000c, var(--rouge) 30%, #b0127a 60%, var(--rouge) 85%, #b0000c);
+  background-size: 300% 100%;
+  box-shadow: 0 10px 30px rgba(227, 6, 19, .35);
+  animation: flash-entree .6s cubic-bezier(.2, .9, .3, 1.3) both, flash-fond 6s linear infinite;
+}
+.flash-culte:hover { filter: brightness(1.08); }
+.flash-culte:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+/* reflet lumineux qui balaie le bandeau */
+.flash-eclat {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .35) 50%, transparent 70%);
+  transform: translateX(-100%); animation: flash-reflet 2.8s ease-in-out infinite;
+}
+.flash-tag {
+  flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 999px; background: #fff; color: var(--rouge);
+  font-size: 14px; font-weight: 900; letter-spacing: 1px; animation: flash-tag 1s steps(1) infinite;
+}
+.flash-eclair { display: inline-block; animation: flash-eclair 1s ease-in-out infinite; }
+.flash-corps { flex: 1 1 260px; min-width: 0; display: grid; gap: 6px; }
+.flash-titre { font-size: clamp(24px, 3.4vw, 32px); font-weight: 900; line-height: 1.15; text-shadow: 0 2px 8px rgba(0, 0, 0, .3); }
+.flash-infos { font-size: 18px; color: #ffe3e3; }
+.flash-infos .compte { color: #fff; font-variant-numeric: tabular-nums; }
+.flash-etat { display: inline-flex; align-items: center; gap: 6px; }
+.flash-appel { font-size: 16px; font-weight: 700; color: #fff; opacity: .95; }
+.flash-bouton {
+  flex: none; display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 999px;
+  background: #fff; color: var(--rouge); font-weight: 900; font-size: 18px;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, .7); animation: flash-pouls 1.6s infinite;
+}
+.flash-bouton .point { background: var(--rouge); }
+/* moins de 30 min avant le culte : le bandeau pulse plus fort */
+.flash-culte.imminent { animation: flash-entree .6s cubic-bezier(.2, .9, .3, 1.3) both, flash-fond 3s linear infinite, flash-battement 1.4s ease-in-out infinite; }
+/* culte en cours */
+.flash-culte.en-direct { animation: flash-entree .6s cubic-bezier(.2, .9, .3, 1.3) both, flash-fond 2.5s linear infinite, flash-battement 1.2s ease-in-out infinite; }
+.flash-culte.en-direct .flash-etat { padding: 2px 10px; border-radius: 999px; background: #fff; color: var(--rouge); font-weight: 900; letter-spacing: .5px; }
+.flash-culte.en-direct .flash-etat .point { background: var(--rouge); }
+@keyframes flash-entree { from { opacity: 0; transform: translateY(-14px) scale(.97); } }
+@keyframes flash-fond { to { background-position: -300% 0; } }
+@keyframes flash-reflet { 60%, 100% { transform: translateX(100%); } }
+@keyframes flash-tag { 50% { background: #ffd400; color: #000; } }
+@keyframes flash-eclair { 50% { transform: scale(1.35) rotate(-10deg); } }
+@keyframes flash-pouls { 70% { box-shadow: 0 0 0 14px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+@keyframes flash-battement { 50% { box-shadow: 0 10px 40px rgba(255, 59, 48, .75); transform: scale(1.012); } }
+@media (max-width: 560px) {
+  .flash-culte { padding: 18px 18px; gap: 12px; }
+  .flash-titre { font-size: 24px; }
+  .flash-infos { font-size: 16px; }
+  .flash-bouton { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flash-culte, .flash-culte.imminent, .flash-culte.en-direct, .flash-eclat, .flash-tag, .flash-eclair, .flash-bouton { animation: none; }
+}
+
+/* le flash remplace l'encadré « prochain culte » le jour du culte (pas de doublon) */
+#flash-culte:not([hidden]) ~ .prochain { display: none; }
+
+/* ---------- Notifications ---------- */
+.notif-zone { margin-top: 14px; text-align: center; }
+.notif-zone .note { margin: 8px 0 0; }
 
 .prochain {
   position: relative; margin-top: 18px; padding: 18px 20px; border-radius: var(--rayon); overflow: hidden;
