@@ -328,6 +328,14 @@
   });
   $("#fermer").addEventListener("click", () => fenetre.close());
   fenetre.addEventListener("click", (e) => e.target === fenetre && fenetre.close());
+  // Partager un moment précis : lien YouTube qui démarre à la seconde où l'on est
+  $("#partager-moment").addEventListener("click", () => {
+    if (!videoCourante) return;
+    let t = 0;
+    try { t = Math.floor(joueur?.getCurrentTime?.() || 0); } catch {}
+    const lien = `https://youtu.be/${videoCourante.id}${t ? "?t=" + t : ""}`;
+    partager(`${tr("moment_texte")} ${minutes(t)} — ${titrePropre(videoCourante.titre)} · EGRADI TV`, lien);
+  });
   $("#partager").addEventListener("click", () => {
     if (videoCourante) partager(`${titrePropre(videoCourante.titre)} — EGRADI TV`, `https://youtu.be/${videoCourante.id}`);
   });
@@ -453,7 +461,50 @@
   let hls = null;
   let sourceActive = null;
 
+  // ---------- Chat du direct YouTube ----------
+  // Quand un direct est en cours, l'API YouTube donne son identifiant : on peut alors afficher son chat.
+  let directId = "";
+  function masquerChat() {
+    directId = "";
+    $("#bloc-chat").hidden = true;
+    $("#zone-chat").hidden = true;
+    $("#zone-chat").replaceChildren();
+    $("#chat-afficher").textContent = tr("chat_btn");
+  }
+  function chercherChat(cadre) {
+    masquerChat();
+    chargerApiYT().then(() => {
+      if (!cadre.isConnected) return;
+      const p = new YT.Player(cadre, {
+        events: {
+          onReady: () => verifier(),
+          onStateChange: () => verifier(),
+        },
+      });
+      function verifier() {
+        let id = "";
+        try { id = p.getVideoData?.().video_id || ""; } catch {}
+        if (!id || id === directId) return;
+        directId = id;
+        $("#chat-youtube").href = `https://www.youtube.com/live_chat?v=${id}`;
+        $("#bloc-chat").hidden = false;
+      }
+      setTimeout(verifier, 4000);
+    }).catch(() => {});
+  }
+  $("#chat-afficher").addEventListener("click", () => {
+    const z = $("#zone-chat");
+    if (!z.hidden) { z.hidden = true; z.replaceChildren(); $("#chat-afficher").textContent = tr("chat_btn"); return; }
+    const f = document.createElement("iframe");
+    f.title = "Chat du direct";
+    f.src = `https://www.youtube.com/live_chat?v=${directId}&embed_domain=${location.hostname}`;
+    z.replaceChildren(f);
+    z.hidden = false;
+    $("#chat-afficher").textContent = tr("chat_masquer");
+  });
+
   function arreterDirect() {
+    masquerChat();
     if (hls) { hls.destroy(); hls = null; }
     $("#zone-direct").replaceChildren();
   }
@@ -491,10 +542,11 @@
       f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
       f.allowFullscreen = true;
       f.src = s.type === "youtube"
-        ? `https://www.youtube.com/embed/live_stream?channel=${C.youtubeChaineId}&autoplay=1`
+        ? `https://www.youtube.com/embed/live_stream?channel=${C.youtubeChaineId}&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`
         : s.url;
       zone.replaceChildren(f);
       habillerAudio(zone);
+      if (s.type === "youtube") chercherChat(f);
       return;
     }
 
@@ -635,7 +687,7 @@
   window.addEventListener("hashchange", afficher);
   afficher();
 
-  window.EGRADI_APP = { toast, esc, ouvrirVideo, lireHeure, dureeCulte, JOURS };
+  window.EGRADI_APP = { toast, esc, ouvrirVideo, lireHeure, dureeCulte, JOURS, partager };
 
   // ---------- Archives : toute la chaîne YouTube (playlist des mises en ligne) ----------
   $("#charger-archives").addEventListener("click", () => {
@@ -666,6 +718,18 @@
   } else {
     $("#bloc-tiktok").hidden = true;
   }
+
+  // ---------- Taille du texte : normale → grande → très grande (mémorisée) ----------
+  const TAILLES = [1, 1.15, 1.3];
+  let taille = Math.max(0, TAILLES.indexOf(+localStorage.getItem("egradi-taille") || 1));
+  const appliquerTaille = () => { document.body.style.zoom = TAILLES[taille] === 1 ? "" : TAILLES[taille]; };
+  appliquerTaille();
+  $("#taille-texte").addEventListener("click", () => {
+    taille = (taille + 1) % TAILLES.length;
+    localStorage.setItem("egradi-taille", TAILLES[taille]);
+    appliquerTaille();
+    toast(`${tr("taille_texte")} : ${[tr("taille_normale"), tr("taille_grande"), tr("taille_tres_grande")][taille]}`);
+  });
 
   // ---------- Hors connexion : un bandeau prévient l'utilisateur ----------
   function majReseau(changement) {

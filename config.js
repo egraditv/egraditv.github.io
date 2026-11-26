@@ -143,6 +143,11 @@ window.EGRADI = {
     },
   },
 
+  // Mise à jour par l'équipe avec Google Sheets (facultatif). Collez ici les liens « Publier sur le Web » au format CSV :
+  //   annonces   : une annonce par ligne → remplace le bandeau INFOS
+  //   evenements : colonnes date | heure | titre | lieu | description | affiche → remplace les événements ci-dessous
+  feuilles: { annonces: "", evenements: "" },
+
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
   // Exemple : { date: "2026-12-31", heure: "20h00", titre: "Veillée de fin d'année", lieu: "Cité de Grâce (Badara)", affiche: "" },
   evenements: [],

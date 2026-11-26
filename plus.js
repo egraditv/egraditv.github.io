@@ -341,26 +341,160 @@
   )}`;
   $("#soutien-whatsapp").parentElement.hidden = mm.length > 0;
 
-  // ---------- Événements à venir ----------
-  const aujourdhui = new Date().toISOString().slice(0, 10);
-  const evenements = (C.evenements || []).filter((ev) => ev.date >= aujourdhui).sort((a, b) => a.date.localeCompare(b.date));
-  $("#liste-evenements").innerHTML = evenements.length
-    ? evenements
-        .map((ev) => {
-          const d = new Date(ev.date + "T12:00:00");
-          const jour = d.toLocaleDateString(window.EGRADI_LOCALE, { day: "numeric" });
-          const mois = d.toLocaleDateString(window.EGRADI_LOCALE, { month: "short" });
-          return `<article class="evenement">
-            ${ev.affiche ? `<img src="${esc(ev.affiche)}" alt="" loading="lazy">` : ""}
-            <div class="ev-date"><strong>${jour}</strong><span>${mois}</span></div>
-            <div><h3>${esc(ev.titre)}</h3>
-              <p class="heure">${esc(d.toLocaleDateString(window.EGRADI_LOCALE, { weekday: "long" }))}${ev.heure ? " · " + esc(ev.heure) : ""}${ev.lieu ? " · " + esc(ev.lieu) : ""}</p>
-              ${ev.description ? `<p>${esc(ev.description)}</p>` : ""}
-            </div>
-          </article>`;
-        })
-        .join("")
-    : `<p class="vide bloc">${tr("aucun_evenement")}</p>`;
+  // ---------- Événements à venir : affiche, compte à rebours, agenda ----------
+  const aujourdhui = () => new Date(Date.now() + 3600000).toISOString().slice(0, 10); // date de Kinshasa
+  const pad2 = (n) => String(n).padStart(2, "0");
+  function joursAvant(date) {
+    return Math.round((new Date(date + "T12:00:00Z") - new Date(aujourdhui() + "T12:00:00Z")) / 86400000);
+  }
+  function quandEvenement(date) {
+    const j = joursAvant(date);
+    return j === 0 ? tr("ev_aujourdhui") : j === 1 ? tr("ev_demain") : `${tr("ev_dans")} ${j} ${tr("ev_jours")}`;
+  }
+  function agendaEvenement(ev) {
+    const h = A.lireHeure(ev.heure);
+    const date = ev.date.replace(/-/g, "");
+    const lignes = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//EGRADI TV//Evenement//FR", "BEGIN:VEVENT",
+      `UID:egradi-ev-${date}-${ev.titre.length}@egradi.tv`,
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`];
+    if (h) {
+      const fin = new Date(Date.UTC(2000, 0, 1, h.h, h.m) + A.dureeCulte(ev.heure));
+      lignes.push(`DTSTART;TZID=Africa/Kinshasa:${date}T${pad2(h.h)}${pad2(h.m)}00`,
+        `DTEND;TZID=Africa/Kinshasa:${date}T${pad2(fin.getUTCHours())}${pad2(fin.getUTCMinutes())}00`);
+    } else {
+      lignes.push(`DTSTART;VALUE=DATE:${date}`);
+    }
+    lignes.push(`SUMMARY:${ev.titre} — EGRADI TV`, `LOCATION:${(ev.lieu || "").replace(/,/g, "\\,")}`,
+      "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", `DESCRIPTION:${ev.titre}`, "END:VALARM", "END:VEVENT", "END:VCALENDAR");
+    const url = URL.createObjectURL(new Blob([lignes.join("\r\n")], { type: "text/calendar" }));
+    const a = Object.assign(document.createElement("a"), { href: url, download: `EGRADI-TV-${ev.date}.ics` });
+    document.body.append(a); a.click(); a.remove();
+  }
+  let evenements = [];
+  function afficherEvenements() {
+    evenements = (C.evenements || []).filter((ev) => ev.date >= aujourdhui()).sort((a, b) => a.date.localeCompare(b.date));
+    $("#liste-evenements").innerHTML = evenements.length
+      ? evenements
+          .map((ev, i) => {
+            const d = new Date(ev.date + "T12:00:00");
+            const jour = d.toLocaleDateString(window.EGRADI_LOCALE, { day: "numeric" });
+            const mois = d.toLocaleDateString(window.EGRADI_LOCALE, { month: "short" });
+            return `<article class="evenement">
+              ${ev.affiche ? `<img src="${esc(ev.affiche)}" alt="${esc(ev.titre)}" loading="lazy" data-affiche="${esc(ev.affiche)}">` : ""}
+              <div class="ev-date"><strong>${jour}</strong><span>${mois}</span></div>
+              <div><span class="ev-quand">${quandEvenement(ev.date)}</span><h3>${esc(ev.titre)}</h3>
+                <p class="heure">${esc(d.toLocaleDateString(window.EGRADI_LOCALE, { weekday: "long" }))}${ev.heure ? " · " + esc(ev.heure) : ""}${ev.lieu ? " · " + esc(ev.lieu) : ""}</p>
+                ${ev.description ? `<p>${esc(ev.description)}</p>` : ""}
+                <button class="bouton petit" type="button" data-agenda="${i}">${tr("ev_agenda")}</button>
+              </div>
+            </article>`;
+          })
+          .join("")
+      : `<p class="vide bloc">${tr("aucun_evenement")}</p>`;
+    // Accueil : le prochain événement
+    const p = evenements[0];
+    $("#prochain-evenement").hidden = !p;
+    if (p) {
+      $("#prochain-evenement").innerHTML = `<span class="sur-titre">${tr("ev_prochain")}</span>
+        <strong>${esc(p.titre)}</strong><span>${esc(new Date(p.date + "T12:00:00").toLocaleDateString(window.EGRADI_LOCALE, { weekday: "long", day: "numeric", month: "long" }))}${p.heure ? " · " + esc(p.heure) : ""} — <b>${quandEvenement(p.date)}</b></span>`;
+    }
+  }
+  $("#liste-evenements").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-agenda]");
+    if (b) return agendaEvenement(evenements[+b.dataset.agenda]);
+    const img = e.target.closest("[data-affiche]");
+    if (img) {
+      const d = document.createElement("dialog");
+      d.className = "visionneuse";
+      d.innerHTML = `<img src="${esc(img.dataset.affiche)}" alt=""><button type="button" class="visionneuse-fermer" aria-label="Fermer">✕</button>`;
+      d.addEventListener("click", () => d.close());
+      d.addEventListener("close", () => d.remove());
+      document.body.append(d);
+      d.showModal();
+    }
+  });
+  afficherEvenements();
+
+  // ---------- La Bible en 260 jours (Nouveau Testament, un chapitre par jour) ----------
+  const NT = window.EGRADI_NT || [];
+  const CHAPITRES = NT.flatMap(([fr, en, n]) => Array.from({ length: n }, (_, k) => ({ fr, en, c: k + 1 })));
+  const CLE_LECTURE = "egradi-lecture";
+  const lecture = (() => { try { return Object.assign({ lus: 0, jours: [] }, JSON.parse(localStorage.getItem(CLE_LECTURE) || "{}")); } catch { return { lus: 0, jours: [] }; } })();
+  function serie() {
+    // jours d'affilée (jusqu'à aujourd'hui ou hier) où au moins un chapitre a été lu
+    const jours = new Set(lecture.jours);
+    let n = 0, d = new Date(aujourdhui() + "T12:00:00Z");
+    if (!jours.has(aujourdhui())) d = new Date(d - 86400000);
+    while (jours.has(d.toISOString().slice(0, 10))) { n++; d = new Date(d - 86400000); }
+    return n;
+  }
+  function afficherLecture() {
+    if (!CHAPITRES.length) return ($("#bloc-lecture").hidden = true);
+    const fini = lecture.lus >= CHAPITRES.length;
+    const ch = CHAPITRES[Math.min(lecture.lus, CHAPITRES.length - 1)];
+    const en = window.EGRADI_LANGUE === "en";
+    $("#lecture-chapitre").textContent = fini ? tr("lecture_fin") : `${tr("lecture_jour")} ${lecture.lus + 1} : ${en ? ch.en : ch.fr} ${ch.c}`;
+    $("#lecture-lire").href = `https://www.biblegateway.com/passage/?search=${encodeURIComponent(ch.en + " " + ch.c)}&version=${en ? "KJV" : "LSG"}`;
+    $("#lecture-lire").hidden = fini;
+    $("#lecture-progres").style.width = `${Math.round((lecture.lus / CHAPITRES.length) * 100)}%`;
+    $("#lecture-compte").textContent = `${lecture.lus} / ${CHAPITRES.length} ${tr("lecture_progres")}`;
+    const s = serie();
+    $("#lecture-serie").textContent = s ? `🔥 ${s} ${s > 1 ? tr("lecture_serie") : tr("lecture_serie1")}` : "";
+    $("#lecture-lu").textContent = fini ? tr("lecture_recommencer") : tr("lecture_lu");
+  }
+  $("#lecture-lu").addEventListener("click", () => {
+    if (lecture.lus >= CHAPITRES.length) { lecture.lus = 0; lecture.jours = []; }
+    else {
+      lecture.lus++;
+      if (!lecture.jours.includes(aujourdhui())) lecture.jours = [...lecture.jours, aujourdhui()].slice(-400);
+      toast(tr("lecture_bravo"));
+    }
+    try { localStorage.setItem(CLE_LECTURE, JSON.stringify(lecture)); } catch {}
+    afficherLecture();
+  });
+  afficherLecture();
+
+  // ---------- Mise à jour par l'équipe avec Google Sheets (facultatif) ----------
+  // Dans config.js, « feuilles » peut contenir les liens CSV publiés d'un tableau Google Sheets :
+  //   annonces   : une annonce par ligne (colonne A)                → bandeau INFOS
+  //   evenements : colonnes date (AAAA-MM-JJ), heure, titre, lieu, description, affiche → page Programme
+  function lireCSV(texte) {
+    const lignes = []; let ligne = [], champ = "", guillemets = false;
+    for (let i = 0; i < texte.length; i++) {
+      const c = texte[i];
+      if (guillemets) {
+        if (c === '"' && texte[i + 1] === '"') { champ += '"'; i++; }
+        else if (c === '"') guillemets = false;
+        else champ += c;
+      } else if (c === '"') guillemets = true;
+      else if (c === ",") { ligne.push(champ); champ = ""; }
+      else if (c === "\n" || c === "\r") { if (c === "\r" && texte[i + 1] === "\n") i++; ligne.push(champ); lignes.push(ligne); ligne = []; champ = ""; }
+      else champ += c;
+    }
+    if (champ || ligne.length) { ligne.push(champ); lignes.push(ligne); }
+    return lignes.filter((l) => l.some((x) => x.trim()));
+  }
+  const F = C.feuilles || {};
+  if (F.annonces) {
+    fetch(F.annonces, { cache: "no-store" }).then((r) => r.ok ? r.text() : Promise.reject()).then((t) => {
+      const annonces = lireCSV(t).map((l) => l[0].trim()).filter((a) => a && !/^annonce/i.test(a));
+      if (!annonces.length) return;
+      const html = annonces.map((a) => `<span>${esc(a)}</span>`).join("");
+      $("#bandeau-texte").innerHTML = html + html;
+      $(".bandeau").hidden = false;
+    }).catch(() => {});
+  }
+  if (F.evenements) {
+    fetch(F.evenements, { cache: "no-store" }).then((r) => r.ok ? r.text() : Promise.reject()).then((t) => {
+      const [entete, ...lignes] = lireCSV(t);
+      const col = (nom) => entete.findIndex((x) => x.trim().toLowerCase() === nom);
+      const ev = lignes.map((l) => ({
+        date: (l[col("date")] || "").trim(), heure: (l[col("heure")] || "").trim(), titre: (l[col("titre")] || "").trim(),
+        lieu: (l[col("lieu")] || "").trim(), description: (l[col("description")] || "").trim(), affiche: (l[col("affiche")] || "").trim(),
+      })).filter((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.titre);
+      if (ev.length) { C.evenements = ev; afficherEvenements(); }
+    }).catch(() => {});
+  }
 
   // ---------- Rappels : fichier agenda (.ics) avec les cultes de la semaine, rappel 30 min avant ----------
   const BYDAY = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];

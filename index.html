@@ -18,7 +18,7 @@
   <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://egraditv.github.io/">
-  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Church", "name": "Église Grâce Divine (EGRADI)", "alternateName": "EGRADI TV", "url": "https://egraditv.github.io/", "logo": "https://egraditv.github.io/logo-512.png", "image": "https://egraditv.github.io/partage.jpg", "description": "Cultes en direct, prières, enseignements et miracles avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.", "telephone": "+243997751720", "email": "egrdimwimpe@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "Av. La Police n°3, Quartier Badara, Commune de N'sele (en face de l'Aéroport de Ndjili)", "addressLocality": "Kinshasa", "addressCountry": "CD"}, "founder": {"@type": "Person", "name": "Apôtre Augustin Mwimpe"}, "sameAs": ["https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel", "https://www.facebook.com/MWIMPE", "https://www.tiktok.com/@augustinmwimpeofficiel", "https://www.instagram.com/apotre_augustin_mwimpeofficiel/", "https://x.com/ApotreMwimpe"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "EGRADI TV", "url": "https://egraditv.github.io/", "inLanguage": ["fr", "ln", "en"]}]</script>
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "Church", "name": "Église Grâce Divine (EGRADI)", "alternateName": "EGRADI TV", "url": "https://egraditv.github.io/", "logo": "https://egraditv.github.io/logo-512.png", "image": "https://egraditv.github.io/partage.jpg", "description": "Cultes en direct, prières, enseignements et miracles avec l'Apôtre Augustin Mwimpe, depuis Kinshasa.", "telephone": "+243997751720", "email": "egrdimwimpe@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "Av. La Police n°3, Quartier Badara, Commune de N'sele (en face de l'Aéroport de Ndjili)", "addressLocality": "Kinshasa", "addressCountry": "CD"}, "founder": {"@type": "Person", "name": "Apôtre Augustin Mwimpe"}, "sameAs": ["https://www.youtube.com/@Ap%C3%B4treAugustinMwimpeOfficiel", "https://www.facebook.com/MWIMPE", "https://www.tiktok.com/@augustinmwimpeofficiel", "https://www.instagram.com/apotre_augustin_mwimpeofficiel/", "https://x.com/ApotreMwimpe"]}, {"@context": "https://schema.org", "@type": "WebSite", "name": "EGRADI TV", "url": "https://egraditv.github.io/", "inLanguage": ["fr", "ln", "en"], "creator": {"@type": "Person", "name": "Yanick Mfuni Tshimanga Nickson"}}]</script>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="logo-badge.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -75,6 +75,7 @@
     </nav>
     <div class="entete-actions">
       <select id="langue" class="langue" aria-label="Langue"></select>
+      <button id="taille-texte" class="icone-bouton texte-taille" type="button" aria-label="Taille du texte" title="Taille du texte">A<small>A</small></button>
       <button id="installer" class="icone-bouton" hidden aria-label="Installer l'application" title="Installer l'application"><svg><use href="#i-installer"/></svg></button>
       <button id="partager-app" class="icone-bouton" aria-label="Partager l'application" title="Partager l'application"><svg><use href="#i-partager"/></svg></button>
       <a class="pastille-direct" href="#direct"><span class="point"></span>DIRECT</a>
@@ -128,6 +129,23 @@
           <button id="verset-partager" class="bouton petit" data-i18n="partager">Partager</button>
         </div>
       </figure>
+
+      <section id="bloc-lecture" class="bloc-lecture" aria-labelledby="lecture-titre">
+        <div class="lecture-entete">
+          <p class="sur-titre" id="lecture-titre" data-i18n="lecture_titre">📖 La Bible en 260 jours</p>
+          <span id="lecture-serie" class="lecture-serie"></span>
+        </div>
+        <p class="lecture-sous" data-i18n="lecture_sous">Le Nouveau Testament, un chapitre par jour</p>
+        <p class="lecture-chapitre" id="lecture-chapitre"></p>
+        <div class="lecture-barre"><span id="lecture-progres"></span></div>
+        <p class="note" id="lecture-compte"></p>
+        <div class="actions">
+          <a id="lecture-lire" class="bouton principal" target="_blank" rel="noopener" data-i18n="lecture_lire">📖 Lire le chapitre</a>
+          <button id="lecture-lu" class="bouton" type="button" data-i18n="lecture_lu">✓ J'ai lu</button>
+        </div>
+      </section>
+
+      <a id="prochain-evenement" class="prochain-evenement" href="#programmes" hidden></a>
 
       <div class="tuiles">
         <a href="#priere" class="tuile"><span class="tuile-icone">🙏</span><span data-i18n="tuile_priere">Demande de prière</span></a>
@@ -195,6 +213,13 @@
       <div class="actions">
         <a class="bouton bleu-ott" id="lien-bleu-ott" target="_blank" rel="noopener" hidden data-i18n="bleu_ott">📺 Regarder sur Bleu OTT</a>
         <a class="bouton" id="lien-youtube-direct" target="_blank" rel="noopener" data-i18n="ouvrir_yt">Ouvrir sur YouTube</a>
+      </div>
+      <div id="bloc-chat" class="bloc-chat" hidden>
+        <div class="actions">
+          <button id="chat-afficher" class="bouton principal" type="button" data-i18n="chat_btn">💬 Afficher le chat du direct</button>
+          <a id="chat-youtube" class="bouton" target="_blank" rel="noopener" data-i18n="chat_yt">Ouvrir le chat sur YouTube</a>
+        </div>
+        <div id="zone-chat" class="zone-chat" hidden></div>
       </div>
       <div class="actions" hidden><a id="alerte-direct-2" class="bouton whatsapp" target="_blank" rel="noopener" data-i18n="alerte_direct">🔔 Être prévenu des directs (WhatsApp)</a></div>
       <div id="bloc-ailleurs">
@@ -335,6 +360,7 @@
     <p><strong>EGRADI TV</strong> — Église Grâce Divine, Direction Générale<br>Kinshasa, République Démocratique du Congo</p>
     <p class="copyright">© <span id="annee"></span> EGRADI TV. <span data-i18n="droits">Tous droits réservés.</span></p>
     <p class="copyright"><a href="confidentialite.html" data-i18n="confidentialite">Politique de confidentialité</a></p>
+    <p class="concepteur"><span data-i18n="concepteur">Application conçue par</span> <strong>Yanick Mfuni Tshimanga Nickson</strong></p>
   </footer>
 
   <dialog id="fenetre-video" class="fenetre-video">
@@ -360,6 +386,7 @@
         <button id="depuis-debut" class="bouton petit" hidden data-i18n="depuis_debut">⟲ Depuis le début</button>
         <button id="bouton-audio" class="bouton petit" aria-pressed="false">🎧 Mode audio</button>
         <button id="ma-liste" class="bouton petit" aria-pressed="false">☆ Ma liste</button>
+        <button id="partager-moment" class="bouton petit" type="button" data-i18n="moment_btn">🔗 Ce moment</button>
         <button id="partager" class="bouton petit" data-i18n="partager">Partager</button>
       </span>
     </div>
@@ -426,6 +453,7 @@
   <script src="i18n.js"></script>
   <script src="videos.js"></script>
   <script src="versets.js"></script>
+  <script src="lecture.js"></script>
   <script src="app.js"></script>
   <script src="plus.js"></script>
 </body>

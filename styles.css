@@ -594,3 +594,39 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .programmes .lieu { display: block; font-size: 13px; color: #ffd34d; margin-top: 2px; }
 #bloc-receptions { margin-top: 6px; }
 #numero-2 a { color: inherit; font-weight: 700; }
+
+/* ---------- Taille du texte ---------- */
+.texte-taille { font-weight: 800; font-size: 15px; letter-spacing: -1px; }
+.texte-taille small { font-size: 11px; }
+
+/* ---------- Chat du direct ---------- */
+.bloc-chat { margin-top: 10px; }
+.bloc-chat[hidden] { display: none; }
+.zone-chat { margin-top: 10px; height: 520px; border-radius: var(--rayon); overflow: hidden; background: #fff; border: 1px solid var(--ligne); }
+.zone-chat[hidden] { display: none; }
+.zone-chat iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ---------- La Bible en 260 jours ---------- */
+.bloc-lecture { margin-top: 14px; padding: 16px 18px; border-radius: var(--rayon); background: linear-gradient(120deg, rgba(30,155,224,.16), var(--carte) 60%); border: 1px solid rgba(30,155,224,.4); }
+.lecture-entete { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.lecture-entete .sur-titre { margin: 0; }
+.lecture-serie { font-size: 13px; font-weight: 700; color: #ffb74d; white-space: nowrap; }
+.lecture-sous { margin: 2px 0 8px; font-size: 13px; color: var(--texte-2); }
+.lecture-chapitre { margin: 0 0 10px; font-size: 20px; font-weight: 800; }
+.lecture-barre { height: 8px; border-radius: 999px; background: rgba(255,255,255,.12); overflow: hidden; }
+.lecture-barre span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--bleu), #6cc6ff); border-radius: 999px; transition: width .4s; }
+.bloc-lecture .note { margin: 6px 0 0; }
+.bloc-lecture .actions { margin-top: 10px; }
+
+/* ---------- Événements ---------- */
+.ev-quand { display: inline-block; margin-bottom: 2px; padding: 2px 8px; border-radius: 999px; background: rgba(227,6,19,.2); color: #ff8a8a; font-size: 12px; font-weight: 800; }
+.evenement .bouton { margin-top: 8px; }
+.evenement img { cursor: zoom-in; }
+.prochain-evenement { display: grid; gap: 2px; margin-top: 14px; padding: 14px 16px; border-radius: var(--rayon); text-decoration: none; color: var(--texte); background: var(--carte); border: 1px solid var(--ligne); border-left: 4px solid #ffb74d; }
+.prochain-evenement[hidden] { display: none; }
+.prochain-evenement strong { font-size: 17px; }
+.prochain-evenement span:last-child { color: var(--texte-2); font-size: 14px; }
+
+/* ---------- Concepteur de l'application ---------- */
+.concepteur { margin: 10px 0 0; font-size: 12.5px; color: var(--texte-2); }
+.concepteur strong { color: var(--texte); }
