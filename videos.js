@@ -3,13 +3,13 @@ window.EGRADI_VIDEOS = [
  {
   "id": "zDsVBg2lcTc",
   "titre": "Direct: CULTE D'ENSEIGNEMENT, Le 25.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
  },
  {
   "id": "YC1-dNMc3gk",
   "titre": "Direct: CULTE D'ENSEIGNEMENT, Le 25.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
  },
  {
@@ -105,13 +105,13 @@ window.EGRADI_VIDEOS = [
  {
   "id": "OhTb75Ody_Y",
   "titre": "🇨🇩 KINSHASA ACCUEILLE UN HOMME DE DIEU VENU DU BRÉSIL ! 🇧🇷",
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "description": ""
  },
  {
   "id": "prY-EhOTXyM",
   "titre": "🇨🇩 KINSHASA, IL EST DÉJÀ LÀ ! 🇨🇩Après un long séjour au Brésil 🇧🇷 en mission évangélique,",
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "description": ""
  },
  {
