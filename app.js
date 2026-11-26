@@ -5,6 +5,15 @@
   const tr = window.t || ((k) => k); // traductions (i18n.js)
   const JOURS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
+  // Un culte publié en plusieurs vidéos avec le même titre (direct coupé puis relancé) :
+  // on ajoute « Partie 1 », « Partie 2 »… dans l'ordre de diffusion (la liste va du plus récent au plus ancien).
+  const parTitre = {};
+  VIDEOS.forEach((v) => (parTitre[v.titre] ||= []).push(v));
+  for (const groupe of Object.values(parTitre)) {
+    if (groupe.length < 2) continue;
+    groupe.slice().reverse().forEach((v, i) => { v.partie = i + 1; });
+  }
+
   const CATEGORIES = [
     { nom: tr("cat_tout"), mot: "" },
     { nom: tr("cat_directs"), mot: "^direct" },
@@ -188,12 +197,13 @@
         <img loading="lazy" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="">
         ${estDirect ? `<span class="etiquette direct">${tr("etiquette_direct")}</span>` : ""}
         ${recent ? `<span class="etiquette nouveau">${tr("etiquette_nouveau")}</span>` : ""}
+        ${v.partie ? `<span class="etiquette partie">${tr("partie")} ${v.partie}</span>` : ""}
         ${estFavori(v.id) ? `<span class="etoile" title="${tr("cat_maliste")}">★</span>` : ""}
         ${memo.pos[v.id] && memo.duree[v.id] ? `<span class="progression"><span style="width:${Math.min(100, Math.round((memo.pos[v.id] / memo.duree[v.id]) * 100))}%"></span></span>` : ""}
       </div>
       <div class="video-infos">
         <p class="video-titre">${esc(titrePropre(v.titre))}</p>
-        <p class="video-date">${dateFr(v.date)}</p>
+        <p class="video-date">${dateFr(v.date)}${v.partie ? ` · <strong>${tr("partie")} ${v.partie}</strong>` : ""}</p>
       </div>`;
     b.addEventListener("click", () => ouvrirVideo(v));
     return b;
@@ -242,7 +252,7 @@
     memo.quand[v.id] = Date.now();
     sauverMemoire();
     const depart = !depuisDebut && commencee(v.id) ? memo.pos[v.id] : 0;
-    $("#fenetre-titre").textContent = titrePropre(v.titre);
+    $("#fenetre-titre").textContent = titrePropre(v.titre) + (v.partie ? ` — ${tr("partie")} ${v.partie}` : "");
     $("#fenetre-date").textContent = dateFr(v.date);
     $("#depuis-debut").hidden = !depart;
     majBoutonListe();
