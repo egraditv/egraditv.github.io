@@ -530,7 +530,7 @@
       zone.append(carte);
     }
     zone.classList.add("sans-direct");
-    const dernier = VIDEOS.find((v) => /^direct/i.test(v.titre)) || VIDEOS[0];
+    const dernier = partiesDuDernier()[0] || VIDEOS[0]; // Partie 1 du dernier culte
     const dessiner = () => {
       const n = prochainCulte();
       let quand = "";
@@ -691,7 +691,13 @@
     arreterDirect();
     sourceActive = null;
   }
-  remplir($("#dernier-direct"), VIDEOS.filter((v) => /^direct/i.test(v.titre)).slice(0, 1));
+  // Dernier direct : toutes ses parties s'il a été publié en plusieurs vidéos (Partie 1 en premier)
+  function partiesDuDernier() {
+    const d = VIDEOS.find((v) => /^direct/i.test(v.titre));
+    if (!d) return [];
+    return d.partie ? VIDEOS.filter((v) => v.titre === d.titre).sort((a, b) => a.partie - b.partie) : [d];
+  }
+  remplir($("#dernier-direct"), partiesDuDernier());
 
   // ---------- Vidéos : recherche + filtres ----------
   let categorie = CATEGORIES[0];
