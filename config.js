@@ -93,7 +93,7 @@ window.EGRADI = {
 
   // Statistiques de visite (GoatCounter : gratuit, sans cookies, anonyme). Après avoir créé le compte
   // sur https://www.goatcounter.com (ex. code « egraditv »), écrivez ce code ici : goatcounter: "egraditv".
-  statistiques: { goatcounter: "" },
+  statistiques: { goatcounter: "egraditv" }, // tableau de bord : https://egraditv.goatcounter.com
 
   // Alerte « Le direct commence » : lien d'une Chaîne WhatsApp de l'église (WhatsApp → Actualités → Créer une chaîne).
   // Exemple : "https://whatsapp.com/channel/0029Va…". Tant que c'est vide, le bouton n'apparaît pas.
