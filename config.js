@@ -146,7 +146,10 @@ window.EGRADI = {
   // Mise à jour par l'équipe avec Google Sheets (facultatif). Collez ici les liens « Publier sur le Web » au format CSV :
   //   annonces   : une annonce par ligne → remplace le bandeau INFOS
   //   evenements : colonnes date | heure | titre | lieu | description | affiche → remplace les événements ci-dessous
-  feuilles: { annonces: "", evenements: "" },
+  feuilles: {
+    annonces: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0sJDxxzV6nr2eb6OfAoO6cZR4TCR2Y4yzuQhlgnOLMWUGhS88PU6ZS_GV2DdqiCK5i934ykQZOHp-/pub?gid=0&single=true&output=csv",
+    evenements: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0sJDxxzV6nr2eb6OfAoO6cZR4TCR2Y4yzuQhlgnOLMWUGhS88PU6ZS_GV2DdqiCK5i934ykQZOHp-/pub?gid=643089568&single=true&output=csv",
+  },
 
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
   // Exemple : { date: "2026-12-31", heure: "20h00", titre: "Veillée de fin d'année", lieu: "Cité de Grâce (Badara)", affiche: "" },
