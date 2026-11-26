@@ -16,6 +16,11 @@ on:
         description: "Titre de l'annonce"
         required: false
         default: "EGRADI TV"
+      verifier:
+        description: "Seulement vérifier la clé OneSignal (rien n'est envoyé)"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   notifier:
@@ -31,3 +36,4 @@ jobs:
           ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
           MESSAGE: ${{ github.event.inputs.message }}
           TITRE: ${{ github.event.inputs.titre }}
+          VERIFIER: ${{ github.event.inputs.verifier }}

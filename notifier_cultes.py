@@ -90,6 +90,30 @@ def diagnostic_cle():
     return "Diagnostic : " + " ; ".join(conseils) + "."
 
 
+def verifier_cle():
+    """Mode « vérifier » : demande à OneSignal la liste des dernières notifications (rien n'est envoyé)."""
+    if any(ord(c) > 127 for c in CLE):
+        print(f"ERREUR : clé invalide. {diagnostic_cle()}")
+        return 1
+    for schema in ("Key", "Basic"):
+        req = urllib.request.Request(
+            f"https://api.onesignal.com/notifications?app_id={APP_ID}&limit=1",
+            headers={"Authorization": f"{schema} {CLE}"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                total = json.loads(r.read().decode("utf-8", "replace")).get("total_count", "?")
+                print(f"OK : OneSignal accepte la clé ({len(CLE)} caractères). Notifications déjà envoyées : {total}. Rien n'a été envoyé.")
+                return 0
+        except urllib.error.HTTPError as e:
+            if e.code in (401, 403) and schema == "Key":
+                continue
+            print(f"ERREUR {e.code} : {e.read().decode('utf-8', 'replace')[:300]}")
+            print(diagnostic_cle())
+            return 1
+    return 1
+
+
 def lire_programmes():
     texte = pathlib.Path(__file__).with_name("config.js").read_text(encoding="utf-8")
     bloc = re.search(r"programmes:\s*\[(.*?)\n\s*\],", texte, re.S)  # jusqu'à la fin de la liste (les « mot » peuvent contenir des [ ])
@@ -101,6 +125,9 @@ def main():
     if not APP_ID or not CLE:
         print("Notifications pas encore activées : ajoutez ONESIGNAL_APP_ID et ONESIGNAL_API_KEY dans les réglages du dépôt.")
         return 0
+
+    if os.environ.get("VERIFIER", "").strip().lower() in ("true", "1", "oui"):
+        return verifier_cle()
 
     message = os.environ.get("MESSAGE", "").strip()
     if message:
