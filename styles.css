@@ -471,6 +471,7 @@ address { font-style: normal; line-height: 1.8; }
 .galerie { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 .galerie-item { padding: 0; border: 0; border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; cursor: zoom-in; background: var(--carte); }
 .galerie-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.galerie-item:first-child { grid-column: 1 / -1; aspect-ratio: 3 / 2; } /* la première photo en grand */
 .galerie-item:hover img { transform: scale(1.06); }
 .visionneuse { width: min(1000px, 96vw); padding: 12px; border: 1px solid var(--ligne); border-radius: var(--rayon); background: var(--fond-2); color: var(--texte); text-align: center; }
 .visionneuse::backdrop { background: rgba(3, 6, 15, .92); }

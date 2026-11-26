@@ -176,7 +176,17 @@ window.EGRADI = {
 
   // Galerie (page Église) : photos ajoutées ici en premier (fichiers dans photos/ ou adresses d'images),
   // puis automatiquement les images des derniers cultes publiés sur YouTube.
-  galerie: { photos: [], imagesDesCultes: 12 },
+  galerie: {
+    photos: [
+      // Équipe de presse EGRADI TV (Réveillon 2026) : la photo avec l'Apôtre en premier
+      { src: "photos/presse-1-apotre-petite.jpg", grande: "photos/presse-1-apotre.jpg", legende: "L'Apôtre Augustin Mwimpe avec l'équipe de presse EGRADI TV · Réveillon 2026" },
+      { src: "photos/presse-2-equipe-petite.jpg", grande: "photos/presse-2-equipe.jpg", legende: "Équipe de presse EGRADI TV · Réveillon 2026" },
+      { src: "photos/presse-3-trio-petite.jpg", grande: "photos/presse-3-trio.jpg", legende: "Équipe de presse EGRADI TV · Réveillon 2026" },
+      { src: "photos/presse-4-noir-blanc-petite.jpg", grande: "photos/presse-4-noir-blanc.jpg", legende: "Équipe de presse EGRADI TV · Réveillon 2026" },
+      { src: "photos/presse-5-dos-petite.jpg", grande: "photos/presse-5-dos.jpg", legende: "Équipe de presse EGRADI TV · Réveillon 2026" },
+    ],
+    imagesDesCultes: 12,
+  },
 
   // Programme de la semaine (d'après les directs publiés sur YouTube).
   // Heures de Kinshasa, écrites « 9h00 », « 17h30 »… (lues par le compte à rebours et le fichier agenda).
