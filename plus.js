@@ -370,9 +370,17 @@
     const a = Object.assign(document.createElement("a"), { href: url, download: `EGRADI-TV-${ev.date}.ics` });
     document.body.append(a); a.click(); a.remove();
   }
+  // Affiche d'un événement : lien d'image (PNG, JPG), chemin dans le site (photos/…), ou lien de partage Google Drive
+  // (« https://drive.google.com/file/d/ID/view?usp=sharing » → image directe ; le fichier doit être partagé « Tous les utilisateurs disposant du lien »).
+  function lienAffiche(url) {
+    const u = (url || "").trim();
+    const id = (u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/) || [])[1];
+    return id ? `https://lh3.googleusercontent.com/d/${id}=w1200` : u;
+  }
   let evenements = [];
   function afficherEvenements() {
-    evenements = (C.evenements || []).filter((ev) => ev.date >= aujourdhui()).sort((a, b) => a.date.localeCompare(b.date));
+    evenements = (C.evenements || []).filter((ev) => ev.date >= aujourdhui()).sort((a, b) => a.date.localeCompare(b.date))
+      .map((ev) => ({ ...ev, affiche: lienAffiche(ev.affiche) }));
     $("#liste-evenements").innerHTML = evenements.length
       ? evenements
           .map((ev, i) => {
