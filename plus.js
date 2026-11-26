@@ -147,8 +147,73 @@
         window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank", "noopener");
       }
     });
+    $("#verset-image").addEventListener("click", () => imageVerset(texte, ref));
   } else {
     $("#verset-jour").hidden = true;
+  }
+
+  // Image du verset du jour (fond EGRADI TV + logo), partagée comme une photo (WhatsApp, statut…) ou enregistrée.
+  async function imageVerset(texte, ref) {
+    const L = 1080, H = 1350;
+    const c = document.createElement("canvas");
+    c.width = L; c.height = H;
+    const g = c.getContext("2d");
+    const fond = g.createLinearGradient(0, 0, L, H);
+    fond.addColorStop(0, "#14204a"); fond.addColorStop(1, "#05080f");
+    g.fillStyle = fond; g.fillRect(0, 0, L, H);
+    const halo = g.createRadialGradient(L / 2, 0, 0, L / 2, 0, 900);
+    halo.addColorStop(0, "rgba(225,29,46,.38)"); halo.addColorStop(1, "rgba(225,29,46,0)");
+    g.fillStyle = halo; g.fillRect(0, 0, L, H);
+    const charger = (src) => new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
+    const logo = await charger("logo-512.png");
+    if (logo) { // logo dans un cercle (le fichier a un fond noir carré)
+      g.save(); g.beginPath(); g.arc(L / 2, 170, 80, 0, Math.PI * 2); g.clip();
+      g.drawImage(logo, L / 2 - 80, 90, 160, 160); g.restore();
+    }
+    g.textAlign = "center";
+    g.fillStyle = "#ff5a67";
+    g.font = "700 38px system-ui, sans-serif";
+    g.fillText(tr("verset_titre").replace("📖 ", "").toUpperCase(), L / 2, 320);
+    // texte du verset : taille adaptée à sa longueur, coupé en lignes
+    let taille = texte.length > 220 ? 46 : texte.length > 140 ? 54 : 62;
+    const lignes = [];
+    const couper = () => {
+      lignes.length = 0;
+      g.font = `600 ${taille}px Georgia, 'Times New Roman', serif`;
+      let ligne = "";
+      for (const mot of `« ${texte} »`.split(" ")) { // espaces insécables : « et » restent collés au texte
+        const essai = ligne ? ligne + " " + mot : mot;
+        if (g.measureText(essai).width > L - 160 && ligne) { lignes.push(ligne); ligne = mot; } else ligne = essai;
+      }
+      lignes.push(ligne);
+    };
+    couper();
+    while (lignes.length * taille * 1.35 > 760 && taille > 34) { taille -= 4; couper(); }
+    const haut = lignes.length * taille * 1.35;
+    let y = 380 + (800 - haut) / 2 + taille;
+    g.fillStyle = "#ffffff";
+    for (const l of lignes) { g.fillText(l, L / 2, y); y += taille * 1.35; }
+    g.fillStyle = "#9fb4ff";
+    g.font = "700 44px system-ui, sans-serif";
+    g.fillText("— " + ref, L / 2, y + 30);
+    g.fillStyle = "rgba(255,255,255,.14)"; g.fillRect(140, H - 170, L - 280, 2);
+    g.fillStyle = "#ffffff"; g.font = "800 40px system-ui, sans-serif";
+    g.fillText("EGRADI TV", L / 2, H - 105);
+    g.fillStyle = "rgba(255,255,255,.7)"; g.font = "500 30px system-ui, sans-serif";
+    g.fillText("Église Grâce Divine · egraditv.github.io", L / 2, H - 60);
+
+    const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.9));
+    const fichier = new File([blob], `verset-du-jour-${ref.replace(/[^\w]+/g, "-")}.jpg`, { type: "image/jpeg" });
+    if (navigator.canShare?.({ files: [fichier] })) {
+      try { await navigator.share({ files: [fichier], text: `📖 ${ref} · EGRADI TV ${location.origin}/` }); } catch {}
+      return;
+    }
+    const a = document.createElement("a"); // ordinateur ou ancien téléphone : on enregistre l'image
+    a.href = URL.createObjectURL(blob);
+    a.download = fichier.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    A.toast(tr("verset_image_ok"));
   }
 
   // ---------- Télécharger l'application ----------
@@ -501,6 +566,27 @@
         lieu: (l[col("lieu")] || "").trim(), description: (l[col("description")] || "").trim(), affiche: (l[col("affiche")] || "").trim(),
       })).filter((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date) && e.titre);
       if (ev.length) { C.evenements = ev; afficherEvenements(); }
+    }).catch(() => {});
+  }
+
+  // Témoignages publiés par l'équipe (onglet « temoignages » : nom | ville | temoignage | date), les plus récents en haut
+  if (F.temoignages) {
+    fetch(F.temoignages, { cache: "no-store" }).then((r) => r.ok ? r.text() : Promise.reject()).then((t) => {
+      const [entete, ...lignes] = lireCSV(t);
+      const col = (nom) => entete.findIndex((x) => x.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === nom);
+      const ct = col("temoignage") >= 0 ? col("temoignage") : 2;
+      const liste = lignes
+        .map((l) => ({ nom: (l[col("nom")] || "").trim(), ville: (l[col("ville")] || "").trim(), texte: (l[ct] || "").trim(), date: (l[col("date")] || "").trim().replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$3/$2/$1") }))
+        .filter((x) => x.texte)
+        .reverse()
+        .slice(0, 12);
+      if (!liste.length) return;
+      $("#liste-temoignages").innerHTML = liste.map((x) => `
+        <figure class="temoignage">
+          <blockquote>« ${esc(x.texte)} »</blockquote>
+          <figcaption>${esc(x.nom || "Un fidèle")}${x.ville ? ` · ${esc(x.ville)}` : ""}${x.date ? ` <span>${esc(x.date)}</span>` : ""}</figcaption>
+        </figure>`).join("");
+      $("#bloc-temoignages").hidden = false;
     }).catch(() => {});
   }
 

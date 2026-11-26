@@ -479,13 +479,18 @@
         events: {
           onReady: () => verifier(),
           onStateChange: () => verifier(),
+          onError: () => horsDirect(), // 150/101/100 : aucun direct en cours sur la chaîne
         },
       });
       function verifier() {
-        let id = "";
-        try { id = p.getVideoData?.().video_id || ""; } catch {}
+        let d = {};
+        try { d = p.getVideoData?.() || {}; } catch {}
+        const id = d.video_id || "";
+        // Sans direct, YouTube renvoie « live_stream » (ou une erreur) au lieu de l'identifiant d'une vraie vidéo.
+        if (d.errorCode || d.isPlayable === false || id === "live_stream") return horsDirect();
         if (!id || id === directId) return;
         directId = id;
+        enDirect();
         $("#chat-youtube").href = `https://www.youtube.com/live_chat?v=${id}`;
         $("#bloc-chat").hidden = false;
       }
@@ -503,7 +508,70 @@
     $("#chat-afficher").textContent = tr("chat_masquer");
   });
 
+  // ---------- Pas de direct en ce moment : carte avec le prochain culte, au lieu de l'écran noir de YouTube ----------
+  let minuteurHors = null, minuteurRetour = null;
+  function horsDirect() {
+    const zone = $("#zone-direct");
+    masquerChat();
+    let carte = zone.querySelector(".hors-direct");
+    if (!carte) {
+      carte = document.createElement("div");
+      carte.className = "hors-direct";
+      zone.append(carte);
+    }
+    zone.classList.add("sans-direct");
+    const dernier = VIDEOS.find((v) => /^direct/i.test(v.titre)) || VIDEOS[0];
+    const dessiner = () => {
+      const n = prochainCulte();
+      let quand = "";
+      if (n) {
+        const ecart = n.debut - kinshasa();
+        if (ecart <= 0) quand = tr("hd_bientot");
+        else {
+          const j = Math.floor(ecart / 86400000), h = Math.floor((ecart % 86400000) / 3600000), m = Math.floor((ecart % 3600000) / 60000);
+          quand = `${tr("dans")} <span class="compte">${j ? j + " j " : ""}${h} h ${String(m).padStart(2, "0")} min</span>`;
+        }
+      }
+      carte.innerHTML = `
+        <p class="hd-etat"><span class="point"></span> ${tr("hd_titre")}</p>
+        ${n ? `<p class="sur-titre">${tr("hd_prochain")}</p>
+        <h3>${esc(n.p.titre)}</h3>
+        <p class="hd-quand">${esc(n.p.jour)} · ${esc(n.p.heure)}</p>
+        <p class="hd-compte">${quand}</p>` : ""}
+        <div class="hd-actions">
+          ${dernier ? `<button class="bouton principal" type="button" data-hd="revoir">${tr("hd_revoir")}</button>` : ""}
+          <button class="bouton" type="button" data-hd="rappel">${tr("hd_rappel")}</button>
+        </div>`;
+    };
+    carte.onclick = (e) => {
+      const b = e.target.closest("[data-hd]");
+      if (!b) return;
+      if (b.dataset.hd === "revoir") ouvrirVideo(dernier);
+      else $("#ajouter-agenda")?.click();
+    };
+    dessiner();
+    clearInterval(minuteurHors);
+    minuteurHors = setInterval(dessiner, 30000);
+    // Le direct s'affiche tout seul : on revérifie souvent près de l'heure du culte, rarement sinon.
+    clearTimeout(minuteurRetour);
+    const n = prochainCulte();
+    const proche = n && n.debut - kinshasa() < 20 * 60000;
+    minuteurRetour = setTimeout(() => {
+      if (sourceActive?.type === "youtube" && !document.hidden && location.hash === "#direct") jouerSource(sourceActive, true);
+      else if (sourceActive) horsDirect();
+    }, proche ? 60000 : 10 * 60000);
+  }
+  function enDirect() {
+    clearInterval(minuteurHors);
+    clearTimeout(minuteurRetour);
+    const zone = $("#zone-direct");
+    zone.classList.remove("sans-direct");
+    zone.querySelector(".hors-direct")?.remove();
+  }
+
   function arreterDirect() {
+    clearInterval(minuteurHors);
+    clearTimeout(minuteurRetour);
     masquerChat();
     if (hls) { hls.destroy(); hls = null; }
     $("#zone-direct").replaceChildren();
@@ -527,8 +595,9 @@
     zone.append(d);
   }
 
-  function jouerSource(s) {
+  function jouerSource(s, discret) {
     sourceActive = s;
+    const carte = discret ? $("#zone-direct .hors-direct") : null;
     arreterDirect();
     $("#sources-direct").querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", b.dataset.nom === s.nom));
     const eco = economie();
@@ -545,6 +614,7 @@
         ? `https://www.youtube.com/embed/live_stream?channel=${C.youtubeChaineId}&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`
         : s.url;
       zone.replaceChildren(f);
+      if (carte) zone.append(carte); else zone.classList.remove("sans-direct");
       habillerAudio(zone);
       if (s.type === "youtube") chercherChat(f);
       return;

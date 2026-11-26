@@ -149,6 +149,8 @@ window.EGRADI = {
   feuilles: {
     annonces: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0sJDxxzV6nr2eb6OfAoO6cZR4TCR2Y4yzuQhlgnOLMWUGhS88PU6ZS_GV2DdqiCK5i934ykQZOHp-/pub?gid=0&single=true&output=csv",
     evenements: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0sJDxxzV6nr2eb6OfAoO6cZR4TCR2Y4yzuQhlgnOLMWUGhS88PU6ZS_GV2DdqiCK5i934ykQZOHp-/pub?gid=643089568&single=true&output=csv",
+    // temoignages : colonnes nom | ville | temoignage | date → section « Ils témoignent » (page Prière)
+    temoignages: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0sJDxxzV6nr2eb6OfAoO6cZR4TCR2Y4yzuQhlgnOLMWUGhS88PU6ZS_GV2DdqiCK5i934ykQZOHp-/pub?gid=1468936601&single=true&output=csv",
   },
 
   // Événements à venir (croisades, conventions, veillées…). Les événements passés sont masqués automatiquement.
