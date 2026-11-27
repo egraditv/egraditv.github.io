@@ -738,7 +738,8 @@
   }
 
   // ---------- Programme ----------
-  $("#liste-programmes").innerHTML = C.programmes
+  const rang = (p) => (JOURS.indexOf(p.jour) - JOURS.indexOf(aujourdhui) + 7) % 7; // 0 = aujourd'hui
+  $("#liste-programmes").innerHTML = C.programmes.slice().sort((a, b) => rang(a) - rang(b))
     .map((p) => {
       const derniere = VIDEOS.find((v) => correspond(v.titre, p.mot));
       return `<li class="${p.jour === aujourdhui ? "aujourdhui" : ""}">

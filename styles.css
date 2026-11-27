@@ -653,3 +653,77 @@ html, body { overflow-x: clip; } /* sécurité : jamais de défilement horizonta
 .temoignage blockquote { margin: 0 0 10px; font-size: 15px; line-height: 1.55; white-space: pre-line; }
 .temoignage figcaption { font-weight: 700; font-size: 14px; color: var(--texte-2); }
 .temoignage figcaption span { font-weight: 400; opacity: .8; margin-left: 6px; }
+
+/* ---------- Bible intégrée ---------- */
+.fenetre-bible { width: min(96vw, 720px); height: min(88vh, 900px); padding: 0; border: 1px solid var(--ligne); border-radius: 20px; background: var(--fond-2); color: var(--texte); display: none; flex-direction: column; overflow: hidden; }
+.fenetre-bible[open] { display: flex; }
+.fenetre-bible::backdrop { background: rgba(0, 0, 0, .7); }
+.bible-entete { display: flex; gap: 8px; align-items: center; padding: 12px; border-bottom: 1px solid var(--ligne); }
+.bible-entete select { min-width: 0; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--ligne); background: var(--carte); color: var(--texte); font: inherit; font-size: 15px; }
+.bible-entete select:first-child { flex: 1; }
+.bible-texte { flex: 1; overflow-y: auto; padding: 6px 18px 18px; font: 17px/1.7 Georgia, "Times New Roman", serif; }
+.bible-texte h3 { font-family: inherit; margin: 10px 0 8px; color: var(--rouge-2); }
+.bible-texte p { margin: 0 0 6px; padding: 2px 6px; border-radius: 6px; }
+.bible-texte p.choisi { background: rgba(255, 211, 77, .18); box-shadow: inset 3px 0 0 #ffd34d; }
+.bible-texte sup { font: 700 11px system-ui, sans-serif; color: var(--bleu-2); margin-right: 2px; }
+.bible-pied { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--ligne); }
+.bible-pied .bouton:disabled { opacity: .35; }
+.bible-version { font-size: 12px; color: var(--texte-2); text-align: center; }
+.bible-lu { margin: 0 12px 12px; }
+.ref-biblique { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.ref-biblique::after { content: " 📖"; font-size: .85em; }
+.verset cite { font-style: normal; font-weight: 700; color: var(--rouge-2); }
+
+/* ---------- Offrande envoyée ---------- */
+.offrande-envoyee { margin-top: 16px; max-width: none; }
+.offrande-envoyee h3 { margin: 0; }
+.offrande-envoyee .note { margin: 0; }
+
+/* ---------- Événements : boutons ---------- */
+.ev-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+/* ---------- Anniversaire ---------- */
+.lien-anniv { display: block; margin: 4px auto 14px; padding: 6px 10px; border: 0; background: none; color: var(--texte-2); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.carte-anniv { margin: 0 0 16px; padding: 18px; border-radius: var(--rayon); text-align: center; color: #fff;
+  background: radial-gradient(circle at 20% 0%, rgba(255, 211, 77, .35), transparent 55%), linear-gradient(135deg, #b0127a, #e30613 55%, #ff8a00); box-shadow: var(--ombre); }
+.carte-anniv .anniv-titre { margin: 0 0 8px; font-size: 22px; font-weight: 900; }
+.carte-anniv blockquote { margin: 0 0 6px; font: italic 16px/1.55 Georgia, serif; }
+.carte-anniv cite { font-style: normal; font-weight: 700; }
+.carte-anniv .actions { justify-content: center; margin-top: 12px; }
+.carte-anniv .bouton:not(.principal) { background: rgba(255, 255, 255, .18); border-color: rgba(255, 255, 255, .4); color: #fff; }
+.carte-anniv .bouton.principal { background: #fff; color: #b0127a; border-color: #fff; }
+.dlg-anniv .formulaire { text-align: left; margin-top: 10px; }
+.anniv-date { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+
+/* ---------- Lieux de culte ---------- */
+.lieu-nom { margin: 0 0 4px; font-size: 17px; }
+.lieu-quand { margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #ffd34d; }
+.bloc.lieu { margin-top: 12px; }
+
+/* ---------- Bouton du thème ---------- */
+.bouton-theme { font-size: 17px; line-height: 1; }
+
+/* ---------- Thème clair (choisi avec le bouton ☀️) ---------- */
+:root[data-theme="clair"] {
+  --fond: #f2f4f9; --fond-2: #ffffff; --carte: #ffffff; --carte-2: #e9eef7;
+  --ligne: rgba(10, 16, 34, .12); --texte: #121a33; --texte-2: #4b5674;
+  --bleu-2: #0b6aa8; --rouge-2: #d0021b; --ombre: 0 8px 24px rgba(10, 16, 34, .10);
+  color-scheme: light;
+}
+[data-theme="clair"] .entete, [data-theme="clair"] .barre-nav { background: rgba(255, 255, 255, .97); }
+[data-theme="clair"] .marque-texte strong, [data-theme="clair"] .barre-nav a.active { color: var(--texte); }
+[data-theme="clair"] .fermer { background: rgba(10, 16, 34, .08); color: var(--texte); }
+[data-theme="clair"] .filtres button[aria-selected="true"] { background: var(--texte); border-color: var(--texte); color: #fff; }
+[data-theme="clair"] .verset, [data-theme="clair"] .verset-jour blockquote { color: var(--texte); }
+[data-theme="clair"] .verset-jour::before { color: rgba(10, 16, 34, .06); }
+[data-theme="clair"] .programmes .lieu, [data-theme="clair"] .lieu-quand { color: #9a6a00; }
+[data-theme="clair"] .bouton:not(.principal):not(.whatsapp):not(.bleu-ott) { color: var(--texte); }
+[data-theme="clair"] .bandeau { border-bottom: 1px solid var(--ligne); }
+[data-theme="clair"] .demarrage { background: radial-gradient(circle at 50% 40%, #ffffff, var(--fond) 70%); }
+[data-theme="clair"] .bouton { border-color: rgba(10, 16, 34, .18); background: rgba(10, 16, 34, .04); }
+[data-theme="clair"] .bouton.principal { background: var(--rouge); border-color: var(--rouge); }
+[data-theme="clair"] .bouton.whatsapp { background: #25d366; border-color: #25d366; }
+[data-theme="clair"] .bouton.bleu-ott { background: #0d47a1; border-color: #1e88e5; }
+[data-theme="clair"] .verset-jour { background: linear-gradient(135deg, #e7ecfb, var(--carte)); }
+[data-theme="clair"] .icone-bouton, [data-theme="clair"] .langue { background: #eef1f8; border-color: rgba(10, 16, 34, .14); color: var(--texte); }
+.ref-biblique { white-space: nowrap; }

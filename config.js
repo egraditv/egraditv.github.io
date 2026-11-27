@@ -31,6 +31,17 @@ window.EGRADI = {
     { valeur: "1 500+", libelle: "vidéos publiées" },
   ],
   carte: "https://www.google.com/maps/search/?api=1&query=Badara+N%27sele+A%C3%A9roport+de+Ndjili+Kinshasa",
+  // Page Église → « Nos lieux de culte » : le premier est l'adresse ci-dessus (siège), les suivants s'ajoutent en dessous.
+  // Pour ajouter une branche : copiez un bloc { … } et changez le nom, les horaires, l'adresse et le lien de la carte.
+  lieux: [
+    { nom: "Église Grâce Divine — Direction Générale (Badara)", quand: "Dimanche, mercredi, jeudi, vendredi et samedi" },
+    {
+      nom: "Prière « Force contre forces » — Limete",
+      quand: "Lundi et mardi · 12h00 – 13h00",
+      adresse: ["Limete, 18e rue Industrielle n°2", "Kinshasa, RDC"],
+      carte: "https://www.google.com/maps/search/?api=1&query=18e+rue+Industrielle+Limete+Kinshasa",
+    },
+  ],
 
   // Messages du bandeau « INFOS » qui défile en haut de l'application (comme à l'antenne).
   annonces: [

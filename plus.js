@@ -458,7 +458,8 @@
               <div><span class="ev-quand">${quandEvenement(ev.date)}</span><h3>${esc(ev.titre)}</h3>
                 <p class="heure">${esc(d.toLocaleDateString(window.EGRADI_LOCALE, { weekday: "long" }))}${ev.heure ? " · " + esc(ev.heure) : ""}${ev.lieu ? " · " + esc(ev.lieu) : ""}</p>
                 ${ev.description ? `<p>${esc(ev.description)}</p>` : ""}
-                <button class="bouton petit" type="button" data-agenda="${i}">${tr("ev_agenda")}</button>
+                <div class="ev-actions"><button class="bouton petit" type="button" data-agenda="${i}">${tr("ev_agenda")}</button>
+                <button class="bouton petit whatsapp" type="button" data-viendrai="${i}">${tr("ev_viendrai")}</button></div>
               </div>
             </article>`;
           })
@@ -475,6 +476,8 @@
   $("#liste-evenements").addEventListener("click", (e) => {
     const b = e.target.closest("[data-agenda]");
     if (b) return agendaEvenement(evenements[+b.dataset.agenda]);
+    const v = e.target.closest("[data-viendrai]");
+    if (v) return window.EGRADI_VIENDRAI?.(evenements[+v.dataset.viendrai]);
     const img = e.target.closest("[data-affiche]");
     if (img) {
       const d = document.createElement("dialog");
