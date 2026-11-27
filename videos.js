@@ -1,6 +1,12 @@
 // Généré par actualiser_videos.py — ne pas modifier à la main.
 window.EGRADI_VIDEOS = [
  {
+  "id": "9qbYICNFPUk",
+  "titre": "VENDREDI PROPHETIQUE, Le 27.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
+  "date": "2026-11-27",
+  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+ },
+ {
   "id": "aHTEwLPVYDk",
   "titre": "Direct:JEUDI MIRACLE (ECOLE DE GUERISON) Le 26.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
   "date": "2026-11-27",
@@ -87,8 +93,8 @@ window.EGRADI_VIDEOS = [
  {
   "id": "qJjGrsDDpv0",
   "titre": "JEUDI MIRACLE “ECOLE DE GUERISON”, Le 12.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
-  "date": "2026-11-13",
-  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+  "date": "2026-11-12",
+  "description": ""
  },
  {
   "id": "aGBt8d5JDNw",
@@ -591,12 +597,6 @@ window.EGRADI_VIDEOS = [
  {
   "id": "XNhl8EEj0q4",
   "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, THEME: COUPER LES RACINES DIABOLIQUE Le 07 Septembre 2026.",
-  "date": "2026-09-07",
-  "description": ""
- },
- {
-  "id": "VTTci4XcRVU",
-  "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, Le 07 Septembre 2026.",
   "date": "2026-09-07",
   "description": ""
  }
