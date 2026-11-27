@@ -441,7 +441,7 @@
     let quand;
     if (live) quand = `<span class="flash-etat"><span class="point"></span> ${tr("flash_live")}</span>`;
     else {
-      const h = Math.floor(c.ecart / 3600000), m = Math.ceil((c.ecart % 3600000) / 60000);
+      const total = Math.ceil(c.ecart / 60000), h = Math.floor(total / 60), m = total % 60; // jamais « 9 h 60 min »
       const reste = h ? `${h} h ${String(m).padStart(2, "0")} min` : `${m} min`;
       quand = `<span class="flash-etat">${tr("flash_commence")} <strong class="compte">${reste}</strong></span>`;
     }
