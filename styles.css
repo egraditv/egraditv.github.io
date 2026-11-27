@@ -91,7 +91,7 @@ button { font: inherit; }
 
 /* ---------- Mise en page ---------- */
 main { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
-.vue { display: none; padding-top: 18px; animation: apparait .3s ease; }
+.vue { display: none; padding-top: 18px; animation: apparait .3s ease; scroll-margin-top: 100vh; /* ouverture sur #direct, #videos… : la page reste en haut, titre visible */ }
 .vue.active { display: block; }
 @keyframes apparait { from { opacity: 0; transform: translateY(6px); } }
 
