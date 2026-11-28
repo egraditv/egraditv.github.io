@@ -1,6 +1,12 @@
 // Généré par actualiser_videos.py — ne pas modifier à la main.
 window.EGRADI_VIDEOS = [
  {
+  "id": "u664pwFUhHE",
+  "titre": "45 MINUTE DE PRIERE, Le 28.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN.",
+  "date": "2026-11-28",
+  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+ },
+ {
   "id": "9qbYICNFPUk",
   "titre": "VENDREDI PROPHETIQUE, Le 27.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
   "date": "2026-11-27",
@@ -88,7 +94,7 @@ window.EGRADI_VIDEOS = [
   "id": "EjFZRYvr3zQ",
   "titre": "VENDREDI PROPHETIQUE, Le 13.11.2026 AVEC: L'HOMME DE DIEU APOTRE AUGUSTIN MWIMPE.",
   "date": "2026-11-13",
-  "description": "WELCOME TO DIVINE GRACE CHURCH – HEADQUARTERS\nLED BY APOSTLE AUGUSTIN MWIMPE MOTO KANDA NA NZAMBE\n\nBienvenue à l’Église Grâce Divine – Direction Générale !\nLa grande famille de l’Église Grâce Divine – Direction Générale, dirigée par L’Apôtre Augustin Mwimpe Moto Kanda na Nzambe, vous ouvre grandement ses portes.\nNous avons la joie de vous inviter à vivre avec nous des moments intenses de prière, d"
+  "description": ""
  },
  {
   "id": "qJjGrsDDpv0",
@@ -117,13 +123,13 @@ window.EGRADI_VIDEOS = [
  {
   "id": "OhTb75Ody_Y",
   "titre": "🇨🇩 KINSHASA ACCUEILLE UN HOMME DE DIEU VENU DU BRÉSIL ! 🇧🇷",
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "description": ""
  },
  {
   "id": "prY-EhOTXyM",
   "titre": "🇨🇩 KINSHASA, IL EST DÉJÀ LÀ ! 🇨🇩Après un long séjour au Brésil 🇧🇷 en mission évangélique,",
-  "date": "2026-11-13",
+  "date": "2026-11-07",
   "description": ""
  },
  {
@@ -590,12 +596,6 @@ window.EGRADI_VIDEOS = [
  },
  {
   "id": "rhtAsrvdSJs",
-  "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, THEME: COUPER LES RACINES DIABOLIQUE Le 07 Septembre 2026.",
-  "date": "2026-09-07",
-  "description": ""
- },
- {
-  "id": "XNhl8EEj0q4",
   "titre": "LA RECOMMANDATION DE DIEU DE MWIMPE, THEME: COUPER LES RACINES DIABOLIQUE Le 07 Septembre 2026.",
   "date": "2026-09-07",
   "description": ""
